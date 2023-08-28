@@ -26,6 +26,7 @@
             "background": "#efeff4"
         }
     },
+    
     "tabBar": {
         "selectedColor": "#c00000",
         "list": [{
