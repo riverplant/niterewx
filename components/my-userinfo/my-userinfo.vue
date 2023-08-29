@@ -1,23 +1,20 @@
 <template>
     <view>
-         <my-login></my-login>
-              <!-- <my-userinfo></my-userinfo> -->
+        
     </view>
 </template>
 
 <script>
     export default {
+        name:"my-userinfo",
         data() {
             return {
                 
-            }
-        },
-        methods: {
-            
+            };
         }
     }
 </script>
 
-<style>
+<style lang="scss">
 
 </style>
