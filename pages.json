@@ -17,6 +17,18 @@
         }
 
     ],
+    "subPackages": [
+      {
+          "root": "subpkg",
+          "pages": [
+              {
+              "path": "orders_detail/orders_detail",
+              "style": {} 
+              }
+              
+          ]
+      }  
+    ],
     "globalStyle": {
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "nitereDemo",
