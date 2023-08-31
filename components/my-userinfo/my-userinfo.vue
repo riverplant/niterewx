@@ -38,22 +38,27 @@
                    我的订单
                </view>
                <view class="panel-body">
-                   <view class="panel-item">
-                       <image src="/static/c1.png" class="icon"></image>
-                       <text>待付款</text>
-                   </view>
-                   <view class="panel-item">
-                       <image src="/static/c2.png" class="icon"></image>
-                       <text>待发货</text>
-                   </view>
-                   <view class="panel-item">
-                       <image src="/static/c3.png" class="icon"></image>
-                       <text>退款/退货</text>
-                   </view>
-                   <view class="panel-item">
-                       <image src="/static/c4.png" class="icon"></image>
-                       <text>全部订单</text>
-                   </view>
+                   <uni-badge size="small" max-num="99" :text="value" absolute="rightTop" >
+                   <navigator class="panel-item" :url="'/subpkg/orders_detail/orders_detail?orderstatus=2&payStatus=10'">
+                               <uni-icons type="person-filled" size="37"></uni-icons>
+                              
+                               <text>验货未通过</text>
+                   </navigator>
+                   </uni-badge>
+                   
+                     <navigator class="panel-item" :url="'/subpkg/orders_detail/orders_detail?orderstatus=1&payStatus=10'">
+                                <image src="/static/c1.png" class="icon"></image>
+                                <text>待付款</text>
+                    </navigator>
+                    <navigator class="panel-item" :url="'/subpkg/orders_detail/orders_detail?orderstatus=1&payStatus=20'">
+                                <image src="/static/c1.png" class="icon"></image>
+                                <text>待发货</text>
+                     </navigator>
+                    <navigator class="panel-item" :url="'/subpkg/orders_detail/orders_detail?orderstatus=2&payStatus=40'">
+                                <image src="/static/c1.png" class="icon"></image>
+                                <text>退款/退货</text>
+                    </navigator>
+    
                </view>
                
            </view>
@@ -61,6 +66,10 @@
            <view class="panel">
                <view class="panel-list-item">
                    <text>收货地址</text>
+                   <uni-icons type="arrowright" size="15"></uni-icons>
+               </view>
+               <view class="panel-list-item">
+                   <text>申请修改仓库</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>
                </view>
                <view class="panel-list-item">
@@ -83,6 +92,8 @@
     export default {
         data() {
             return {
+                type:"warning",
+                value:99999
             };
         },
         

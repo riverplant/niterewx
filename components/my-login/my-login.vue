@@ -30,9 +30,9 @@
 
                 const query = {
                    // 小程序的appid
-                   'appid': 'wx90f4e9492869cd2e',
+                   'appid': '',
                    // 小程序的secret
-                   'secret': '6d20ffa10d017fe52f2748550065f39d',
+                   'secret': '',
                    // wx.login()返回的登录凭证
                    'js_code': res.code,
                    // 固定值,不需要改变
@@ -51,9 +51,9 @@
                 });
         /**        const paramForToken = {
                    // 小程序的appid
-                   'appid': 'wx276d8cf69dbf26f1',
+                   'appid': '',
                    // 小程序的secret
-                   'secret': '658a16d928ec9fa8aeb404a9beab5d71',
+                   'secret': '',
                    // wx.login()返回的登录凭证
                    'js_code': res.code,
                    // 固定值,不需要改变

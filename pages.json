@@ -1,6 +1,7 @@
 {
-    "pages": [{
-            "path": "pages/home/home",
+    "pages": [
+        {
+            "path": "pages/userInfo/userInfo",
             "style": {}
         },
         {
@@ -10,12 +11,7 @@
         {
             "path": "pages/cart/cart",
             "style": {}
-        },
-        {
-            "path": "pages/userInfo/userInfo",
-            "style": {}
         }
-
     ],
     "subPackages": [
       {
@@ -31,7 +27,7 @@
     ],
     "globalStyle": {
         "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "nitereDemo",
+        "navigationBarTitleText": "逆海淘",
         "navigationBarBackgroundColor": "#c00000",
         "backgroundColor": "#F8F8F8",
         "app-plus": {
@@ -41,9 +37,9 @@
     
     "tabBar": {
         "selectedColor": "#c00000",
-        "list": [{
-                "pagePath": "pages/home/home",
-                "text": "首页",
+        "list": [ {
+                "pagePath": "pages/userInfo/userInfo",
+                "text": "用户信息",
                 "iconPath": "static/c1.png"
 
             },
@@ -58,15 +54,8 @@
                 "text": "购物车",
                 "iconPath": "static/c1.png"
 
-            },
-            {
-                "pagePath": "pages/userInfo/userInfo",
-                "text": "用户信息",
-                "iconPath": "static/c1.png"
-
             }
-
-
+           
         ]
     }
 }
