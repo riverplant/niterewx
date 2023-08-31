@@ -30,9 +30,9 @@
 
                 const query = {
                    // 小程序的appid
-                   'appid': 'wx90f4e9492869cd2e',
+                   'appid': '',
                    // 小程序的secret
-                   'secret': '6d20ffa10d017fe52f2748550065f39d',
+                   'secret': '',
                    // wx.login()返回的登录凭证
                    'js_code': res.code,
                    // 固定值,不需要改变
