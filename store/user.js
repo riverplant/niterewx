@@ -2,7 +2,8 @@ export default {
     namespaced: true,
     state: ()=>({
         userinfo: JSON.parse(uni.getStorageSync('userinfo') || '{}'),
-        openid: uni.getStorageSync('openid') || ''
+        openid: uni.getStorageSync('openid') || '',
+        swiperList: JSON.parse(uni.getStorageSync('swiperList') || '[]'),
     }),
     
     mutations:{
@@ -10,6 +11,12 @@ export default {
             state.userinfo = userinfo
             
             this.commit('m_user/saveUserINfoToStorage')
+        },
+        
+        updateSwiperList(state, swiperList) {
+            state.swiperList = swiperList
+            
+            this.commit('m_user/saveSwiperListINfoToStorage')
         },
         
         updateOpenid(state, openid) {
@@ -20,6 +27,10 @@ export default {
         
         saveUserINfoToStorage(state) {
             uni.setStorageSync('userinfo', JSON.stringify(state.userinfo))
+        },
+        
+        saveSwiperListINfoToStorage(state) {
+            uni.setStorageSync('swiperList', JSON.stringify(state.swiperList))
         },
         
         saveOpenidToStorage(state) {

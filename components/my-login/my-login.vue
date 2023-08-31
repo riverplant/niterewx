@@ -17,13 +17,11 @@
             };
         },
         methods: {
-            ...mapMutations('m_user',['updateUserInfo']),
+            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList']),
             //用户授权之后，获取用户的基础信息
             getUserInfo(e) {
                 if (e.detail.errMsg == 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权!')
-                console.log('userinfos:',e)
-                //this.updateUserInfo(e.detail.userInfo)
-                 uni.setStorageSync('userinfo', JSON.stringify(e.detail.userInfo))
+                this.updateUserInfo(JSON.stringify(e.detail.userInfo))
                 this.getToken(e.detail)
             },
             async getToken(info) {
@@ -32,9 +30,9 @@
 
                 const query = {
                    // 小程序的appid
-                   'appid': 'wx276d8cf69dbf26f1',
+                   'appid': 'wx90f4e9492869cd2e',
                    // 小程序的secret
-                   'secret': '658a16d928ec9fa8aeb404a9beab5d71',
+                   'secret': '6d20ffa10d017fe52f2748550065f39d',
                    // wx.login()返回的登录凭证
                    'js_code': res.code,
                    // 固定值,不需要改变
@@ -45,7 +43,7 @@
                     url: 'https://api.weixin.qq.com/sns/jscode2session',
                     data: query,
                     success: res => {
-                        uni.setStorageSync('openid', res.data.openid)
+                        this.updateOpenid(res.data.openid)
                         uni.setStorageSync('session_key', res.data.session_key)
                         //获取后台返回的token,保存到storage中
                         uni.$showMsg('登录成功!')
@@ -70,6 +68,10 @@
                     }
                 });
                 **/
+              const { data:result } =  await uni.$http.get('/api/public/v1/home/swiperdata')
+              if( result.meta.status !== 200 ) return uni.$showMsg()  
+              console.log('swiperdata:',result.message)
+             this.updateSwiperList(result.message) 
 
             }
         }

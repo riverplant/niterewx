@@ -1,10 +1,13 @@
 <template>
     <view class="my-userinfo-container">
         <!-- 头像昵称区域 -->
-       <view class="top-box">
-          <image :src="userinfo.avatarUrl" class="avatar"></image>  
-          <view class="nickname">{{userinfo.nickName}} </view>
-        </view>      
+     <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
+         <swiper-item v-for="(item,i) in swiperList" :key="i">
+             <navigator class="swiper-item" :url="'/subpkg/orders_detail/orders_detail?goods_id=' + item.goods_id">
+                 <image :src="item.image_src"></image>
+            </navigator>
+         </swiper-item>
+     </swiper>
         <!-- list -->
         <view class="panel-list">
          <view class="panel">
@@ -84,7 +87,7 @@
         },
         
         computed: {
-            ...mapState('m_user', ['userinfo']) 
+            ...mapState('m_user', ['userinfo', 'swiperList']) 
         },
         
         methods: {
@@ -106,9 +109,18 @@
 </script>
 
 <style lang="scss">
+    
     .my-userinfo-container {
         height: 100%;
         background-color: #f4f4f4;
+        swiper{
+            height: 180px;
+            .swiper-item,
+             image {
+                 width: 100%;
+                 height: 100%;
+             }
+        }
         .top-box {
             height: 160px;
             background-color: #C00000;
