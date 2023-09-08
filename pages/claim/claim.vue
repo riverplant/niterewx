@@ -1,6 +1,6 @@
 <template>
     <view>
-      Cart  
+       claim 
     </view>
 </template>
 

@@ -3,14 +3,43 @@
         {
             "path": "pages/userInfo/userInfo",
             "style": {}
+        }
+
+        ,{
+            "path" : "pages/claim/claim",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/box/box",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cabinet/cabinet",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         },
         {
-            "path": "pages/cate/cate",
-            "style": {}
-        },
-        {
-            "path": "pages/cart/cart",
-            "style": {}
+            "path" : "pages/package/package",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
     "subPackages": [
@@ -22,7 +51,18 @@
               "style": {} 
               }
               
-          ]
+              ,{
+            "path" : "orders/orders",
+            "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "onReachBottomDistance": 150,
+                    "enablePullDownRefresh": true,
+                    "backgroundColor": "#F8F8F8"
+                }
+                
+                }
+            ]
       }  
     ],
     "globalStyle": {
@@ -43,18 +83,31 @@
                 "iconPath": "static/c1.png"
 
             },
-            {
-                "pagePath": "pages/cate/cate",
-                "text": "分类",
-                "iconPath": "static/c1.png"
 
-            },
             {
-                "pagePath": "pages/cart/cart",
-                "text": "购物车",
-                "iconPath": "static/c1.png"
-
-            }
+                    "pagePath": "pages/package/package",
+                    "text": "包裹管理",
+                    "iconPath": "static/c1.png"
+            
+                },
+                {
+                    "pagePath": "pages/claim/claim",
+                    "text": "认领请求",
+                    "iconPath": "static/c1.png"
+            
+                },
+                {
+                    "pagePath": "pages/box/box",
+                    "text": "装箱",
+                    "iconPath": "static/c1.png"
+            
+                },
+                {
+                    "pagePath": "pages/cabinet/cabinet",
+                    "text": "装柜",
+                    "iconPath": "static/c1.png"
+                            
+                }
            
         ]
     }

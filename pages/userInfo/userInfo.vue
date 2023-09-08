@@ -1,6 +1,6 @@
 <template>
     <view class="my-container">
-        <my-login v-if="!openid"></my-login>
+        <my-login v-if="!token"></my-login>
         <my-userinfo v-else></my-userinfo>
 
 
@@ -19,7 +19,7 @@
             }
         },
         computed: {
-            ...mapState('m_user', ['openid'])
+            ...mapState('m_user', ['token'])
         },
         methods: {
 

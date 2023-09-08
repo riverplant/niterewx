@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import {$http} from '@escook/request-miniprogram'
 import store from '@/store/store.js'
+import VueGoogleAutocomplete from "vue-google-autocomplete"
+
 
 uni.$http = $http
 
@@ -15,7 +17,7 @@ uni.$showMsg = function( title='数据加载失败', duration = 1500 ) {
     })
 }
 
-$http.baseUrl = 'https://www.uinav.com'
+//$http.baseUrl = 'https://www.uinav.com'
 
 $http.beforeRequest = function(options) {
     uni.showLoading({

@@ -17,12 +17,13 @@
             };
         },
         methods: {
-            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList']),
+            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken']),
             //用户授权之后，获取用户的基础信息
             getUserInfo(e) {
                 if (e.detail.errMsg == 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权!')
                 this.updateUserInfo(JSON.stringify(e.detail.userInfo))
-                this.getToken(e.detail)
+                console.log('userInfo:',e.detail.userInfo)
+                this.getToken(e.detail.userInfo)
             },
             async getToken(info) {
                 const [err, res] = await uni.login().catch(err => err)
@@ -30,21 +31,22 @@
 
                 const query = {
                    // 小程序的appid
-                   'appid': '',
+                   'avatarUrl': info.avatarUrl,
                    // 小程序的secret
-                   'secret': '',
+                   'nickName': info.nickName,
                    // wx.login()返回的登录凭证
                    'js_code': res.code,
                    // 固定值,不需要改变
-                   'grant_type': 'authorization_code'
+                   'gender': info.gender
                 }
              await wx.request({
                     // 通过此 url ，获取 openid 与 unionid
-                    url: 'https://api.weixin.qq.com/sns/jscode2session',
+                    url: 'http://127.0.0.1:8080/wx/users/login',
                     data: query,
                     success: res => {
-                        this.updateOpenid(res.data.openid)
-                        uni.setStorageSync('session_key', res.data.session_key)
+                        console.log('res:',res)
+                        this.updateToken(res.data.data.token)
+                        this.updateOpenid(res.data.data.openid)
                         //获取后台返回的token,保存到storage中
                         uni.$showMsg('登录成功!')
                     }
@@ -68,7 +70,7 @@
                     }
                 });
                 **/
-              const { data:result } =  await uni.$http.get('/api/public/v1/home/swiperdata')
+              const { data:result } =  await uni.$http.get('https://www.uinav.com/api/public/v1/home/swiperdata')
               if( result.meta.status !== 200 ) return uni.$showMsg()  
               console.log('swiperdata:',result.message)
              this.updateSwiperList(result.message) 

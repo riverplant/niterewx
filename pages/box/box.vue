@@ -1,6 +1,6 @@
 <template>
     <view>
-       
+        box
     </view>
 </template>
 
@@ -9,11 +9,17 @@
         data() {
             return {
                 
-            };
+            }
+        },
+        methods: {
+            
+        },
+        onShow() {
+           
         }
     }
 </script>
 
-<style lang="scss">
+<style>
 
 </style>

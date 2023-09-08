@@ -1,6 +1,6 @@
 <template>
     <view>
-       
+        cabinet
     </view>
 </template>
 
