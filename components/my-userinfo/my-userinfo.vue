@@ -39,28 +39,35 @@
                </view>
                <view class="panel-body">
                    <uni-badge size="small" max-num="0" :text="this.ordersNonValide.lenght" absolute="rightTop" >
-                   <navigator class="panel-item" :url="'/subpkg/orders/orders?orderStatus=2&payStatus=10'">
+                   <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+1">
                                <uni-icons type="person-filled" size="37"></uni-icons>
                               
                                <text>验货未通过</text>
                    </navigator>
                    </uni-badge>
                    <uni-badge size="small" max-num="0" :text="this.ordersNonPayer.lenght" absolute="rightTop" >
-                       <navigator class="panel-item" :url="'/subpkg/orders/orders?orderStatus=1&payStatus=10'">
+                       <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+2">
                                    <image src="/static/c1.png" class="icon"></image>
                                    <text>待付款</text>
                        </navigator>
                        </uni-badge>
                        
                     <uni-badge size="small" max-num="0" :text="this.ordersNonLivrer.lenght" absolute="rightTop" >
-                    <navigator class="panel-item" :url="'/subpkg/orders/orders?orderStatus=1&payStatus=20'">
+                    <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+3">
                                 <image src="/static/c1.png" class="icon"></image>
                                 <text>待发货</text>
                      </navigator>
                      </uni-badge>
                      
                      <uni-badge size="small" max-num="0" :text="this.ordersRembourse.lenght" absolute="rightTop" >
-                    <navigator class="panel-item" :url="'/subpkg/orders/orders?orderStatus=2&payStatus=40'">
+                     <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+4">
+                                 <image src="/static/c1.png" class="icon"></image>
+                                 <text>支付失败</text>
+                     </navigator>
+                      </uni-badge>
+                      
+                     <uni-badge size="small" max-num="0" :text="this.ordersRembourse.lenght" absolute="rightTop" >
+                    <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+5">
                                 <image src="/static/c1.png" class="icon"></image>
                                 <text>退款/退货</text>
                     </navigator>

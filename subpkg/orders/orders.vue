@@ -34,6 +34,7 @@
                 timer: null,
                 kw: '',
                 searchResults:[],
+                type:0,
 
                 queryObj:{
                     code:'',
@@ -57,8 +58,21 @@
             ...mapState('m_user', ['code']) 
         },
         onLoad(e) {
-             this.queryObj.orderStatus = e.orderStatus
-             this.queryObj.payStatus = e.payStatus
+             this.type = e.type;
+             if(this.type === 1) {
+               this.queryObj.orderStatus = 2
+             }else {
+                 if(this.type === 2) {
+                     this.queryObj.payStatus = 10
+                 }else if(this.type === 3) {
+                     this.queryObj.payStatus = 20
+                 }else if(this.type === 4){
+                   this.queryObj.payStatus = 30  
+                 }else {
+                    this.queryObj.payStatus = 40   
+                 }
+             } 
+             
              const sysInfo =  uni.getSystemInfoSync()
             this.wh = sysInfo.windowHeight - 50
             this.getSearchResults(  this.orderStatus, this.payStatus ) 
