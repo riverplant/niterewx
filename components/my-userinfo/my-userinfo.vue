@@ -3,9 +3,9 @@
         <!-- 头像昵称区域 -->
      <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
          <swiper-item v-for="(item,i) in swiperList" :key="i">
-             <navigator class="swiper-item" :url="'/subpkg/orders_detail/orders_detail?goods_id=' + item.goods_id">
+             <view class="swiper-item">
                  <image :src="item.image_src"></image>
-            </navigator>
+            </view>
          </swiper-item>
      </swiper>
         <!-- list -->
@@ -38,27 +38,33 @@
                    我的订单
                </view>
                <view class="panel-body">
-                   <uni-badge size="small" max-num="99" :text="value" absolute="rightTop" >
+                   <uni-badge size="small" max-num="0" :text="this.ordersNonValide.lenght" absolute="rightTop" >
                    <navigator class="panel-item" :url="'/subpkg/orders/orders?orderStatus=2&payStatus=10'">
                                <uni-icons type="person-filled" size="37"></uni-icons>
                               
                                <text>验货未通过</text>
                    </navigator>
                    </uni-badge>
-                   
-                     <navigator class="panel-item" :url="'/subpkg/orders/orders?orderStatus=1&payStatus=10'">
-                                <image src="/static/c1.png" class="icon"></image>
-                                <text>待付款</text>
-                    </navigator>
+                   <uni-badge size="small" max-num="0" :text="this.ordersNonPayer.lenght" absolute="rightTop" >
+                       <navigator class="panel-item" :url="'/subpkg/orders/orders?orderStatus=1&payStatus=10'">
+                                   <image src="/static/c1.png" class="icon"></image>
+                                   <text>待付款</text>
+                       </navigator>
+                       </uni-badge>
+                       
+                    <uni-badge size="small" max-num="0" :text="this.ordersNonLivrer.lenght" absolute="rightTop" >
                     <navigator class="panel-item" :url="'/subpkg/orders/orders?orderStatus=1&payStatus=20'">
                                 <image src="/static/c1.png" class="icon"></image>
                                 <text>待发货</text>
                      </navigator>
+                     </uni-badge>
+                     
+                     <uni-badge size="small" max-num="0" :text="this.ordersRembourse.lenght" absolute="rightTop" >
                     <navigator class="panel-item" :url="'/subpkg/orders/orders?orderStatus=2&payStatus=40'">
                                 <image src="/static/c1.png" class="icon"></image>
                                 <text>退款/退货</text>
                     </navigator>
-    
+                     </uni-badge>
                </view>
                
            </view>
@@ -98,11 +104,13 @@
         },
         
         computed: {
-            ...mapState('m_user', ['userinfo', 'swiperList']) 
+            ...mapState('m_user', ['userinfo', 'swiperList']),
+            ...mapState('m_order', ['ordersNonValide','ordersNonPayer', 'ordersNonLivrer', 'ordersRembourse'])
         },
         
         methods: {
-            ...mapMutations('m_user',['updateUserInfo','updateOpenid']),
+            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateToken']),
+            ...mapMutations('m_order',['addToOrdersNonValide','addToOrdersNonPayer','addToOrdersNonLivrer','addToOrdersRembouse']),
        async  logout() {
       const[err, succ]  =   await  uni.showModal({
                  title:'提示',
@@ -112,6 +120,7 @@
              if(succ && succ.confirm) {
                  this.updateUserInfo({}),
                  this.updateOpenid('')
+                 this.updateToken('')
              }
          }   
         

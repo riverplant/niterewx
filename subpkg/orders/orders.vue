@@ -34,7 +34,7 @@
                 timer: null,
                 kw: '',
                 searchResults:[],
-               // historyList:['a','app','apple'],
+
                 queryObj:{
                     code:'',
                     id:'',
@@ -73,25 +73,20 @@
              },  
     async getSearchResults(orderStatus, payStatus, cb) {  
         this.isloading = true
-        console.log('code:',this.code !== '')
          this.queryObj.code = this.code
           this.queryObj.id = this.kw
-          const {data:res} = await  uni.$http.get('http://127.0.0.1:8080/orders/list', this.queryObj)
-          this.isloading = false
-          
-          //调用回调函数
-          cb && cb()
-          
-          if( res.status !== 200 ) return uni.$showMsg()
-          this.searchResults = [...this.searchResults, ...res.data.list ]  
-          this.total = res.data.page.total
-       /**
-        if(this.code !== '') 
-        {
-          const {data:res} = await  uni.$http.get('http://127.0.0.1:8080/orders/list', this.queryObj)
-          if( res.status !== 200 ) return uni.$showMsg()
-          this.searchResults = res.data  
-        }
+        //   if(this.code !== '')  {
+              const {data:res} = await  uni.$http.get('http://127.0.0.1:8080/wx/orders/list', this.queryObj)
+              this.isloading = false
+              
+              //调用回调函数
+              cb && cb()
+              
+              if( res.status !== 200 ) return uni.$showMsg()
+              this.searchResults = [...this.searchResults, ...res.data.list ]  
+              this.total = res.data.page.total 
+  /**         }
+         
         else 
         {
           this.searchResults = [
@@ -109,7 +104,8 @@
               {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": "60.00$"},
               ]  
         }  
-                   **/
+        **/
+                   
      },
      gotoDetail(item) {
          console.log(item)

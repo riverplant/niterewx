@@ -9,27 +9,16 @@
     export default {
         data() {
             return {
-                wh:0,
-                active:0,
-                scrollTop:0.,
-                timer: null,
-                kw: '',
-                searchResults:[],
-                historyList:['a','app','apple'],
-                orderStatus:'',
-                payStatus:'',
-
+            item:{}
             };
         },
         computed: {
-            ...mapState('m_user', ['code']) 
+            ...mapState('m_order', ['orders'])
         },
+     
         onLoad(e) {
-             this.orderStatus = e.orderStatus
-             this.payStatus = e.payStatus
-             const sysInfo =  uni.getSystemInfoSync()
-            this.wh = sysInfo.windowHeight - 50
-            this.getSearchResults(  this.orderStatus, this.payStatus ) 
+           this.item = JSON.parse(e.item)
+           console.log("item:",this.item)
         },
         methods: {       
   
