@@ -3,16 +3,10 @@
         <view class="search-box">
               <uni-search-bar placeholder="输入订单号查找订单" bgColor=" #FFFFFF" @input="search" cancel-button="none" :radius="100" />  
             </view>
-            <!--搜索历史 -->
-        <!--    <view class="history-box" v-if="">
-                <view class="history-title">
-                    <text>搜索历史</text>
-                <uni-icons type="trash" size="17"></uni-icons> 
-                </view>
-                <view class="history-list">
-                    <uni-tag :text=item v-for="(item,i) in historyList" :key="i"></uni-tag>
-                </view>
-            </view> -->
+            <uni-nav-bar v-if="type === 1" dark :fixed="true" shadow background-color="#1f2a66" status-bar  
+            	 color="#fff" >
+                <button type="primary">支付订单</button>
+            </uni-nav-bar>
            <view class="sugg-list">
                <view class="sugg-item" v-for="(item,i) in searchResults" :key="i" @click="gotoDetail(item)">
                   <view class="goods-name">
@@ -34,7 +28,8 @@
                 timer: null,
                 kw: '',
                 searchResults:[],
-                type:0,
+                searchResultsBak:[],
+                type:1,
 
                 queryObj:{
                     code:'',
@@ -55,96 +50,95 @@
             }
         },
         computed: {
-            ...mapState('m_user', ['code']) 
+            ...mapState('m_user', ['code']),
+             ...mapState('m_order', ['ordersNonValide','ordersNonPayer','ordersNonLivrer','ordersRembourse'])
         },
         onLoad(e) {
              this.type = e.type;
-             if(this.type === 1) {
-               this.queryObj.orderStatus = 2
-             }else {
-                 if(this.type === 2) {
-                     this.queryObj.payStatus = 10
+             this.initSearchresult()
+            console.log('type:',this.type)
+            /** if(this.type === 1) {
+               this.searchResults = this.ordersNonValide
+             }else if(this.type === 2) {
+                     this.searchResults = this.ordersNonPayer
                  }else if(this.type === 3) {
-                     this.queryObj.payStatus = 20
-                 }else if(this.type === 4){
-                   this.queryObj.payStatus = 30  
+                     this.searchResults = this.ordersNonLivrer
                  }else {
-                    this.queryObj.payStatus = 40   
-                 }
-             } 
+                    this.searchResults = this.ordersRembourse  
+                 } 
+         **/
              
              const sysInfo =  uni.getSystemInfoSync()
             this.wh = sysInfo.windowHeight - 50
-            this.getSearchResults(  this.orderStatus, this.payStatus ) 
+            this.searchResultsBak = this.searchResults
         },
         methods: {       
             search(res) {
                 clearTimeout(this.timer)
                 this.timer = setTimeout(() => {
                     this.kw = res,
-                   this.getSearchResults(  this.orderStatus, this.payStatus ) 
+                   this.getSearchResults() 
                 }, 500)
              },  
-    async getSearchResults(orderStatus, payStatus, cb) {  
+   
+        initSearchresult() {
+            this.searchResults = [
+           {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "51$"},
+           {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "55.23$"},
+           {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": "50.25$"},
+           {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": "43.25$"},
+           {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": "40.25$"},
+           {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": "60.00$"},
+           {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "151$"},
+           {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "155.23$"},
+           {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": "150.2533$"},
+           {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": "143.25$"},
+           {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": "140.25$"},
+           {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": "160.00$"},
+           {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "51$"},
+           {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "55.23$"},
+           {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": "50.25$"},
+           {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": "43.25$"},
+           {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": "40.25$"},
+           {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": "60.00$"},
+           {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "51$"},
+           {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "55.23$"},
+           {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": "50.2533$"},
+           {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": "43.25$"},
+           {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": "40.25$"},
+           {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": "60.00$"}
+            ]  
+         },
+        getSearchResults() {  
         this.isloading = true
-         this.queryObj.code = this.code
-          this.queryObj.id = this.kw
-        //   if(this.code !== '')  {
-              const {data:res} = await  uni.$http.get('http://127.0.0.1:8080/wx/orders/list', this.queryObj)
-              this.isloading = false
-              
+           if(this.kw === '') {
+             this.searchResults = this.searchResultsBak  
+           }else {
+             this.searchResults = this.searchResults.filter( item=> item.id.indexOf( this.kw ) > -1 );   
+           }
+          
+      /**
+          if(this.code !== '')  {
+              if(this.kw === '') {
+                 this.searchResults = this.searchResultsBak 
+              }else {
+                 this.searchResults = this.searchResults.filter(function (item) { return item.id.indexOf(this.kw)>-1; });     
+              }
+              this.isloading = false      
               //调用回调函数
               cb && cb()
-              
-              if( res.status !== 200 ) return uni.$showMsg()
-              this.searchResults = [...this.searchResults, ...res.data.list ]  
-              this.total = res.data.page.total 
-  /**         }
-         
-        else 
-        {
-          this.searchResults = [
-              {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "51$"},
-              {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "55.23$"},
-              {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": "50.25$"},
-              {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": "43.25$"},
-              {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": "40.25$"},
-              {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": "60.00$"},
-              {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "51$"},
-              {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "55.23$"},
-              {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": "50.2533$"},
-              {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": "43.25$"},
-              {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": "40.25$"},
-              {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": "60.00$"},
-              ]  
-        }  
+              this.total = this.searchResults.length
+          }
+           
         **/
+       
                    
      },
      gotoDetail(item) {
-         console.log(item)
          uni.navigateTo({
              url: '/subpkg/orders_detail/orders_detail?item=' + JSON.stringify(item)
          })
      }
-        },
-        
-        onReachBottom() {
-            if(this.queryObj.pageNum * this.queryObj.pageSize >= this.total) return uni.$showMsg("数据加载完毕!")
-          if(this.isloading) return
-          //让页码值增加1  
-          this.queryObj.pageNum +=1
-          
-           this.getSearchResults(  this.orderStatus, this.payStatus, ()=>uni.stopPullDownRefresh() )  
-        },
-        
-        onPullDownRefresh() {
-            this.queryObj.pageNum = 1
-            this.total = 0
-            this.isloading = false
-            this.searchResults = []
-            
-            this.getSearchResults(orderStatus, payStatus)
         }
     }
 </script>
@@ -176,25 +170,5 @@
             margin-right: 3px;
         }
     }
-}
-
-.history-box {
-    padding: 0 5px;
-   .history-title {
-       display: flex;
-       justify-content: space-between;
-       height: 40px;
-       align-items: center;
-       font-size: 13px;
-       border-bottom: 1px solid #efefef;
-   } 
-   .history-list {
-       display: flex;
-       flex-wrap: wrap;
-   }
-   .uni-tag {
-       margin-top: 2px;
-       margin-right: 5px;
-   }
 }
 </style>

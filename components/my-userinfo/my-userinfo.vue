@@ -38,35 +38,34 @@
                    我的订单
                </view>
                <view class="panel-body">
-                   <uni-badge size="small" max-num="0" :text="this.ordersNonValide.lenght" absolute="rightTop" >
+                   <uni-badge size="small" :max-num="value" :text="this.ordersNonValide.lenght" absolute="rightTop" >
                    <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+1">
-                               <uni-icons type="person-filled" size="37"></uni-icons>
-                              
+                               <uni-icons type="person-filled" size="37"></uni-icons>       
                                <text>验货未通过</text>
                    </navigator>
                    </uni-badge>
-                   <uni-badge size="small" max-num="0" :text="this.ordersNonPayer.lenght" absolute="rightTop" >
+                   <uni-badge size="small" :max-num="value" :text="this.ordersNonPayer.lenght" absolute="rightTop" >
                        <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+2">
                                    <image src="/static/c1.png" class="icon"></image>
                                    <text>待付款</text>
                        </navigator>
                        </uni-badge>
                        
-                    <uni-badge size="small" max-num="0" :text="this.ordersNonLivrer.lenght" absolute="rightTop" >
+                    <uni-badge size="small" :max-num="value" :text="this.ordersNonLivrer.lenght" absolute="rightTop" >
                     <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+3">
                                 <image src="/static/c1.png" class="icon"></image>
                                 <text>待发货</text>
                      </navigator>
                      </uni-badge>
                      
-                     <uni-badge size="small" max-num="0" :text="this.ordersRembourse.lenght" absolute="rightTop" >
+                     <uni-badge size="small" :max-num="value" :text="this.ordersRembourse.lenght" absolute="rightTop" >
                      <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+4">
                                  <image src="/static/c1.png" class="icon"></image>
                                  <text>支付失败</text>
                      </navigator>
                       </uni-badge>
                       
-                     <uni-badge size="small" max-num="0" :text="this.ordersRembourse.lenght" absolute="rightTop" >
+                     <uni-badge size="small" :max-num="value" :text="this.ordersRembourse.lenght" absolute="rightTop" >
                     <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+5">
                                 <image src="/static/c1.png" class="icon"></image>
                                 <text>退款/退货</text>
@@ -88,11 +87,7 @@
                <view class="panel-list-item">
                    <text>联系客服</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>
-               </view>
-               <view class="panel-list-item" @click="logout">
-                   <text>推出登陆</text>
-                   <uni-icons type="arrowright" size="15"></uni-icons>
-               </view>     
+               </view>   
            </view>
                 
         </view>
@@ -105,8 +100,7 @@
     export default {
         data() {
             return {
-                type:"warning",
-                value:99999
+                value:9999
             };
         },
         
@@ -117,19 +111,7 @@
         
         methods: {
             ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateToken']),
-            ...mapMutations('m_order',['addToOrdersNonValide','addToOrdersNonPayer','addToOrdersNonLivrer','addToOrdersRembouse']),
-       async  logout() {
-      const[err, succ]  =   await  uni.showModal({
-                 title:'提示',
-                 content:'确认推出登陆吗?'
-             }).catch(err => err) 
-             
-             if(succ && succ.confirm) {
-                 this.updateUserInfo({}),
-                 this.updateOpenid('')
-                 this.updateToken('')
-             }
-         }   
+            ...mapMutations('m_order',['addToOrdersNonValide','addToOrdersNonPayer','addToOrdersNonLivrer','addToOrdersRembouse']),  
         
         }
     }

@@ -2,9 +2,10 @@
     <view class="login-container">
         <uni-icons type="contact-filled" size="100" color="#AFAFAF"></uni-icons>
 
-        <button type="primary" class="btn-login" open-type="getUserInfo" @getuserinfo="getUserInfo">一键登录</button>
-        <text class="tips-text">登陆后尽享更多权益</text>
-    </view>
+        <button type="primary" class="btn-login" open-type="getUserInfo" @getuserinfo="getUserInfo">登录</button>
+        <text class="tips-text">申请获取以下权限</text>
+        <text class="tips-text">获得你的公开信息(昵称、头像、地区等)</text>
+  </view>
 </template>
 
 <script>
@@ -13,12 +14,15 @@
         name: "my-login",
         data() {
             return {
-
+        ordersNonValide: [],
+        ordersNonPayer: [],
+        ordersNonLivrer: [],
+        ordersRembourse: [],
             };
         },
         methods: {
             ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken']),
-            ...mapMutations('m_order',['addToOrdersNonValide','addToOrdersNonPayer','addToOrdersNonLivrer','addToOrdersRembouse']),
+           ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse']),
             //用户授权之后，获取用户的基础信息
             getUserInfo(e) {
                 if (e.detail.errMsg == 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权!')
@@ -40,9 +44,9 @@
               if( result.status !== 200 ) return uni.$showMsg()     
               this.updateToken(result.data.token)
               this.updateOpenid(result.data.openid)
+              this.initSwiperDate()
             //获取后台返回的token,保存到storage中
             uni.$showMsg('登录成功!')
-             this.initSwiperDate()
             },
             
           async  initSwiperDate() {
@@ -62,21 +66,23 @@
             
               },
               
-              initOrderList(res) {
-                  console.log('initOrderList')
-                  for (let i = 0; i < res.data.length; i++) {
-                  	if (res.data[i].orderStatus === 2) {
-                  		this.addToOrdersNonValide(res.data[i])
-                  	}else if(res.data[i].payStatus === 10) {
-                          this.addToOrdersNonPayer(res.data[i])
-                      }else if(res.data[i].payStatus === 20 ) {
-                          this.addToOrdersNonLivrer(res.data[i])
-                      }else {
-                          this.addToOrdersRembouse(res.data[i])
-                      }
-                  	
-                  }
-              }
+             initOrderList(res) {
+                 for (let i = 0; i < res.data.length; i++) {
+                 	if (res.data[i].orderStatus === 2) {
+                 		this.ordersNonValide.push(res.data[i])
+                 	}else if(res.data[i].payStatus === 10) {
+                         this.ordersNonPayer.push(res.data[i])
+                     }else if(res.data[i].payStatus === 20 ) {
+                         this.ordersNonLivrer.push(res.data[i])
+                     }else {
+                         this.ordersRembourse.push(res.data[i])
+                     }
+                 }
+                 this.setOrdersNonValide(this.ordersNonValide)
+                 this.setOrdersNonPayer(this.ordersNonPayer)
+                 this.setOrdersNonLivrer(this.ordersNonLivrer)
+                 this.setOrdersRembouse(this.ordersRembourse)
+             }
             
             
         }
