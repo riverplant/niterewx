@@ -10,29 +10,28 @@
                <!--右侧得文本-->
                <text class="order-title-text">{{title}}订单</text>
            </view>
-           <!--
-           <view class="sugg-list">
-               <view class="sugg-item" v-for="(item,i) in searchResults" :key="i" @click="gotoDetail(item)">
-                  <view class="goods-name">
-                    id:{{item.id}} | trackingNumber: {{item.trackingNumber}} | catName: {{item.catName}} | price: {{item.price | tofixed}}
-                  </view> 
-                    <uni-icons type="arrowright" size="16"></uni-icons>
-               </view>
-        </view>
-        -->
-        <block v-for="(item,i) in searchResults" :key='i'>
-            <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" @radio-change="radioChangeHandler"></order-item>
-
-        </block>
-
+         <uni-swipe-action>
+              <block v-for="(item,i) in searchResults" :key='i'>
+             <uni-swipe-action-item :right-options="options" @click="">
+                  <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" @radio-change="radioChangeHandler"></order-item>
+             </uni-swipe-action-item>
+             </block>
+         </uni-swipe-action>
     </view>
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapState, mapMutations} from 'vuex'
     export default {
         data() {
             return {
+                //右侧滑动删除时显示得文本
+                options:[{
+                    text:'删除',
+                    style: {
+                        backgroundColor: '#C00000'
+                    }
+                }],
                 wh:0,
                 timer: null,
                 kw: '',
@@ -51,7 +50,9 @@
                     payStatus:10   
                 },
                 total:0,
-                isloading:true
+                isloading:true,
+               
+                
 
             };
         },
@@ -65,21 +66,25 @@
              ...mapState('m_order', ['ordersNonValide','ordersNonPayer','ordersNonLivrer','ordersRembourse'])
         },
         onLoad(e) {
-             this.type = e.type;
-             this.initSearchresult()
-            console.log('type:',this.type)
-            /** if(this.type === '1') {
+             this.type = e.type
+            this.initSearchresult()
+           /**
+             if(this.type === '1') {
                this.searchResults = this.ordersNonValide
                this.title = "支付未通过"
+                this.isShowPriceAndRadio = false
              }else if(this.type === '2') {
                      this.searchResults = this.ordersNonPayer
                      this.title = "未支付"
+                     this.isShowPriceAndRadio = true
                  }else if(this.type === '3') {
                      this.searchResults = this.ordersNonLivrer
                       this.title = "已支付未发货"
+                       this.isShowPriceAndRadio = false
                  }else {
                     this.searchResults = this.ordersRembourse 
-                     this.title = "支付失败/退款/退货"  
+                     this.title = "支付失败/退款/退货" 
+                       this.isShowPriceAndRadio = false
                  } 
          **/
          
@@ -97,12 +102,15 @@
                     this.isShowPriceAndRadio = false
                  } 
          
-             
-             const sysInfo =  uni.getSystemInfoSync()
+            const sysInfo =  uni.getSystemInfoSync()
             this.wh = sysInfo.windowHeight - 50
             this.searchResultsBak = this.searchResults
         },
-        methods: {       
+        methods: {    
+            ...mapMutations('m_order',['updateOrderState']),
+            swipeActionClickHandler(item) {
+                
+            },
             search(res) {
                 clearTimeout(this.timer)
                 this.timer = setTimeout(() => {
@@ -116,7 +124,7 @@
            {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "51", "pLong":"22.02", "pWidth":"15.02",
            "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
            {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "55.23", "pLong":"22.02", "pWidth":"15.02",
-           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
+           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": false},
            {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": "50.25", "pLong":"22.02", "pWidth":"15.02",
            "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
            {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": "43.25", "pLong":"22.02", "pWidth":"15.02",
@@ -133,6 +141,7 @@
            
             ]  
          },
+         
         getSearchResults() {  
         this.isloading = true
            if(this.kw === '') {
@@ -141,7 +150,7 @@
              this.searchResults = this.searchResults.filter( item=> item.id.indexOf( this.kw ) > -1 );   
            }
           
-      /**
+      
           if(this.code !== '')  {
               if(this.kw === '') {
                  this.searchResults = this.searchResultsBak 
@@ -152,11 +161,7 @@
               //调用回调函数
               cb && cb()
               this.total = this.searchResults.length
-          }
-           
-        **/
-       
-                   
+          }             
      },
      gotoDetail(item) {
          uni.navigateTo({
@@ -164,8 +169,9 @@
          })
      },
      radioChangeHandler(e) {
-         console.log(e)
+         this.updateOrderState(e)
      }
+     
         }
     }
 </script>

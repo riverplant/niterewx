@@ -6,6 +6,7 @@
         </view>
         <view class="order-item-right">
             <view class="order-item-desc">
+                 <view class="order-item-desc-text">  包裹号码: {{order.id}} </view>
                 <view class="order-item-desc-text"> 长: {{order.pLong}} | 宽: {{order.pWidth}} | 高: {{order.pHeight}} CM</view>
                 <view class="order-item-desc-text">  体积重{{order.pWeightByVolume}} KG </view>
                 <view class="order-item-desc-text">  实际重{{order.pWeight}} KG </view>
@@ -42,6 +43,10 @@
         },
         methods: {
             radioChangeHandler() {
+                console.log(this.order.id)
+                console.log(this.order.state)
+                
+
                 this.$emit('radio-change', {
                    id: this.order.id,
                    state: !this.order.state
@@ -53,6 +58,9 @@
 
 <style lang="scss">
 .order-item {
+    width: 750rpx;
+    box-sizing: border-box;
+    //box-sizing: border-box;
     display: flex;
     padding: 10px 5 px;
     border-bottom: 3px solid#f0f0f0;

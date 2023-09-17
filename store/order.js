@@ -13,6 +13,13 @@ export default {
     
     mutations:{
        
+       updateOrderState(state, orders) {
+           const findResult = state.ordersNonPayer.find(x => x.id === orders.id) 
+           if(findResult) {
+               findResult.state = orders.state
+               this.commit('m_order/saveOrdersNonPayerToStorage')
+           }
+       },
         addToOrdersNonValide(state, orderInfo) {
             const findResult = state.ordersNonValide.find( x => x.id === orderInfo.id )
             if(!findResult)

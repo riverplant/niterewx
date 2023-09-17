@@ -13,7 +13,7 @@
          <view class="panel">
              <view class="panel-body">
                  <view class="panel-item">
-                     <text>mt_10</text>
+                     <text>001</text>
                      <text>我的提货码</text>  
                  </view>
                  <view class="panel-item">
@@ -101,9 +101,10 @@
         data() {
             return {
                 value:9999
+                
             };
         },
-        
+
         computed: {
             ...mapState('m_user', ['userinfo', 'swiperList']),
             ...mapState('m_order', ['ordersNonValide','ordersNonPayer', 'ordersNonLivrer', 'ordersRembourse'])
