@@ -76,10 +76,12 @@
            </view>
            
            <view class="panel">
-               <view class="panel-list-item">
-                   <text>收货地址</text>
-                   <uni-icons type="arrowright" size="15"></uni-icons>
-               </view>
+                <navigator  :url="'/subpkg/address/address'">
+                    <view class="panel-list-item">
+                         <text>配置收货地址</text>
+                              <uni-icons type="arrowright" size="15"></uni-icons> 
+                    </view> 
+                </navigator>
                <view class="panel-list-item">
                    <text>申请修改仓库</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>

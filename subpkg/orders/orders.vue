@@ -12,7 +12,7 @@
            </view>
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
-             <uni-swipe-action-item :right-options="options" @click="">
+             <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
                   <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" @radio-change="radioChangeHandler"></order-item>
              </uni-swipe-action-item>
              </block>
@@ -107,9 +107,10 @@
             this.searchResultsBak = this.searchResults
         },
         methods: {    
-            ...mapMutations('m_order',['updateOrderState']),
-            swipeActionClickHandler(item) {
-                
+            ...mapMutations('m_order',['updateOrderState', 'removeItemById']),
+            swipeItemClickHandler(item) {
+                console.log(item)
+                this.removeItemById(item.id)
             },
             search(res) {
                 clearTimeout(this.timer)

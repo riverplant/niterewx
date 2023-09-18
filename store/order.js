@@ -13,6 +13,10 @@ export default {
     
     mutations:{
        
+       removeItemById(state, order_Id) {
+        state.ordersNonPayer = state.ordersNonPayer.filter(x => x.id !== order_Id) 
+        this.commit('m_order/saveOrdersNonPayerToStorage')
+       },
        updateOrderState(state, orders) {
            const findResult = state.ordersNonPayer.find(x => x.id === orders.id) 
            if(findResult) {
