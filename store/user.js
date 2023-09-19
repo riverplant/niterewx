@@ -6,13 +6,16 @@ export default {
         swiperList: JSON.parse(uni.getStorageSync('swiperList') || '[]'),
         token: uni.getStorageSync('token') || '',
         code: uni.getStorageSync('code') || '',
+        address: JSON.parse(uni.getStorageSync('address') || '{}'),
     }),
     
     mutations:{
-        
+        updateAddress(state, address) {
+            state.address = address
+            this.commit('m_user/saveAddressToStorage')
+        },
         updateCode(state, code) {
-          state.code =  code 
-          
+          state.code =  code        
           this.commit('m_user/saveCodeToStorage')
         },
         
@@ -56,7 +59,15 @@ export default {
         
         saveOpenidToStorage(state) {
             uni.setStorageSync('openid', state.openid)
+        },
+        saveAddressToStorage(state) {
+            uni.setStorageSync('address', JSON.stringify(state.address))
         }
     },
-    getters:{},
+    getters:{
+        addstr(state) {
+            if(!state.address.provinceName) return ''
+            return state.address.provinceName + state.address.cityName + state.address.countyName + state.address.detailInfo
+        }
+    },
 }

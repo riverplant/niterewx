@@ -2,23 +2,23 @@
     <view>
         <!--选择收获地址得盒子-->
         <view class="address-choose-box" v-if="JSON.stringify(address) === '{}'">
-           <button type="primary" size="mini" class="btnChooseAddress">请选择收获地址+</button> 
+           <button type="primary" size="mini" class="btnChooseAddress" @click="chooseAddress">请选择收获地址+</button> 
         </view>
         
         <!--渲染收货信息得盒子-->
-       <view class="address-info-box" v-else>
+       <view class="address-info-box" v-else  @click="chooseAddress">
            <view class="row1">
               <view class="row1-left">
-                  <view class="username"> 收货人: </view>
+                  <view class="username"> 收货人: {{address.userName}}</view>
               </view> 
               <view class="row1-right">
-                   <view class="phone"> 电话: </view>
+                   <view class="phone"> 电话: {{address.telNumber}}</view>
                    <uni-icons type="arrowright" size="16"></uni-icons>
               </view> 
            </view>
            <view class="row2">
               <view class="row2-left">收货地址: </view>
-              <view class="row2-right"> </view>  
+              <view class="row2-right">{{addstr}} </view>  
            </view>
            
        </view>
@@ -28,12 +28,29 @@
 </template>
 
 <script>
+    import { mapState,mapMutations, mapGetters } from 'vuex'
     export default {
         name:"my-address",
         data() {
             return {
-                address:{},
             };
+        },
+        methods: {
+            ...mapMutations('m_user',['updateAddress']),
+            async chooseAddress() {
+                const[err, succ] = await uni.chooseAddress().catch(err => err)                
+                if(err === null && succ.errMsg === 'chooseAddress:ok') {
+                   console.log('succ:',succ)
+                    this.address = succ
+                    this.updateAddress(succ)
+                }else {
+                     console.log('err:',err)
+                }
+            }
+        },
+        computed: {
+            ...mapState('m_user',['address']),
+            ...mapGetters('m_user',['addstr'])
         }
     }
 </script>
@@ -67,7 +84,6 @@
     }  
     .row2 {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         margin-top: 10px;
        .row2-left{
