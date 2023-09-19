@@ -8,7 +8,8 @@ export default {
        ordersNonValide: JSON.parse(uni.getStorageSync('ordersNonValide') || '[]'),
        ordersNonPayer: JSON.parse(uni.getStorageSync('ordersNonPayer') || '[]'),
        ordersNonLivrer: JSON.parse(uni.getStorageSync('ordersNonLivrer') || '[]'),
-       ordersRembourse: JSON.parse(uni.getStorageSync('ordersRembourse') || '[]'),
+       ordersRembourse: JSON.parse(uni.getStorageSync('ordersRembourse') || '[]')
+
     }),
     
     mutations:{
@@ -48,7 +49,7 @@ export default {
         },
         
         setOrdersNonPayer(state, ordersNonPayer) {
-           this.ordersNonPayer = ordersNonPayer
+           state.ordersNonPayer = ordersNonPayer
                this.commit('m_order/saveOrdersNonPayerToStorage')
         },
         
@@ -89,5 +90,13 @@ export default {
         
  
     },
-    getters:{},
+    getters:{
+        checkedCount(state) {
+            return state.ordersNonPayer.filter(x=>x.state).reduce((total,item)=> total += 1, 0)
+        },
+        
+        total(state) {
+           return  state.ordersNonPayer.reduce((total, item)=>{total += 1}, 0)
+        }
+    },
 }

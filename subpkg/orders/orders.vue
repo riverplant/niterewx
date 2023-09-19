@@ -1,5 +1,5 @@
 <template>
-    <view>
+    <view class="order-container">
         <view class="search-box">
               <uni-search-bar placeholder="输入订单号查找订单" bgColor=" #FFFFFF" @input="search" cancel-button="none" :radius="100" />  
             </view>
@@ -17,6 +17,8 @@
              </uni-swipe-action-item>
              </block>
          </uni-swipe-action>
+         <!--自定义结算组件-->
+         <my-settle></my-settle>
     </view>
 </template>
 
@@ -178,6 +180,9 @@
 </script>
 
 <style lang="scss">
+    .order-container {
+        padding-bottom: 50px;
+    }
     .order-title {
         height: 40px;
         display: flex;
