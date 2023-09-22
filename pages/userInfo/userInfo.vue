@@ -42,19 +42,20 @@
                 if( result.meta.status !== 200 ) return uni.$showMsg()  
                 console.log('swiperdata:',result.message)
                this.updateSwiperList(result.message)  
-               this.initOrders()
-            },
-            async  initOrders() {
-                const {data:res} = await  uni.$http.get('http://127.0.0.1:8080/wx/orders/getAllOrderList')  
-               console.log('res.status:',res.status)
-                if( res.status !== 200 ) return uni.$showMsg()
-                console.log('initOrders:',res.data)
+               // this.initOrders()
+                this.initOrderList()
+            },  
+            // async  initOrders() {
+            //     const {data:res} = await  uni.$http.get('http://127.0.0.1:8080/wx/orders/getAllOrderList')  
+            //    console.log('res.status:',res.status)
+            //     if( res.status !== 200 ) return uni.$showMsg()
+            //     console.log('initOrders:',res.data)
               
-              this.initOrderList(res)  
-            
-              },
+            //   this.initOrderList(res)  
+             
+            //   },
               
-              initOrderList(res) {
+              initOrderList() {
                   // for (let i = 0; i < res.data.length; i++) {
                   // 	if (res.data[i].orderStatus === 2) {
                   // 		this.ordersNonValide.push(res.data[i])
@@ -83,7 +84,7 @@
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true}
                    ]
                    
-                   this.ordersNonValide = [
+                   this.ordersNonValide = [ 
                        {"id":"007","catName":"一般商品","trackingNumber":"000000001","msg": "没有提货码", "pLong":"22.02", "pWidth":"15.02",
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
                   {"id":"008","catName":"一般商品","trackingNumber":"000000002","msg": "商品类型与实际商品不符", "pLong":"22.02", "pWidth":"15.02",
