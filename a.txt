@@ -1,0 +1,16 @@
+git status
+
+git add .
+
+git commit -m"test"
+
+git push
+
+https://github.com/riverplant/niterewx.git
+
+git pull
+
+
+
+
+ 
