@@ -18,7 +18,7 @@
              </block>
          </uni-swipe-action>
          <!--自定义结算组件-->
-         <my-settle></my-settle>
+         <my-settle v-if="this.type === '2'"></my-settle>
     </view>
 </template>
 
