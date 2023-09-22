@@ -2,7 +2,7 @@
     <view class="my-settle-container" v-if="show">
         <!-- 全选 -->
         <label class="radio">
-            <radio color="#C00000" :checked="isFullCheck"/><text>全选</text>
+            <radio color="#C00000" :checked="isFullCheck" @click="changeAllState"/><text>全选</text>
         </label>
         <!-- 合计 -->
         <view class="count-box">
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
+    import { mapGetters, mapMutations } from 'vuex'
     export default {
        props: {
            show: {
@@ -39,7 +39,11 @@
               }  
         },
         methods: {
+         ...mapMutations('m_order', ['updateAllOrdersState']),
          
+         changeAllState() {
+             this.updateAllOrdersState(!this.isFullCheck)
+         }
         }
     }
 </script>

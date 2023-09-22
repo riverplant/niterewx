@@ -13,6 +13,11 @@ export default {
     }),
     
     mutations:{
+        // 更新所有的勾选状态
+        updateAllOrdersState(state, newState) {
+           state.ordersNonPayer.forEach(x => x.state = newState) 
+           this.commit('m_order/saveOrdersNonPayerToStorage')
+        },
        removeItemById(state, order_Id) {
         state.ordersNonPayer = state.ordersNonPayer.filter(x => x.id !== order_Id) 
         this.commit('m_order/saveOrdersNonPayerToStorage')
