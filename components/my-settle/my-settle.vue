@@ -30,11 +30,12 @@
         },
         computed: {
               ...mapGetters('m_order', ['checkedCount', 'total']),
+              isFullCheck() {
+                  return this.total === this.checkedCount
+              }  
         },
         methods: {
-          isFullCheck() {
-              return this.total === this.checkedCount
-          },  
+         
         }
     }
 </script>
