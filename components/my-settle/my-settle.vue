@@ -5,8 +5,12 @@
             <radio color="#C00000" :checked="isFullCheck"/><text>全选</text>
         </label>
         <!-- 合计 -->
-        <view class="amount-box">
-           合计: <text class="amount">{{total}}</text>
+        <view class="count-box">
+           订单总数: <text class="count">{{count}}</text>
+        </view>
+        
+       <view class="count-box">
+           订单总价: <text class="total">${{total}}</text>
         </view>
         
         <!--  结算 -->
@@ -29,9 +33,9 @@
             };
         },
         computed: {
-              ...mapGetters('m_order', ['checkedCount', 'total']),
+              ...mapGetters('m_order', ['checkedCount', 'count', 'total']),
               isFullCheck() {
-                  return this.total === this.checkedCount
+                  return this.count === this.checkedCount
               }  
         },
         methods: {
@@ -57,8 +61,8 @@
        display: flex;
         align-items: center;
     }
-    .amount-box {
-        .amount {
+    .count-box {
+        .count {
             color: #C00000;
             font-weight: bold;
         }

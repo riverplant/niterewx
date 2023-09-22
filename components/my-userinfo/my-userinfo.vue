@@ -44,7 +44,7 @@
                                <text>验货未通过</text>
                    </navigator>
                    </uni-badge>
-                   <uni-badge size="small" :max-num="value" :text="total" absolute="rightTop" >
+                   <uni-badge size="small" :max-num="value" :text="count" absolute="rightTop" >
                        <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+2">
                                    <image src="/static/c1.png" class="icon"></image>
                                    <text>待付款</text>
@@ -109,7 +109,7 @@
 
         computed: {
             ...mapState('m_user', ['userinfo', 'swiperList']),
-            ...mapGetters('m_order', ['checkedCount', 'total', 'ordersNonValideTotal'])
+            ...mapGetters('m_order', ['checkedCount', 'count', 'ordersNonValideTotal'])
         }
     }
 </script>

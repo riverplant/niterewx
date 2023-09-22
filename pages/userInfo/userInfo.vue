@@ -69,17 +69,17 @@
                  // this.setOrdersNonValide(this.ordersNonValide)
                  
                  this.ordersNonPayer = [
-                  {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "51", "pLong":"22.02", "pWidth":"15.02",
+                  {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": 51, "pLong":"22.02", "pWidth":"15.02",
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-                  {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "55.23", "pLong":"22.02", "pWidth":"15.02",
+                  {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": 55.23, "pLong":"22.02", "pWidth":"15.02",
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": false},
-                  {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": "50.25", "pLong":"22.02", "pWidth":"15.02",
+                  {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": 50.25, "pLong":"22.02", "pWidth":"15.02",
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-                  {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": "43.25", "pLong":"22.02", "pWidth":"15.02",
+                  {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": 43.25, "pLong":"22.02", "pWidth":"15.02",
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-                  {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": "40.25", "pLong":"22.02", "pWidth":"15.02",
+                  {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": 40.25, "pLong":"22.02", "pWidth":"15.02",
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-                  {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": "60.00", "pLong":"22.02", "pWidth":"15.02",
+                  {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": 60.00, "pLong":"22.02", "pWidth":"15.02",
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true}
                    ]
                    

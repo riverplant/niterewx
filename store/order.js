@@ -97,16 +97,23 @@ export default {
             return checkedCount
         },
         //总数量
-        total(state) {
-             let total = state.ordersNonPayer.reduce((total, item)=> total += 1, 0)
-            console.log('total:',total)
-           return  total
+        count(state) {
+             let count = state.ordersNonPayer.reduce((total, item)=> total += 1, 0)
+            console.log('count:',count)
+           return  count
         },
         
         ordersNonValideTotal(state) {
              let ordersNonValideTotal = state.ordersNonValide.reduce((total, item)=> total += 1, 0)
             console.log('ordersNonValideTotal:',ordersNonValideTotal)
            return  ordersNonValideTotal
-        }
+        },
+        
+        //总价格
+        total(state) {
+             let total = state.ordersNonPayer.filter(x=>x.state).reduce((total, item)=> total += item.price, 0)
+            console.log('total:',total)
+           return  total
+        },
     },
 }
