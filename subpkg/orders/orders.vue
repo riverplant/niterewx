@@ -18,7 +18,7 @@
              </block>
          </uni-swipe-action>
          <!--自定义结算组件-->
-         <my-settle v-if="this.type === '2'"></my-settle>
+         <my-settle :show="isShow"></my-settle>
     </view>
 </template>
 
@@ -43,6 +43,7 @@
                 title:'',
                 isShowPriceAndRadio:false,
                 isShowMsg:false,
+                isShow:false,
 
                 queryObj:{
                     code:'',
@@ -70,7 +71,6 @@
         },
         onLoad(e) {
              this.type = e.type
-    
              if(this.type === '1') {
                this.searchResults = this.ordersNonValide
                this.title = "支付未通过"
@@ -80,6 +80,7 @@
                      this.searchResults = this.ordersNonPayer
                      this.title = "未支付"
                      this.isShowPriceAndRadio = true
+                     this.isShow = true
                  }else if(this.type === '3') {
                      this.searchResults = this.ordersNonLivrer
                       this.title = "已支付未发货"

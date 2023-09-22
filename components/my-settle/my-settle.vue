@@ -1,5 +1,5 @@
 <template>
-    <view class="my-settle-container">
+    <view class="my-settle-container" v-if="show">
         <!-- 全选 -->
         <label class="radio">
             <radio color="#C00000" :checked="isFullCheck"/><text>全选</text>
@@ -17,7 +17,12 @@
 <script>
     import {mapGetters} from 'vuex'
     export default {
-       
+       props: {
+           show: {
+               type: Boolean,
+               default: false,
+           }
+       },
         data() {
             return {
                 
