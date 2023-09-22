@@ -7,6 +7,7 @@ export default {
         token: uni.getStorageSync('token') || '',
         code: uni.getStorageSync('code') || '',
         address: JSON.parse(uni.getStorageSync('address') || '{}'),
+        role: uni.getStorageSync('role') || 0,
     }),
     
     mutations:{

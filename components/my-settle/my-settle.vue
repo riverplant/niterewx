@@ -6,7 +6,7 @@
         </label>
         <!-- 合计 -->
         <view class="amount-box">
-           合计: <text class="amount">$123.00</text>
+           合计: <text class="amount">{{total}}</text>
         </view>
         
         <!--  结算 -->
@@ -17,14 +17,19 @@
 <script>
     import {mapGetters} from 'vuex'
     export default {
-       ...mapGetters('m_order', ['checkedCount', 'total']),
-       isFullCheck() {
-           return this.total === this.checkedCount
-       },
+       
         data() {
             return {
                 
             };
+        },
+        computed: {
+              ...mapGetters('m_order', ['checkedCount', 'total']),
+        },
+        methods: {
+          isFullCheck() {
+              return this.total === this.checkedCount
+          },  
         }
     }
 </script>

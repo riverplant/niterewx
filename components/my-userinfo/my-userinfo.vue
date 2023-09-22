@@ -38,13 +38,13 @@
                    我的订单
                </view>
                <view class="panel-body">
-                   <uni-badge size="small" :max-num="value" :text="this.ordersNonValide.lenght" absolute="rightTop" >
+                   <uni-badge size="small" :max-num="value" :text="ordersNonValideTotal" absolute="rightTop" >
                    <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+1">
                                <uni-icons type="person-filled" size="37"></uni-icons>       
                                <text>验货未通过</text>
                    </navigator>
                    </uni-badge>
-                   <uni-badge size="small" :max-num="value" :text="this.ordersNonPayer.lenght" absolute="rightTop" >
+                   <uni-badge size="small" :max-num="value" :text="total" absolute="rightTop" >
                        <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+2">
                                    <image src="/static/c1.png" class="icon"></image>
                                    <text>待付款</text>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-    import { mapState , mapMutations} from 'vuex'
+    import { mapState , mapMutations, mapGetters} from 'vuex'
     export default {
         data() {
             return {
@@ -109,13 +109,7 @@
 
         computed: {
             ...mapState('m_user', ['userinfo', 'swiperList']),
-            ...mapState('m_order', ['ordersNonValide','ordersNonPayer', 'ordersNonLivrer', 'ordersRembourse'])
-        },
-        
-        methods: {
-            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateToken']),
-            ...mapMutations('m_order',['addToOrdersNonValide','addToOrdersNonPayer','addToOrdersNonLivrer','addToOrdersRembouse']),  
-        
+            ...mapGetters('m_order', ['checkedCount', 'total', 'ordersNonValideTotal'])
         }
     }
 </script>

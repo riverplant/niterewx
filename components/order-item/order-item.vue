@@ -15,6 +15,9 @@
                 <view v-if="showPrice" class="order-item-price">
                     实际支付金额: ${{order.price}}
                 </view>
+                <view v-if="showMsg" class="order-item-price">
+                    信息: {{order.msg}}
+                </view>
             </view>
         </view>
     </view>
@@ -28,6 +31,10 @@
                 default:{}   
             },
             showPrice: {
+                type: Boolean,
+                default: false,
+            },
+            showMsg: {
                 type: Boolean,
                 default: false,
             },

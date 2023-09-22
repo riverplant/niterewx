@@ -13,7 +13,6 @@ export default {
     }),
     
     mutations:{
-       
        removeItemById(state, order_Id) {
         state.ordersNonPayer = state.ordersNonPayer.filter(x => x.id !== order_Id) 
         this.commit('m_order/saveOrdersNonPayerToStorage')
@@ -33,7 +32,7 @@ export default {
         },
         
         setOrdersNonValide(state, ordersNonValide) {
-           this.ordersNonValide = ordersNonValide
+           state.ordersNonValide = ordersNonValide
                this.commit('m_order/saveOrdersNonValideToStorage')
         },
         
@@ -65,7 +64,7 @@ export default {
         },
         
         setOrdersNonLivrer(state, ordersNonLivrer) {
-           this.ordersNonLivrer = ordersNonLivrer
+           state.ordersNonLivrer = ordersNonLivrer
                this.commit('m_order/saveOrdersNonLivrerToStorage')
         },
         
@@ -80,7 +79,7 @@ export default {
         },
         
         setOrdersRembouse(state, ordersRembourse) {
-           this.ordersRembourse = ordersRembourse
+           state.ordersRembourse = ordersRembourse
                this.commit('m_order/saveOrdersRembouseToStorage')
         },
         
@@ -91,12 +90,23 @@ export default {
  
     },
     getters:{
+        //被选中的数量
         checkedCount(state) {
-            return state.ordersNonPayer.filter(x=>x.state).reduce((total,item)=> total += 1, 0)
+            let checkedCount = state.ordersNonPayer.filter(x=>x.state).reduce((total,item)=> total += 1, 0)
+            console.log('checkedCount:',checkedCount)
+            return checkedCount
+        },
+        //总数量
+        total(state) {
+             let total = state.ordersNonPayer.reduce((total, item)=> total += 1, 0)
+            console.log('total:',total)
+           return  total
         },
         
-        total(state) {
-           return  state.ordersNonPayer.reduce((total, item)=>{total += 1}, 0)
+        ordersNonValideTotal(state) {
+             let ordersNonValideTotal = state.ordersNonValide.reduce((total, item)=> total += 1, 0)
+            console.log('ordersNonValideTotal:',ordersNonValideTotal)
+           return  ordersNonValideTotal
         }
     },
 }

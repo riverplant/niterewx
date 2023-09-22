@@ -13,7 +13,7 @@
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
              <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-                  <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" @radio-change="radioChangeHandler"></order-item>
+                  <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
              </uni-swipe-action-item>
              </block>
          </uni-swipe-action>
@@ -42,6 +42,7 @@
                 type:1,
                 title:'',
                 isShowPriceAndRadio:false,
+                isShowMsg:false,
 
                 queryObj:{
                     code:'',
@@ -69,12 +70,12 @@
         },
         onLoad(e) {
              this.type = e.type
-            this.initSearchresult()
-           /**
+    
              if(this.type === '1') {
                this.searchResults = this.ordersNonValide
                this.title = "支付未通过"
                 this.isShowPriceAndRadio = false
+                this.isShowMsg = true
              }else if(this.type === '2') {
                      this.searchResults = this.ordersNonPayer
                      this.title = "未支付"
@@ -88,22 +89,7 @@
                      this.title = "支付失败/退款/退货" 
                        this.isShowPriceAndRadio = false
                  } 
-         **/
-         
-          if(e.type === '1') {
-               this.title = "支付未通过"
-               this.isShowPriceAndRadio = false
-             }else if(e.type === '2') {
-                     this.title = "未支付"
-                     this.isShowPriceAndRadio = true
-                 }else if(e.type === '3') {
-                     this.title = "已支付未发货"
-                     this.isShowPriceAndRadio = false
-                 }else {
-                   this.title = "支付失败/退款/退货" 
-                    this.isShowPriceAndRadio = false
-                 } 
-         
+            
             const sysInfo =  uni.getSystemInfoSync()
             this.wh = sysInfo.windowHeight - 50
             this.searchResultsBak = this.searchResults
@@ -122,29 +108,6 @@
                 }, 500)
              },  
    
-        initSearchresult() {
-            this.searchResults = [
-           {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "51", "pLong":"22.02", "pWidth":"15.02",
-           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-           {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "55.23", "pLong":"22.02", "pWidth":"15.02",
-           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": false},
-           {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": "50.25", "pLong":"22.02", "pWidth":"15.02",
-           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-           {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": "43.25", "pLong":"22.02", "pWidth":"15.02",
-           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-           {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": "40.25", "pLong":"22.02", "pWidth":"15.02",
-           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-           {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": "60.00", "pLong":"22.02", "pWidth":"15.02",
-           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-           {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": "151", "pLong":"22.02", "pWidth":"15.02",
-           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-           {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": "155.23", "pLong":"22.02", "pWidth":"15.02",
-           "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true}
-
-           
-            ]  
-         },
-         
         getSearchResults() {  
         this.isloading = true
            if(this.kw === '') {
