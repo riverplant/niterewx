@@ -31,6 +31,7 @@
 <script>
     import {
         mapGetters,
+        mapState,
         mapMutations
     } from 'vuex'
     export default {
@@ -53,6 +54,8 @@
             };
         },
         computed: {
+            ...mapState('m_user', ['code', 'openid', 'userinfo']),
+            ...mapState('m_order', ['ordersNonPayer']),
             ...mapGetters('m_order', ['checkedCount', 'count', 'total']),
             isFullCheck() {
                 return this.count === this.checkedCount
@@ -70,10 +73,25 @@
                 if( this.radio1 !== 1 ) {
                    this.$refs.popup.open('center')  
                 }else{
-                    uni.$showMsg('开始支付.........')
+                    this.payOrder()
                 }
-               
-
+            },
+            
+            async payOrder() {
+               const orderInfo = {
+                   price: this.total,
+                   code: this.code,
+                   openId: this.openid,
+                   userId: this.userinfo.id,
+                   payMethod: this.radio1,
+                   payStatus:10,
+                   preOrderItems: this.ordersNonPayer.filter(x=>x.state).map(x=> x)
+               } 
+    
+               const { data: res} = await uni.$http.post('http://127.0.0.1:8080/wx/orders/create', orderInfo)
+               if( res.status != 200 ) return uni.$showMsg('创建订单失败!')
+               console.log('res.data:',res.data)   
+               const orderNumber = res.data
             },
             close() {
                 this.$refs.popup.close()
