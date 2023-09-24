@@ -6,17 +6,26 @@
         </view>
         <view class="order-item-right">
             <view class="order-item-desc">
-                 <view class="order-item-desc-text">  包裹号码: {{order.id}} </view>
-                <view class="order-item-desc-text"> 长: {{order.pLong}} | 宽: {{order.pWidth}} | 高: {{order.pHeight}} CM</view>
-                <view class="order-item-desc-text">  体积重{{order.pWeightByVolume}} KG </view>
-                <view class="order-item-desc-text">  实际重{{order.pWeight}} KG </view>
+                 <view class="order-item-desc-text1">包裹号码: {{order.id}} </view>
+                <view class="order-item-desc-text2"> 尺寸：{{order.pLong}} × {{order.pWidth}} × {{order.pHeight}} CM</view>
+                <view class="order-item-desc-text3"> 体积重：{{order.pWeightByVolume}} KG | 实际重:{{order.pWeight}} KG</view>
             </view>
             <view class="order-item-info-box">
                 <view v-if="showPrice" class="order-item-price">
-                    实际支付金额: ${{order.price}}
+                    <view class="order-item-sub-left">
+						实际支付金额
+					</view>
+					<view class="order-item-sub-right-price">
+						 ${{order.price}}
+					</view>
                 </view>
-                <view v-if="showMsg" class="order-item-price">
-                    信息: {{order.msg}}
+                <view v-if="showMsg" class="order-item-msg">
+                    <view class="order-item-sub-left">
+						<image :src="defaultMsgPic" class="order-item-sub-icon"></image>
+					</view>
+					<wiew class="order-item-sub-right">
+						{{order.msg}}
+					</wiew>
                 </view>
             </view>
         </view>
@@ -45,7 +54,8 @@
         },
         data() {
             return {
-               defaultPic:'/static/package.jpg'
+               defaultPic:'/static/package.png',
+			   defaultMsgPic:'/static/note_icon.png',
             };
         },
         methods: {
@@ -71,34 +81,85 @@
     display: flex;
     padding: 10px 5 px;
     border-bottom: 3px solid#f0f0f0;
-    
-    .order-item-left {
-        margin-right: 5px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        
-        .order-pic {
-            width: 80px;
-            height: 80px;
-            display: block;
-        }
-        .order-item-right {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            .order-item-desc {
-               display: flex;
-               flex-direction: column;
-               justify-content: space-between; 
-               .order-item-desc-text {
-                   font-size: 14px;
-                   color: #C00000;
-               }
-            }
-        }
-        
-        
-    }
 }
+.order-item-left {
+	margin-top: 10rpx;
+	margin-bottom: 10rpx;
+	margin-left: 30rpx;
+	margin-right: 30rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	}
+.order-pic {
+	width: 150rpx;
+	height: 150rpx;
+	display: block;
+	}
+.order-item-right {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	}
+	
+.order-item-sub-left{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	}
+.order-item-sub-right{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	}
+.order-item-sub-icon{
+	margin-right: 10rpx;
+	width: 30rpx;
+	height: 30rpx;
+	display: block;
+	}
+	
+.order-item-sub-right-price{
+	width: 320rpx;
+	font-weight: 800;
+	text-align: right;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	color: #00a000;
+	}
+.order-item-desc {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between; 
+	}
+.order-item-desc-text1 {
+	margin-top: 20rpx;
+	font-weight: 800;
+	font-size: 30rpx;
+	color: #000000;
+	}
+.order-item-desc-text2 {
+	font-size: 20rpx;
+	color: #505050;
+	}
+.order-item-desc-text3 {
+	font-size: 20rpx;
+	color: #505050;
+	}
+	
+.order-item-price{
+	display: flex;
+	width: 510rpx;
+	margin-bottom: 20rpx;
+	font-size: 25rpx;
+	color: #000000;
+	}
+.order-item-msg{
+	display: flex;
+	width: 410rpx;
+	margin-bottom: 20rpx;
+	font-size: 25rpx;
+	color: #fe642c;
+	}
 </style>
