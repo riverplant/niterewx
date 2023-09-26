@@ -71,6 +71,15 @@
                 }
                 
                 }
+                ,{
+                    "path" : "warehouse/warehouse",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
       }  
     ],

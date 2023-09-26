@@ -82,10 +82,12 @@
                               <uni-icons type="arrowright" size="15"></uni-icons> 
                     </view> 
                 </navigator>
+                  <navigator  :url="'/subpkg/warehouse/warehouse'">
                <view class="panel-list-item">
-                   <text>申请修改仓库</text>
+                   <text >申请修改仓库</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>
                </view>
+                </navigator>
                <view class="panel-list-item">
                    <text>联系客服</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>
