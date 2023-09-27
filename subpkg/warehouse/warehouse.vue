@@ -2,7 +2,7 @@
     <view>
             <!--选择收获地址得盒子-->
             <view class="address-choose-box" >
-               <button type="primary" size="mini" class="btnchooseWarehouse" @click="chooseWarehouse">请选择收貨倉庫+</button> 
+               <button type="primary" size="mini" class="btnchooseWarehouse" @click="initDataTree">请选择收貨倉庫+</button> 
             </view>       
             
             <!--渲染收货信息得盒子-->
@@ -37,12 +37,47 @@
             };
         },
         methods: {
-             ...mapMutations('m_user',['updateUserInfo']),
-             async chooseWarehouse() {
-                this.$refs.picker.show()
-             },
+             ...mapMutations('m_user',['updatePickPointList']),
+            async initDataTree() {
+                const {data: res} = await uni.$http.get('http://127.0.0.1:8080/wx/users/pickPointList')
+                if (res.status != 200) return uni.$showMsg('查詢提貨點列表失败!')
+                 console.log('res:', res.data)
+                 this.updatePickPointList(res.data)
+                // let data = {
+                //     classes: '1-2',
+                //     dataTree: [{
+                //     	text: "一年级",
+                //     	value: "1-0",
+                //     	children: [{
+                //     		text: "1.1班",
+                //     		value: "1-1"
+                //     	},
+                //     	{
+                //     		text: "1.2班",
+                //     		value: "1-2"
+                //     	}]
+                //     },
+                //     {
+                //     	text: "二年级",
+                //     	value: "2-0",
+                //     	children: [{
+                //     		text: "2.1班",
+                //     		value: "2-1"
+                //     	},
+                //     	{
+                //     		text: "2.2班",
+                //     		value: "2-2"
+                //     	}]
+                //     },
+                //     {
+                //     	text: "三年级",
+                //     	value: "3-0",
+                //     	disable: true
+                //     }]
+                // }
+            },
              
-             async changeWarehouse() {
+             async chooseWarehouse() {
                 this.$refs.picker.show()
              }
         },

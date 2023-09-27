@@ -2,6 +2,7 @@ export default {
     namespaced: true,
     state: ()=>({
         userinfo: JSON.parse(uni.getStorageSync('userinfo') || '{}'),
+        pickPointList: uni.getStorageSync('pickPointList'),
         openid: uni.getStorageSync('openid') || '',
         swiperList: JSON.parse(uni.getStorageSync('swiperList') || '[]'),
         token: uni.getStorageSync('token') || '',
@@ -11,6 +12,11 @@ export default {
     }),
     
     mutations:{
+        
+        updatePickPointList(state, pickPointList) {
+           state.pickPointList =  pickPointList
+           this.commit('m_user/savePickPointListToStorage')
+        },
         updateAddress(state, address) {
             state.address = address
             this.commit('m_user/saveAddressToStorage')
@@ -42,7 +48,9 @@ export default {
             
             this.commit('m_user/saveOpenidToStorage')
         },
-        
+        savePickPointListToStorage(state) {
+          uni.setStorageSync('pickPointList', state.pickPointList)    
+        },
         saveCodeToStorage(state) {
            uni.setStorageSync('code', state.code)   
         },
