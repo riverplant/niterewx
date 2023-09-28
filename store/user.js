@@ -2,14 +2,14 @@ export default {
     namespaced: true,
     state: ()=>({
         userinfo: JSON.parse(uni.getStorageSync('userinfo') || '{}'),
-        pickPointList: uni.getStorageSync('pickPointList') || [],
+        pickPointList: JSON.parse(uni.getStorageSync('pickPointList') || '[]'),
         openid: uni.getStorageSync('openid') || '',
         swiperList: JSON.parse(uni.getStorageSync('swiperList') || '[]'),
         token: uni.getStorageSync('token') || '',
         code: uni.getStorageSync('code') || '',
         address: JSON.parse(uni.getStorageSync('address') || '{}'),
         role: uni.getStorageSync('role') || 0,
-        pickPoint: uni.getStorageSync('pickPointList' || '{}'),
+        pickPoint: JSON.parse(uni.getStorageSync('pickPoint') || '{}'), 
     }),
     
     mutations:{
@@ -56,10 +56,10 @@ export default {
         },
         
         savepickPointToStorage(state) {
-            uni.setStorageSync('pickPoint', state.pickPoint) 
+            uni.setStorageSync('pickPoint', JSON.stringify(state.pickPoint)) 
         },
         savePickPointListToStorage(state) {
-          uni.setStorageSync('pickPointList', state.pickPointList)    
+          uni.setStorageSync('pickPointList', JSON.stringify(state.pickPointList))    
         },
         saveCodeToStorage(state) {
            uni.setStorageSync('code', state.code)   

@@ -17,7 +17,7 @@
             };
         },
         methods: {
-            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken']),
+            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken','updateAddress']),
            ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse']),
             //用户授权之后，获取用户的基础信息
             getUserInfo(e) {
@@ -36,12 +36,12 @@
                    'js_code': res.code,
                    'gender': info.gender
                 }
-            // const { data:result } =   await uni.$http.get('http://127.0.0.1:8080/wx/users/login', query );
-            //   if( result.status !== 200 ) return uni.$showMsg()     
-            //   this.updateToken(result.data.token)
-            //   this.updateOpenid(result.data.openid)
-              this.updateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiMyIsInVzZXJOYW1lIjoi5b6u5L-h55So5oi3IiwidXNlcklkIjoibmh0X2FjZGM4NmVhLTY3OGEtNDkzNi1iOTY5LTE3ZTA1NmExZDVjZCIsImV4cCI6MTY5NTkzMTQzMn0.eW2B-I0QmpZ4C98phhhqm_WJVPixlq0UrWs2gIYXSgY')
-              this.updateOpenid('oXvys4l2x1V5ed82mi7fOD0Np9XM')
+            const { data:result } =   await uni.$http.get('https://13bc-184-162-136-202.ngrok.io/wx/users/login', query );
+              if( result.status !== 200 ) return uni.$showMsg()     
+              this.updateToken(result.data.token)
+              this.updateOpenid(result.data.openid)
+              this.updateAddress(result.data.address)
+ 
             //获取后台返回的token,保存到storage中
             uni.$showMsg('登录成功!')
             }         

@@ -46,7 +46,7 @@
                 this.initOrderList()
             },  
             // async  initOrders() {
-            //     const {data:res} = await  uni.$http.get('http://127.0.0.1:8080/wx/orders/getAllOrderList')  
+            //     const {data:res} = await  uni.$http.get('https://13bc-184-162-136-202.ngrok.io/wx/orders/getAllOrderList')   
             //    console.log('res.status:',res.status)
             //     if( res.status !== 200 ) return uni.$showMsg()
             //     console.log('initOrders:',res.data)
@@ -77,7 +77,7 @@
                   {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": 50.25, "pLong":"22.02", "pWidth":"15.02",
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
                   {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": 43.25, "pLong":"22.02", "pWidth":"15.02",
-                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
+                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true}, 
                   {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": 40.25, "pLong":"22.02", "pWidth":"15.02",
                   "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
                   {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": 60.00, "pLong":"22.02", "pWidth":"15.02",

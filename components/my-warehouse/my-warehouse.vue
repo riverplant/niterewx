@@ -34,19 +34,30 @@
         data() {
             return {
                dataTree:[],
-               node:'verdun'
+               node:''
             }
         },
         computed: {
-            ...mapState('m_user', ['userinfo', 'pickPointList', 'pickPoint', 'code']), 
+            ...mapState('m_user', ['userinfo', 'pickPointList', 'pickPoint', 'code', 'openid']), 
         },
         methods: {
             ...mapMutations('m_user',['updatePickPointList', 'updatePickPoint', 'updateCode']),
             onchange(e) {
                 const value = e.detail.value
+                console.log('value:',value)
                 this.node = value[value.length - 1].value
-                this.updateCode(this.node + Math.floor(Math.random() * 1000000))
             },
+            
+            async updateWarehouse() { 
+                const param = {
+                    openid: this.openid,
+                    pid: value[value.length - 1].value
+                }
+                const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/createWarehouse', param );
+                  if( result.status !== 200 ) return uni.$showMsg()  
+                    this.updateCode(result.data.code)
+                    this.updatePickPoint(result.data.ppName)
+            } 
            
         },   
     }
