@@ -78,7 +78,7 @@
            <view class="panel">
                 <navigator  :url="'/subpkg/address/address'">
                     <view class="panel-list-item">
-                         <text>配置收货地址</text>
+                         <text>完善個人信息</text>
                               <uni-icons type="arrowright" size="15"></uni-icons> 
                     </view> 
                 </navigator>

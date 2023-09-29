@@ -8,7 +8,7 @@ export default {
         token: uni.getStorageSync('token') || '',
         code: uni.getStorageSync('code') || '',
         address: JSON.parse(uni.getStorageSync('address') || '{}'),
-        role: uni.getStorageSync('role') || 0,
+        role: uni.getStorageSync('role') || 0, 
         pickPoint: JSON.parse(uni.getStorageSync('pickPoint') || '{}'), 
     }),
     

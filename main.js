@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import {$http} from '@escook/request-miniprogram'
 import store from '@/store/store.js'
+import vueGoogleAutocomplete from 'vue-google-autocomplete'
 
 
 uni.$http = $http
@@ -38,7 +39,8 @@ App.mpType = 'app'
 
 const app = new Vue({
     ...App,
-    store
+    store,
+    vueGoogleAutocomplete
 })
 app.$mount()
 // #endif

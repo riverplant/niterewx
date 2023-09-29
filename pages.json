@@ -1,4 +1,9 @@
 {
+    "vue-google-autocomplete" : [ {
+            "path": "vue-google-autocomplete/VueGoogleAutocomplete",
+            "style": {}
+        }],
+    
     "pages": [
         {
             "path": "pages/userInfo/userInfo",
@@ -73,6 +78,15 @@
                 }
                 ,{
                     "path" : "warehouse/warehouse",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "adress_form/adress_form",
                     "style" :                                                                                    
                 {
                     "navigationBarTitleText": "",

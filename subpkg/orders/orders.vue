@@ -118,17 +118,17 @@
            }
           
       
-          if(this.code !== '')  {
-              if(this.kw === '') {
-                 this.searchResults = this.searchResultsBak 
-              }else {
-                 this.searchResults = this.searchResults.filter(function (item) { return item.id.indexOf(this.kw)>-1; });     
-              }
-              this.isloading = false      
-              //调用回调函数
-              cb && cb()
-              this.total = this.searchResults.length
-          }             
+          // if(this.code !== '')  {
+          //     if(this.kw === '') {
+          //        this.searchResults = this.searchResultsBak 
+          //     }else {
+          //        this.searchResults = this.searchResults.filter(function (item) { return item.id.indexOf(this.kw)>-1; });     
+          //     }
+          //     this.isloading = false      
+          //     //调用回调函数
+          //     cb && cb()
+          //     this.total = this.searchResults.length
+          // }             
      },
      gotoDetail(item) {
          uni.navigateTo({

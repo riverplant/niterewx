@@ -36,7 +36,8 @@
                    'js_code': res.code,
                    'gender': info.gender
                 }
-            const { data:result } =   await uni.$http.get('https://13bc-184-162-136-202.ngrok.io/wx/users/login', query );
+                
+            const { data:result } =   await uni.$http.get('http://127.0.0.1:8080/wx/users/login', query );
               if( result.status !== 200 ) return uni.$showMsg()     
               this.updateToken(result.data.token)
               this.updateOpenid(result.data.openid)

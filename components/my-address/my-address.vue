@@ -1,12 +1,13 @@
 <template>
     <view>
+        <view class="address-choose-box" >
         <!--选择收获地址得盒子-->
-        <view class="address-choose-box" v-if="JSON.stringify(address) === '{}'">
-           <button type="primary" size="mini" class="btnChooseAddress" @click="chooseAddress">请选择收获地址+</button> 
-        </view>
-        
+        <navigator class="panel-item" :url="'/subpkg/adress_form/adress_form'">
+         <text class="button-text">请完善您的個人信息+</text>   
+        </navigator>
+        </view>     
         <!--渲染收货信息得盒子-->
-       <view class="address-info-box" v-else  @click="chooseAddress">
+<!--       <view class="address-info-box" v-else  @click="inputDialogToggle">
            <view class="row1">
               <view class="row1-left">
                   <view class="username"> 收货人: {{address.userName}}</view>
@@ -18,12 +19,11 @@
            </view>
            <view class="row2">
               <view class="row2-left">收货地址: </view>
-              <view class="row2-right">{{addstr}} </view>  
-           </view>
+            <!--  <view class="row2-right">{{addstr}} </view>  -->
+    <!--       </view> 
            
-       </view>
-       <!--底部-->
-        <image src="/static/cart_border@2x.png" class="address-border"></image>
+       </view> -->
+       
     </view>
 </template>
 
@@ -35,32 +35,33 @@
             return {
             };
         },
+        
+        onShow() {
+            console.log('address:', JSON.stringify(address))
+             console.log(JSON.stringify(address) === '{}')
+        },
         methods: {
             ...mapMutations('m_user',['updateAddress']),
-            async chooseAddress() {
-                const[err, succ] = await uni.chooseAddress().catch(err => err)                
-                if(err === null && succ.errMsg === 'chooseAddress:ok') {
-                   console.log('succ:',succ)
-                    this.address = succ
-                    this.updateAddress(succ)
-                }else {
-                     console.log('err:',err)
-                }
-            }
+            // async chooseAddress() {
+            //     const[err, succ] = await uni.chooseAddress().catch(err => err)                
+            //     if(err === null && succ.errMsg === 'chooseAddress:ok') {
+            //        console.log('succ:',succ)
+            //         this.address = succ
+            //         this.updateAddress(succ)
+            //     }else {
+            //          console.log('err:',err)
+            //     }
+            // }
+            
         },
         computed: {
-            ...mapState('m_user',['address']),
-            ...mapGetters('m_user',['addstr'])
+            ...mapState('m_user',['address']) 
+           
         }
     }
 </script>
 
 <style lang="scss">
-.address-border{
-    display: block;
-    width: 100%;
-    height: 5px;
-}
 .address-choose-box {
     height: 90px;
     display: flex;

@@ -2,6 +2,7 @@
   "dependencies": {
     "@escook/request-miniprogram": "^0.2.1",
     "@fawmi/vue-google-maps": "^0.9.79",
+    "async-validator": "^4.2.5",
     "vue-google-autocomplete": "^1.1.4"
   },
   "name": "niteredemo",
