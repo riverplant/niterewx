@@ -85,8 +85,8 @@ export default {
     },
     getters:{
         addstr(state) {
-            if(!state.address.provinceName) return ''
-            return state.address.provinceName + state.address.cityName + state.address.countyName + state.address.detailInfo
+            if(!state.address.formatted_address) return ''
+            return state.address.formatted_address
         }
     },
 }

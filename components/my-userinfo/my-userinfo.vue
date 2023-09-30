@@ -13,11 +13,11 @@
          <view class="panel">
              <view class="panel-body">
                  <view class="panel-item">
-                     <text>001</text>
+                     <text>{{code}}</text>
                      <text>我的提货码</text>  
                  </view>
                  <view class="panel-item">
-                     <text>南岸</text>
+                     <text>{{pickPoint}}</text>
                      <text>我的送货分区</text>  
                  </view>
                  <view class="panel-item">
@@ -110,7 +110,7 @@
         },
 
         computed: {
-            ...mapState('m_user', ['userinfo', 'swiperList']),
+            ...mapState('m_user', ['userinfo', 'swiperList','code', 'pickPoint']),
             ...mapGetters('m_order', ['checkedCount', 'count', 'ordersNonValideTotal'])
         }
     }

@@ -1,28 +1,29 @@
 <template>
     <view>
-        <view class="address-choose-box" >
+        <view class="address-choose-box" v-if="this.userinfo.formatted_address === ''">
         <!--选择收获地址得盒子-->
         <navigator class="panel-item" :url="'/subpkg/adress_form/adress_form'">
-         <text class="button-text">请完善您的個人信息+</text>   
+         <text class="button-text">點擊完善您的個人信息+</text>   
         </navigator>
         </view>     
         <!--渲染收货信息得盒子-->
-<!--       <view class="address-info-box" v-else  @click="inputDialogToggle">
+    <view class="address-info-box" v-else >
+         <navigator class="panel-item" :url="'/subpkg/adress_form/adress_form?uinfo='+JSON.stringify(this.userinfo)">
            <view class="row1">
               <view class="row1-left">
-                  <view class="username"> 收货人: {{address.userName}}</view>
+                  <view class="username"> 收货人: {{userinfo.userName}}</view>
               </view> 
               <view class="row1-right">
-                   <view class="phone"> 电话: {{address.telNumber}}</view>
+                   <view class="phone"> 电话: {{userinfo.mobile}}</view>
                    <uni-icons type="arrowright" size="16"></uni-icons>
               </view> 
            </view>
            <view class="row2">
               <view class="row2-left">收货地址: </view>
-            <!--  <view class="row2-right">{{addstr}} </view>  -->
-    <!--       </view> 
-           
-       </view> -->
+            <view class="row2-right">{{address}} </view>  
+       </view> 
+       </navigator>     
+       </view> 
        
     </view>
 </template>
@@ -55,7 +56,7 @@
             
         },
         computed: {
-            ...mapState('m_user',['address']) 
+            ...mapState('m_user',['address','userinfo']) 
            
         }
     }

@@ -4,19 +4,23 @@
 			<view class="address-form-containe">
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData">
+                    <uni-forms-item label="用戶名" required name="userName">
+                    	<uni-easyinput v-model="dynamicFormData.userName" placeholder="请输入用戶名" />
+                    </uni-forms-item>
                     <uni-forms-item label="微信號" required name="wxnumber">
                     	<uni-easyinput v-model="dynamicFormData.wxnumber" placeholder="请输入微信號" />
                     </uni-forms-item>
 					<uni-forms-item label="邮箱" required name="email">
 						<uni-easyinput v-model="dynamicFormData.email" placeholder="请输入邮箱地址" />
 					</uni-forms-item>
-                    <uni-forms-item label="電話號碼" required name="phone">
-                    	<uni-easyinput v-model="dynamicFormData.phone" placeholder="请输入電話號碼" />
+                    <uni-forms-item label="電話號碼" required name="mobile">
+                    	<uni-easyinput v-model="dynamicFormData.mobile" placeholder="请输入電話號碼" />
                     </uni-forms-item>
                     <uni-forms-item label="家庭地址" required >
+
                         <view class="uni-forms-item__content">
-                         <input-autocomplete class="uni-easyinput" :min=1  placeholder="请输入家庭地址" @input="handleInput"  :value="testObj.sname"
-                         v-model="testObj.sname" highlightColor="#FF0000" :stringList="autocompleteStringList" v-on:selectItem="selectItemS"></input-autocomplete>
+                         <input-autocomplete class="uni-easyinput" :min=1  placeholder="请输入家庭地址" @input="handleInput"   :value="testObj.sname"
+                              v-model="testObj.sname" highlightColor="#FF0000" :stringList="autocompleteStringList" v-on:selectItem="selectItemS"></input-autocomplete>
                         </view>
                        
                     </uni-forms-item>
@@ -32,6 +36,7 @@
 
 <script>
     import inputAutocomplete from '@/components/address-autocomplete/address-autocomplete.vue'
+    import { mapState,mapMutations, mapGetters } from 'vuex'
 	export default {
         components: {inputAutocomplete}, 
 		data() {
@@ -39,15 +44,14 @@
                 timer: null,
                 kw: '',
 				dynamicFormData: {
-                    wxnumber: '',
+                    wxnumber:  '',
 					email: '',
-                    phone: '',
-					address: {
-                        province: '',
-                        city: '',
-                        countyName: '',
-                        formatted_address: ''
-                    }
+                    mobile:  '',
+                    place_id:  '',
+                    formatted_address:  '',
+                    userName:  '',
+                    openId: ''
+					
 				},
 
                 testObj: {
@@ -56,7 +60,7 @@
                 },
                 autocompleteStringList: [],
 				dynamicRules: {
-                    phone: {
+                    mobile: {
                     	rules: [{
                     		format: 'number',
                     		errorMessage: '電話號碼只能输入数字'
@@ -75,18 +79,37 @@
 			}
 		},
 
-		onLoad() {},
+		onLoad(e) {
+            console.log('e:',e)
+           let uinfo = JSON.parse(e.uinfo)
+            if(uinfo !== null || uinfo !== {}) {
+                if(uinfo.userName)
+                this.dynamicFormData.userName = uinfo.userName
+                if(uinfo.wxnumber)
+                 this.dynamicFormData.wxnumber = uinfo.wxnumber
+                 if(uinfo.email)
+                  this.dynamicFormData.email = uinfo.email
+                  if(uinfo.mobile)
+                   this.dynamicFormData.mobile = uinfo.mobile
+                   if(uinfo.formatted_address)
+                    this.testObj.sname = uinfo.formatted_address
+                  
+
+            }
+            },
 		
 		methods: {
+            ...mapMutations('m_user',['updateAddress', 'updateUserInfo']),
             //响应选择事件，接收选中的数据
             selectItemD(data) {
-            	//选择事件
-            	//【重要！！！】v1.0.12以后，选中的数据格式发生了变化，新版本中选中的数据的格式为：{'selectItem':选中的数据,'param':传入组件的自定义参数}
             	console.log('收到数据了:', data);
             },
             selectItemS(data) {
             	//选择事件
             	console.log('收到数据了:', data);
+               let item = data.selectItem
+               this.dynamicFormData.place_id = item.key
+               this.dynamicFormData.formatted_address = item.text
             },
             
             handleInput(res) {
@@ -98,9 +121,9 @@
             },
             
            async getAutocompleteStringList() {
-                if(this.kw === '') {
+               this.autocompleteStringList = []
+                if(this.kw !== '') {
                    this.autocompleteStringList = []
-                 }else {
                    const param = {
                        str: this.kw
                    }
@@ -114,21 +137,36 @@
             },
  
 			onClickItem(e) {
-				console.log(e);
-				this.current = e.currentIndex
+				console.log("address:",e);
+				
 			},
 
 			submit(ref) {
 				this.$refs[ref].validate().then(res => {
-					console.log('success', res);
-					uni.showToast({
-						title: `校验通过`
-					})
+                  console.log('dynamicFormData:', this.dynamicFormData)
+                  this.dynamicFormData.openId = this.openid 
+                  this.updateUserInfos()
 				}).catch(err => {
 					console.log('err', err);
 				})
 			},
-		}
+            async updateUserInfos() {
+              const {
+                  data: userInfoRes
+              } = await uni.$http.put('http://127.0.0.1:8080/wx/users/updateUserInfo', this.dynamicFormData)  
+               if (userInfoRes.status != 200) return uni.$showMsg('更新用戶信息失败!')
+               this.updateAddress(this.dynamicFormData.formatted_address)
+               this.updateUserInfo(userInfoRes.data)
+               
+              uni.navigateTo({
+                  url: '/pages/userInfo/userInfo'
+              })
+            }
+            
+		},
+        computed: {
+            ...mapState('m_user',['address','openid', 'userinfo']) 
+        }
 	}
 </script>
 

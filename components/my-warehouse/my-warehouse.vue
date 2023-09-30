@@ -9,7 +9,7 @@
                   <view class="username"> 收货碼: {{code}}</view>
               </view> 
               <view class="row1-right">
-                  <button  type="primary" size="mini"  @click="updateWarehose">申請修改倉庫+</button> 
+                  <button  type="primary" size="mini"  @click="updateWarehouse">申請修改倉庫+</button> 
               </view> 
            </view>
            <view class="row2">
@@ -48,10 +48,10 @@
                 this.node = value[value.length - 1].value
             },
             
-            async updateWarehouse() { 
+            async updateWarehose() { 
                 const param = {
                     openid: this.openid,
-                    pid: value[value.length - 1].value
+                    pid:  this.node
                 }
                 const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/createWarehouse', param );
                   if( result.status !== 200 ) return uni.$showMsg()  
