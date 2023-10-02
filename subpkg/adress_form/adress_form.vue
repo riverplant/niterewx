@@ -145,6 +145,7 @@
 				this.$refs[ref].validate().then(res => {
                   console.log('dynamicFormData:', this.dynamicFormData)
                   this.dynamicFormData.openId = this.openid 
+                   this.dynamicFormData.formatted_address = this.testObj.sname
                   this.updateUserInfos()
 				}).catch(err => {
 					console.log('err', err);
@@ -158,9 +159,9 @@
                this.updateAddress(this.dynamicFormData.formatted_address)
                this.updateUserInfo(userInfoRes.data)
                
-              uni.navigateTo({
-                  url: '/pages/userInfo/userInfo'
-              })
+             uni.navigateBack({
+                 delta: 1
+             });
             }
             
 		},

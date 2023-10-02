@@ -116,30 +116,30 @@
 
             },
 
-            {
-                    "pagePath": "pages/package/package",
-                    "text": "包裹管理",
-                    "iconPath": "static/c1.png"
+            // {
+            //         "pagePath": "pages/package/package",
+            //         "text": "包裹管理",
+            //         "iconPath": "static/c1.png"
             
-                },
+            //     },
                 {
                     "pagePath": "pages/claim/claim",
                     "text": "认领请求",
                     "iconPath": "static/c1.png"
             
-                },
-                {
-                    "pagePath": "pages/box/box",
-                    "text": "装箱",
-                    "iconPath": "static/c1.png"
-            
-                },
-                {
-                    "pagePath": "pages/cabinet/cabinet",
-                    "text": "装柜",
-                    "iconPath": "static/c1.png"
-                            
                 }
+            //     {
+            //         "pagePath": "pages/box/box",
+            //         "text": "装箱",
+            //         "iconPath": "static/c1.png"
+            
+            //     },
+            //     {
+            //         "pagePath": "pages/cabinet/cabinet",
+            //         "text": "装柜",
+            //         "iconPath": "static/c1.png"
+                            
+            //     }
            
         ]
     }
