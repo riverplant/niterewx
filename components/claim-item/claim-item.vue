@@ -59,10 +59,6 @@
         },
         methods: {
             radioChangeHandler() {
-                console.log(this.order.id)
-                console.log(this.order.state)
-                
-
                 this.$emit('radio-change', {
                    id: this.order.id,
                    state: !this.order.state

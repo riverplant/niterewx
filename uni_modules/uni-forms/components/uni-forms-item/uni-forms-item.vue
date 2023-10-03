@@ -128,7 +128,7 @@
 				errMsg: '',
 				userRules: null,
 				localLabelAlign: 'left',
-				localLabelWidth: '65px',
+				localLabelWidth: '265px',
 				localLabelPos: 'left',
 				border: false,
 				isFirstBorder: false,
@@ -413,7 +413,7 @@
 				// 	const {
 				// 		labelWidth
 				// 	} = this.form
-				return this.num2px(this.labelWidth ? this.labelWidth : (labelWidth || (this.label ? 65 : 'auto')))
+				return this.num2px(this.labelWidth ? this.labelWidth : (labelWidth || (this.label ? 265 : 'auto')))
 				// }
 				// return '65px'
 			},

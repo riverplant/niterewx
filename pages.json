@@ -94,6 +94,15 @@
                 }
                 
                 }
+                ,{
+                    "path" : "claim_form/claim_form",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
       }  
     ],

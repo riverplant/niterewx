@@ -8,7 +8,7 @@
                <!--左侧得图标-->
                 <uni-icons type="shop" size="18"></uni-icons>
                <!--右侧得文本-->
-               <text class="claim-title-text">{{title}}订单</text>
+               <text class="claim-title-text">包裹認領</text>
            </view>
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
@@ -18,7 +18,7 @@
              </block>
          </uni-swipe-action>
          <!--自定义结算组件-->
-         <my-settle :show="isShow"></my-settle>
+         <my-claim-button></my-claim-button> 
     </view>
 </template>
 
