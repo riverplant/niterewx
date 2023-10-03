@@ -44,7 +44,6 @@
             ...mapMutations('m_user',['updatePickPointList', 'updatePickPoint', 'updateCode']),
             onchange(e) {
                 const value = e.detail.value
-                console.log('value:',value)
                 this.node = value[value.length - 1].value
             },
             

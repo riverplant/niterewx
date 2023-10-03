@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<uni-section title="动态表单" type="line">
+		<uni-section  type="line">
 			<view class="address-form-containe">
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">

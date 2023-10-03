@@ -1,6 +1,6 @@
 <template>
     <view>
-        package
+      <create-order></create-order>
     </view>
 </template>
 

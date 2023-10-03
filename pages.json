@@ -55,6 +55,7 @@
             }
             
         }
+
     ],
     "subPackages": [
       {
@@ -112,6 +113,15 @@
                 }
                 
                 }
+                ,{
+                    "path" : "order_form/order_form",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
       }  
     ],
@@ -135,12 +145,12 @@
 
             },
 
-            // {
-            //         "pagePath": "pages/package/package",
-            //         "text": "包裹管理",
-            //         "iconPath": "static/c1.png"
+             {
+                     "pagePath": "pages/package/package",
+                     "text": "包裹管理",
+                     "iconPath": "static/c1.png"
             
-            //     },
+                },
                 {
                     "pagePath": "pages/claim/claim",
                     "text": "认领请求",
