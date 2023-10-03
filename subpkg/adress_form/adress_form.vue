@@ -3,7 +3,7 @@
 		<uni-section title="动态表单" type="line">
 			<view class="address-form-containe">
 				<!-- 动态表单校验 -->
-				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData">
+				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
                     <uni-forms-item label="用戶名" required name="userName">
                     	<uni-easyinput v-model="dynamicFormData.userName" placeholder="请输入用戶名" />
                     </uni-forms-item>
