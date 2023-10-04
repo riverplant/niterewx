@@ -23,9 +23,9 @@
                     <view class="order-item-sub-left">
 						<image :src="defaultMsgPic" class="order-item-sub-icon"></image>
 					</view>
-					<wiew class="order-item-sub-right">
+					<view class="order-item-sub-right">
 						{{order.msg}}
-					</wiew>
+					</view>
                 </view>
             </view>
         </view>
