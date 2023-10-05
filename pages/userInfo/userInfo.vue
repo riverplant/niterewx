@@ -17,6 +17,7 @@
     export default {
         data() {
             return {
+                orderList:[],
        ordersNonValide: [],
        ordersNonPayer: [],
        ordersNonLivrer: [],
@@ -35,65 +36,39 @@
         },
         methods: {
             ...mapMutations('m_user',['updateSwiperList']),
-            ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse']),
+            ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse', 'updateOrderList']),
             
             async  initSwiperDate() {
                const { data:result } =  await uni.$http.get('https://www.uinav.com/api/public/v1/home/swiperdata')
                 if( result.meta.status !== 200 ) return uni.$showMsg()  
                 console.log('swiperdata:',result.message)
                this.updateSwiperList(result.message)  
-               // this.initOrders()
-                this.initOrderList()
+                this.initOrders()
+               // this.initOrderList()
             },  
-            // async  initOrders() {
-            //     const {data:res} = await  uni.$http.get('https://13bc-184-162-136-202.ngrok.io/wx/orders/getAllOrderList')   
-            //    console.log('res.status:',res.status)
-            //     if( res.status !== 200 ) return uni.$showMsg()
-            //     console.log('initOrders:',res.data)
+            async  initOrders() {
+                const {data:res} = await  uni.$http.get('http://127.0.0.1:8080/wx/orders/getAllOrderList')   
+               console.log('res.status:',res.status)
+                if( res.status !== 200 ) return uni.$showMsg()
+                this.orderList = res.data
+               this.updateOrderList(res.data)
               
-            //   this.initOrderList(res)  
+              this.initOrderList()  
              
-            //   },
+              },
               
               initOrderList() {
-                  // for (let i = 0; i < res.data.length; i++) {
-                  // 	if (res.data[i].orderStatus === 2) {
-                  // 		this.ordersNonValide.push(res.data[i])
-                  // 	}else if(res.data[i].payStatus === 10) {
-                  //         this.ordersNonPayer.push(res.data[i])
-                  //     }else if(res.data[i].payStatus === 20 ) {
-                  //         this.ordersNonLivrer.push(res.data[i])
-                  //     }else {
-                  //         this.ordersRembourse.push(res.data[i])
-                  //     }
-                  // }
-                 // this.setOrdersNonValide(this.ordersNonValide)
-                 
-                 this.ordersNonPayer = [
-                  {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": 51, "pLong":"22.02", "pWidth":"15.02",
-                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-                  {"id":"002","catName":"一般商品","trackingNumber":"000000002","price": 55.23, "pLong":"22.02", "pWidth":"15.02",
-                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": false},
-                  {"id":"003","catName":"一般商品","trackingNumber":"000000003","price": 50.25, "pLong":"22.02", "pWidth":"15.02",
-                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-                  {"id":"004","catName":"一般商品","trackingNumber":"000000004","price": 43.25, "pLong":"22.02", "pWidth":"15.02",
-                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true}, 
-                  {"id":"005","catName":"一般商品","trackingNumber":"000000005","price": 40.25, "pLong":"22.02", "pWidth":"15.02",
-                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-                  {"id":"006","catName":"一般商品","trackingNumber":"000000006","price": 60.00, "pLong":"22.02", "pWidth":"15.02",
-                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true}
-                   ]
-                   
-                   this.ordersNonValide = [ 
-                       {"id":"007","catName":"一般商品","trackingNumber":"000000001","msg": "没有提货码", "pLong":"22.02", "pWidth":"15.02",
-                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
-                  {"id":"008","catName":"一般商品","trackingNumber":"000000002","msg": "商品类型与实际商品不符", "pLong":"22.02", "pWidth":"15.02",
-                  "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": false}
-                  ]
-                  this.setOrdersNonPayer( this.ordersNonPayer )
-                  this.setOrdersNonValide( this.ordersNonValide )
-                  // this.setOrdersNonLivrer(this.ordersNonLivrer)
-                  // this.setOrdersRembouse(this.ordersRembourse)
+                  console.log('ordrelist:', this.orderList )
+                  this.ordersNonValide = this.orderList.filter( x => x.orderStatus === 2 )
+                 this.setOrdersNonValide( this.ordersNonValide )
+                 this.ordersNonPayer = this.orderList.filter( x =>  x.orderStatus === 1 )
+                 console.log('ordersNonPayer:',  this.ordersNonPayer)
+                 this.setOrdersNonPayer( this.ordersNonPayer ) 
+                 this.ordersNonLivrer = this.orderList.filter( x => x.payStatus === 20  )
+                 this.setOrdersNonLivrer( this.ordersNonLivrer )
+                 this.ordersRembourse = this.orderList.filter( x => x.payStatus === 40 )
+                 this.setOrdersRembouse( this.ordersRembourse )
+
               }
         }
     }

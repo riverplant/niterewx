@@ -1,7 +1,7 @@
 <template>
     <view>
         <view class="warehouse-choose-box" v-if="code == ''">
-         <button type="primary" size="mini" class="btnChooseAddress" @click="updateWarehose">創建倉庫+</button> 	
+         <button type="primary" size="mini" class="btnChooseAddress" @click="createWarehouse">創建倉庫+</button> 	
          </view>
        <view class="warehouse-info-box" v-else >
            <view class="row1">
@@ -47,7 +47,7 @@
                 this.node = value[value.length - 1].value
             },
             
-            async updateWarehose() { 
+            async createWarehouse() { 
                 const param = {
                     openid: this.openid,
                     pid:  this.node
@@ -56,7 +56,24 @@
                   if( result.status !== 200 ) return uni.$showMsg()  
                     this.updateCode(result.data.code)
                     this.updatePickPoint(result.data.ppName)
-            } 
+                    uni.navigateBack({
+                        delta: 1
+                    });
+            },
+            
+            async updateWarehouse() {
+                const param = {
+                    openid: this.openid,
+                    pid:  this.node
+                }
+                const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/createWarehouse', param );
+                  if( result.status !== 200 ) return uni.$showMsg()  
+                    uni.navigateBack({
+                        delta: 1
+                    });
+                    
+            },
+             
            
         },   
     }

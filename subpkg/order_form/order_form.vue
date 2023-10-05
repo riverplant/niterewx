@@ -17,24 +17,27 @@
 					<uni-forms-item label="顧客代碼" required name="code">
 						<uni-easyinput v-model="orderFormData.code" placeholder="请输入顧客代碼" />
 					</uni-forms-item>
-                    <uni-forms-item label="實測外包裝長 (cm)" required name="long">
-                    	<uni-easyinput v-model="orderFormData.long" placeholder="最多兩位小數" />
+                    <uni-forms-item label="實測外包裝長 (cm)" required name="pLong">
+                    	<uni-easyinput v-model="orderFormData.pLong" placeholder="最多兩位小數" />
                     </uni-forms-item>
-                    <uni-forms-item label="實測外包裝寬 (cm)" required name="width">
-                    	<uni-easyinput v-model="orderFormData.width" placeholder="最多兩位小數" />
+                    <uni-forms-item label="實測外包裝寬 (cm)" required name="pWidth">
+                    	<uni-easyinput v-model="orderFormData.pWidth" placeholder="最多兩位小數" />
                     </uni-forms-item>
-                    <uni-forms-item label="實測外包重量 (cm)" required name="height">
-                    	<uni-easyinput v-model="orderFormData.width" placeholder="最多兩位小數" />
+                    <uni-forms-item label="實測外包裝高 (cm)" required name="pHeight">
+                    	<uni-easyinput v-model="orderFormData.pHeight" placeholder="最多兩位小數" />
                     </uni-forms-item>
-                    <uni-forms-item label="選擇物品分類" required name="category">
-                    	<uni-data-picker placeholder="请选择選擇物品分類" popup-title="请选择選擇物品分類" :localdata="pickPointList"
+                    <uni-forms-item label="實測包裹重量 (kg)" required name="pWeight">
+                    	<uni-easyinput v-model="orderFormData.pWeight" placeholder="最多兩位小數" />
+                    </uni-forms-item>
+                    <uni-forms-item label="選擇物品分類" required name="catId">
+                    	<uni-data-picker placeholder="请选择選擇物品分類" popup-title="请选择選擇物品分類" :localdata="catList"
                     	    @change="onchange" >
                     	</uni-data-picker>
                     </uni-forms-item>
                     <uni-forms-item label="是否驗貨通過" required name="pass">
                         <radio-group @change="radioChange">
-                    	<label class="radio"><radio value="r1" checked="true" />选中</label>
-                    					<label class="radio"><radio value="r2" />未选中</label>
+                    	<label class="radio"><radio value="1" checked="true" />通過</label>
+                    					<label class="radio"><radio value="2" />未通過</label>
                         </radio-group>
                     </uni-forms-item>
                     
@@ -44,7 +47,7 @@
 				</uni-forms>
       
 				<view class="button-group">
-					<button type="primary" size="mini" @click="submit('dynamicForm')">提交</button>
+					<button type="primary" size="mini" @click="submit('orderFormData')">提交</button>
 				</view>
 			</view>
 		</uni-section>
@@ -63,16 +66,18 @@
                     trackingNumber:  '',
 					orderNumber: '',
                     code:  '',
-                    long:  '',
-                    width:  '',
-                    height: '',
-                    category: '',
+                    pLong:  '',
+                    pWidth:  '',
+                    pHeight: '',
+                    pWeight:'',
+                    catId: '',
                     pass:'',
-                    msg:''
+                    msg:'',
+                    orderStatus: 1
                     
 					
 				},
-
+            catList:[],
                 testObj: {
                 	sname: '',
                 	dname: '动态'
@@ -98,6 +103,8 @@
 		},
 
 		onLoad(e) {
+            console.log('catTree:', this.catTree.data)
+            this.catList = this.catTree.data
             console.log('e:',e)
             if(e && e.uinfo) {
                let uinfo = JSON.parse(e.uinfo)
@@ -122,7 +129,7 @@
             },
 		
 		methods: {
-            ...mapMutations('m_user',['updatecreate-order', 'updateUserInfo']),
+            ...mapMutations('m_order',['addToOrdersNonValide','addToOrdersNonPayer']),
             //响应选择事件，接收选中的数据
             selectItemD(data) {
             	console.log('收到数据了:', data);
@@ -142,7 +149,8 @@
            
             radioChange: function (e) {
                     console.log(e.detail.value)
-                    this.isShow = e.detail.value === 'r2' ? true : false
+                    this.orderFormData.orderStatus = e.detail.value === '2' ? 2 : 1
+                    this.isShow = e.detail.value === '2' ? true : false
             	},
             handleInput(res) {
               clearTimeout(this.timer)
@@ -158,13 +166,45 @@
 
 			submit(ref) {
 				this.$refs[ref].validate().then(res => {
-                  console.log('dynamicFormData:', this.dynamicFormData)
-                  this.dynamicFormData.openId = this.openid 
-                  this.updateUserInfos()
+                  console.log('orderFormData:', this.orderFormData)
+                 this.createOrder()
+                  
 				}).catch(err => {
 					console.log('err', err);
 				})
 			},
+            
+            async createOrder() {
+               const {
+                   data: orderRes
+               } = await uni.$http.post('http://127.0.0.1:8080/wx/orders/createOrder', this.orderFormData)  
+                if (orderRes.status != 200) return uni.$showMsg('更新用戶信息失败!') 
+                // {"id":"001","catName":"一般商品","trackingNumber":"000000001","price": 51, "pLong":"22.02", "pWidth":"15.02",
+                // "pHeight":"12.0", "pWeight":"0.66", "pWeightByVolume":"1.96", "state": true},
+                console.log('orderRes', orderRes)
+                let order = {
+                    "id": orderRes.data.id,
+                    "catName":  orderRes.data.catName,
+                    "trackingNumber": orderRes.data.trackingNumber,
+                    "price": orderRes.data.price,
+                    "pLong": orderRes.data.pLong,
+                    "pWidth": orderRes.data.pWidth,
+                    "pHeight": orderRes.data.pHeight,
+                    "pWeight": orderRes.data.pWeight,
+                    "pWeightByVolume": orderRes.data.pWeightByVolume,
+                    "state": orderRes.data.state,
+                    "orderStatus": orderRes.data.orderStatus
+                }
+                console.log('order:', order)
+                if(orderRes.data.orderStatus === 1)
+                this.addToOrdersNonPayer(order)
+                else
+                this.addToOrdersNonValide(order)
+               
+               uni.navigateBack({
+                   delta: 1
+               });
+            },
             async updateUserInfos() {
               const {
                   data: userInfoRes
@@ -176,11 +216,15 @@
              uni.navigateBack({
                  delta: 1
              });
-            }
+            },
+            onchange(e) {
+                const value = e.detail.value
+                this.orderFormData.catId = value[value.length - 1].value
+            },
             
 		},
         computed: {
-            ...mapState('m_user',['create-order','openid', 'userinfo']) 
+            ...mapState('m_order',['catTree']) 
         }
 	}
 </script>

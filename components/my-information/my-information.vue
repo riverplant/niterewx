@@ -1,5 +1,5 @@
 <template>
-	<view class="my-userinfo-container">
+	<view class="my-information-container">
 		<!-- 通知区域 -->
 		<image src="/static/information-notice.jpg" class="notice-image"></image>
 
@@ -88,11 +88,7 @@
 </template>
 
 <script>
-	import {
-		mapState,
-		mapMutations,
-		mapGetters
-	} from 'vuex'
+	
 	export default {
 		data() {
 			return {
@@ -101,10 +97,7 @@
 			};
 		},
 
-		computed: {
-			...mapState('m_user', ['userinfo', 'swiperList', 'code', 'pickPoint']),
-			...mapGetters('m_order', ['checkedCount', 'count', 'ordersNonValideTotal'])
-		}
+	
 	}
 </script>
 
@@ -116,7 +109,7 @@
 		align-items: center;
 		text-align: center;
 	}
-	.my-userinfo-container {
+	.my-information-container {
 		height: 100%;
 		background-color: #f4f4f4;
 

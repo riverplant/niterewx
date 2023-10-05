@@ -67,32 +67,12 @@
         },
         computed: {
             ...mapState('m_user', ['code']),
-             ...mapState('m_order', ['ordersNonValide','ordersNonPayer','ordersNonLivrer','ordersRembourse'])
+             ...mapState('m_order', ['ordersNonValide','ordersNonPayer','ordersNonLivrer','ordersRembourse', 'orderList'])
         },
-        onLoad(e) {
-             this.type = e.type
-             if(this.type === '1') {
-               this.searchResults = this.ordersNonValide
-               this.title = "支付未通过"
-                this.isShowPriceAndRadio = false
-                this.isShowMsg = true
-             }else if(this.type === '2') {
-                     this.searchResults = this.ordersNonPayer
-                     this.title = "未支付"
-                     this.isShowPriceAndRadio = true
-                     this.isShow = true
-                 }else if(this.type === '3') {
-                     this.searchResults = this.ordersNonLivrer
-                      this.title = "已支付未发货"
-                       this.isShowPriceAndRadio = false
-                 }else {
-                    this.searchResults = this.ordersRembourse 
-                     this.title = "支付失败/退款/退货" 
-                       this.isShowPriceAndRadio = false
-                 } 
-            
+        onLoad() {
             const sysInfo =  uni.getSystemInfoSync()
             this.wh = sysInfo.windowHeight - 50
+            this.searchResults = this.orderList
             this.searchResultsBak = this.searchResults
         },
         methods: {    

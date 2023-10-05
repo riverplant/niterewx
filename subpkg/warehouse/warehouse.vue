@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import { mapState,mapMutations, mapGetters } from 'vuex'
+    import { mapMutations, mapGetters } from 'vuex'
     export default {
         data() {
             return {
@@ -23,10 +23,8 @@
                  console.log('res:', res.data)
                  this.updatePickPointList(res.data)
             }
-        },
-        computed: {
-            ...mapState('m_user',['userinfo'])
         }
+       
     }
 </script>
 

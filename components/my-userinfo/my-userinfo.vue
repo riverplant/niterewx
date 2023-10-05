@@ -17,15 +17,15 @@
                      <text>我的提货码</text>  
                  </view>
                  <view class="panel-item">
-                     <text>{{pickPoint}}</text>
+                     <text>{{pickPoint}} </text>
                      <text>我的送货分区</text>  
                  </view>
                  <view class="panel-item">
-                     <text>64</text>
+                     <text>{{orderCount}}</text>
                      <text>我的总订单数</text>  
                  </view>
                  <view class="panel-item">
-                     <text>824$</text>
+                     <text>尚未完成支付</text>
                      <text>我的总支付金额</text>  
                  </view>
                  
@@ -112,7 +112,7 @@
 
         computed: {
             ...mapState('m_user', ['userinfo', 'swiperList','code', 'pickPoint']),
-            ...mapGetters('m_order', ['checkedCount', 'count', 'ordersNonValideTotal'])
+            ...mapGetters('m_order', ['checkedCount', 'count', 'ordersNonValideTotal', 'orderCount'])
         }
     }
 </script>

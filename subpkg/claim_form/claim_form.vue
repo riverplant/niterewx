@@ -128,7 +128,7 @@
                                          trackingNumber: this.claimFormData.orderNumber  
                                      },
                                      success: (res) => {
-                                          uni.showLoading()
+                                          //uni.showLoading()
                                           
                                         console.log(res)
                                        

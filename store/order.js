@@ -8,11 +8,24 @@ export default {
        ordersNonValide: JSON.parse(uni.getStorageSync('ordersNonValide') || '[]'),
        ordersNonPayer: JSON.parse(uni.getStorageSync('ordersNonPayer') || '[]'),
        ordersNonLivrer: JSON.parse(uni.getStorageSync('ordersNonLivrer') || '[]'),
-       ordersRembourse: JSON.parse(uni.getStorageSync('ordersRembourse') || '[]')
-
+       ordersRembourse: JSON.parse(uni.getStorageSync('ordersRembourse') || '[]'),
+       orderList: JSON.parse(uni.getStorageSync('orderList') || '[]'),
+       catTree:  JSON.parse(uni.getStorageSync('catTree') || '[]')
     }),
     
     mutations:{
+        updateOrderList(state, orderList) {
+            state.orderList = orderList
+            this.commit('m_order/saveOrderListToStorage')
+        },
+        
+        saveOrderListToStorage(state) {
+            uni.setStorageSync('orderList', JSON.stringify(state.orderList))
+        },
+        updateCatTree(state, catTree) {
+            state.catTree = catTree
+            this.commit('m_order/saveCatTreeToStorage')
+        },
         // 更新所有的勾选状态
         updateAllOrdersState(state, newState) {
            state.ordersNonPayer.forEach(x => x.state = newState) 
@@ -41,6 +54,9 @@ export default {
                this.commit('m_order/saveOrdersNonValideToStorage')
         },
         
+        saveCatTreeToStorage(state) {
+             uni.setStorageSync('catTree', JSON.stringify(state.catTree))
+        },
         saveOrdersNonValideToStorage(state) {
             uni.setStorageSync('ordersNonValide', JSON.stringify(state.ordersNonValide))
         },
@@ -101,6 +117,7 @@ export default {
             console.log('checkedCount:',checkedCount)
             return checkedCount
         },
+        
         //总数量
         count(state) {
              let count = state.ordersNonPayer.reduce((total, item)=> total += 1, 0)
@@ -117,9 +134,15 @@ export default {
         //总价格
         total(state) {
              let total = state.ordersNonPayer.filter(x=>x.state)
-             .reduce((total, item)=> total += item.price, 0).toFixed(2)
+             .reduce((total, item)=> total += item.amount, 0).toFixed(2)
             console.log('total:',total)
            return  total
+        },
+        
+        orderCount(state) {
+          let ocount = state.orderList.reduce((total, item)=> total += 1, 0)
+           console.log('ocount:',ocount)
+          return  ocount
         },
     },
 }
