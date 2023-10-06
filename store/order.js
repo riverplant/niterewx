@@ -9,18 +9,27 @@ export default {
        ordersNonPayer: JSON.parse(uni.getStorageSync('ordersNonPayer') || '[]'),
        ordersNonLivrer: JSON.parse(uni.getStorageSync('ordersNonLivrer') || '[]'),
        ordersRembourse: JSON.parse(uni.getStorageSync('ordersRembourse') || '[]'),
-       orderList: JSON.parse(uni.getStorageSync('orderList') || '[]'),
+       orderListByOpenId: JSON.parse(uni.getStorageSync('orderListByOpenId') || '[]'),
+       orderListWithoutBoxId: JSON.parse(uni.getStorageSync('orderListWithoutBoxId') || '[]'),
        catTree:  JSON.parse(uni.getStorageSync('catTree') || '[]')
     }),
     
     mutations:{
-        updateOrderList(state, orderList) {
-            state.orderList = orderList
-            this.commit('m_order/saveOrderListToStorage')
+        
+        updateOrderListWithoutBoxId(state, orderListWithoutBoxId) {
+            state.orderListWithoutBoxId = orderListWithoutBoxId
+            this.commit('m_order/saveOrderListWithoutBoxIdToStorage')
+        },
+        saveOrderListWithoutBoxIdToStorage(state) {
+            uni.setStorageSync('orderListWithoutBoxId', JSON.stringify(state.orderListWithoutBoxId))
+        },
+        updateOrderListByOpenId(state, orderListByOpenId) {
+            state.orderListByOpenId = orderListByOpenId
+            this.commit('m_order/saveOrderListByOpenIdToStorage')
         },
         
-        saveOrderListToStorage(state) {
-            uni.setStorageSync('orderList', JSON.stringify(state.orderList))
+        saveOrderListByOpenIdToStorage(state) {
+            uni.setStorageSync('orderListByOpenId', JSON.stringify(state.orderListByOpenId))
         },
         updateCatTree(state, catTree) {
             state.catTree = catTree
@@ -45,8 +54,14 @@ export default {
         addToOrdersNonValide(state, orderInfo) {
             const findResult = state.ordersNonValide.find( x => x.id === orderInfo.id )
             if(!findResult)
-               state.ordersNonValide.push(orders)
+               state.ordersNonValide.push(orderInfo)
                this.commit('m_order/saveOrdersNonValideToStorage')
+        },
+        
+        updateOrdersNonValide(state, orderInfo) {
+           let filteredordersNonValide = state.ordersNonValide.filter( item => item.id !== orderInfo.id);
+            filteredordersNonValide.push(orderInfo)
+            setOrdersNonValide(filteredordersNonValide)
         },
         
         setOrdersNonValide(state, ordersNonValide) {
@@ -64,8 +79,14 @@ export default {
         addToOrdersNonPayer(state, orderInfo) {
             const findResult = state.ordersNonPayer.find( x => x.id === orderInfo.id )
             if(!findResult)
-               state.ordersNonPayer.push(orders)
+               state.ordersNonPayer.push(orderInfo)
                this.commit('m_order/saveOrdersNonPayerToStorage')
+        },
+        
+        updateOrdersNonPayer(state, orderInfo) {
+           let filteredordersNonPayer = state.ordersNonPayer.filter( item => item.id !== orderInfo.id);
+            filteredordersNonPayer.push(orderInfo)
+            setOrdersNonPayer(filteredordersNonPayer)
         },
         
         setOrdersNonPayer(state, ordersNonPayer) {
@@ -80,7 +101,7 @@ export default {
         addToOrdersNonLivrer(state, orderInfo) {
             const findResult = state.ordersNonLivrer.find( x => x.id === orderInfo.id )
             if(!findResult)
-               state.ordersNonLivrer.push(orders)
+               state.ordersNonLivrer.push(orderInfo)
                this.commit('m_order/saveOrdersNonLivrerToStorage')
         },
         
@@ -95,7 +116,7 @@ export default {
         addToOrdersRembouse(state, orderInfo) {
             const findResult = state.ordersRembourse.find( x => x.id === orderInfo.id )
             if(!findResult)
-               state.ordersRembourse.push(orders)
+               state.ordersRembourse.push(orderInfo)
                this.commit('m_order/saveOrdersRembouseToStorage')
         },
         

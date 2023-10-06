@@ -1,6 +1,6 @@
 <template>
     <view class="my-container">
-     <!--  <my-information></my-information> -->
+      <my-information></my-information>
     </view>
 </template>
 

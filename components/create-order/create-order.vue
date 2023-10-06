@@ -12,9 +12,11 @@
            </view>
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
-             <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-                  <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
-             </uni-swipe-action-item>
+         <navigator class="panel-item" :url="'/subpkg/order_form/order_form?oinfo='+JSON.stringify(this.item)""> 
+         <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
+              <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
+         </uni-swipe-action-item>
+         </navigator>
              </block>
          </uni-swipe-action>
          <!--自定义结算组件-->
@@ -67,12 +69,12 @@
         },
         computed: {
             ...mapState('m_user', ['code']),
-             ...mapState('m_order', ['ordersNonValide','ordersNonPayer','ordersNonLivrer','ordersRembourse', 'orderList'])
+             ...mapState('m_order', ['ordersNonValide','ordersNonPayer','ordersNonLivrer','ordersRembourse', 'orderListWithoutBoxId'])
         },
         onLoad() {
             const sysInfo =  uni.getSystemInfoSync()
             this.wh = sysInfo.windowHeight - 50
-            this.searchResults = this.orderList
+            this.searchResults = this.orderListWithoutBoxId
             this.searchResultsBak = this.searchResults
         },
         methods: {    
@@ -99,11 +101,7 @@
           
       
      },
-     gotoDetail(item) {
-         uni.navigateTo({
-             url: '/subpkg/orders_detail/orders_detail?item=' + JSON.stringify(item)
-         })
-     },
+
      radioChangeHandler(e) {
          this.updateOrderState(e)
      }
