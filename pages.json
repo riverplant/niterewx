@@ -14,7 +14,7 @@
             "path" : "pages/claim/claim",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "认领请求",
                 "enablePullDownRefresh": false
             }
             
@@ -50,12 +50,84 @@
             "path" : "pages/info/info",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "用户须知",
                 "enablePullDownRefresh": false
             }
             
         }
 
+        ,{
+            "path" : "pages/info/info01/info01",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "操作指南",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/info/info02/info02",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "国内收货仓地址",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/info/info03/info03",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "提货点/送货分区",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/info/info04/info04",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "计费方式",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/info/info05/info05",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "禁运清单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/info/info06/info06",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "赔付条款",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/info/info07/info07",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "货运流程",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/info/info08/info08",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "关于自寄物品",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
     "subPackages": [
       {
