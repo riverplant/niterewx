@@ -7,7 +7,7 @@
 				<view class="info-text">
 					<rich-text :nodes="strings"></rich-text>
 
-				 
+				</view> 
 			</view>
 
 

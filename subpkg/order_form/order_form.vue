@@ -220,7 +220,7 @@
                });
             },
             async updateOrder() {
-              const {
+              const {   
                   data: orderRes
               } = await uni.$http.put('http://127.0.0.1:8080/wx/orders/updateOrder', this.orderFormData)  
                if (orderRes.status != 200) return uni.$showMsg('更新包裹信息失败!') 
