@@ -4,15 +4,6 @@
 			<view class="address-form-containe">
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
-                    <uni-forms-item label="用戶名" required name="userName">
-                    	<uni-easyinput v-model="dynamicFormData.userName" placeholder="请输入用戶名" />
-                    </uni-forms-item>
-                    <uni-forms-item label="微信號" required name="wxnumber">
-                    	<uni-easyinput v-model="dynamicFormData.wxnumber" placeholder="请输入微信號" />
-                    </uni-forms-item>
-					<uni-forms-item label="邮箱" required name="email">
-						<uni-easyinput v-model="dynamicFormData.email" placeholder="请输入邮箱地址" />
-					</uni-forms-item>
                     <uni-forms-item label="電話號碼" required name="mobile">
                     	<uni-easyinput v-model="dynamicFormData.mobile" placeholder="请输入電話號碼" />
                     </uni-forms-item>
@@ -44,12 +35,9 @@
                 timer: null,
                 kw: '',
 				dynamicFormData: {
-                    wxnumber:  '',
-					email: '',
                     mobile:  '',
                     place_id:  '',
                     formatted_address:  '',
-                    userName:  '',
                     openId: ''
 					
 				},
@@ -83,12 +71,6 @@
             console.log('e:',e)
            let uinfo = JSON.parse(e.uinfo)
             if(uinfo !== null || uinfo !== {}) {
-                if(uinfo.userName)
-                this.dynamicFormData.userName = uinfo.userName
-                if(uinfo.wxnumber)
-                 this.dynamicFormData.wxnumber = uinfo.wxnumber
-                 if(uinfo.email)
-                  this.dynamicFormData.email = uinfo.email
                   if(uinfo.mobile)
                    this.dynamicFormData.mobile = uinfo.mobile
                    if(uinfo.formatted_address)

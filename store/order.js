@@ -161,7 +161,7 @@ export default {
         },
         
         orderCount(state) {
-          let ocount = state.orderList.reduce((total, item)=> total += 1, 0)
+          let ocount = state.orderListByOpenId.reduce((total, item)=> total += 1, 0)
            console.log('ocount:',ocount)
           return  ocount
         },

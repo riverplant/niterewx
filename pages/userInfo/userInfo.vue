@@ -54,7 +54,7 @@
             async initOrders() {
                 const {
                     data: res
-                } = await uni.$http.get('http://127.0.0.1:8080/wx/orders/getAllOrderListByOpenId?openId=' + openid)
+                } = await uni.$http.get('http://127.0.0.1:8080/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
                 console.log('res.status:', res.status)
                 if (res.status !== 200) return uni.$showMsg()
                 this.orderList = res.data
