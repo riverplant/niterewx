@@ -194,6 +194,15 @@
                 }
                 
                 }
+                ,{
+                    "path" : "warehouse_form/warehouse_form",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
       }  
     ],

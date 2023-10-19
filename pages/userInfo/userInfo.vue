@@ -23,6 +23,7 @@
                 ordersNonPayer: [],
                 ordersNonLivrer: [],
                 ordersRembourse: [],
+				warehouseRequestList: []
             }
         },
 
@@ -30,6 +31,7 @@
             if (this.token) {
                 console.log('onShow......')
                 this.initSwiperDate()
+				this.getWarehouseRequest()
             }
         },
         computed: {
@@ -38,7 +40,7 @@
         methods: {
             ...mapMutations('m_user', ['updateSwiperList']),
             ...mapMutations('m_order', ['setOrdersNonValide', 'setOrdersNonPayer', 'setOrdersNonLivrer',
-                'setOrdersRembouse', 'updateOrderListByOpenId'
+                'setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId'
             ]),
 
             async initSwiperDate() {
@@ -75,7 +77,17 @@
                 this.ordersRembourse = this.orderList.filter(x => x.payStatus === 40)
                 this.setOrdersRembouse(this.ordersRembourse)
 
-            }
+            },
+			
+			async getWarehouseRequest() {
+				const {
+				    data: res
+				} = await uni.$http.get('http://127.0.0.1:8080/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
+				console.log('res.status:', res.status)
+				if (res.status !== 200) return uni.$showMsg()
+				this.warehouseRequestList = res.data
+				this.updateWarehouseRequestByOpenId(res.data)
+			}
         }
     }
 </script>

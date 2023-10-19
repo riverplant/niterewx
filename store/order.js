@@ -11,11 +11,18 @@ export default {
        ordersRembourse: JSON.parse(uni.getStorageSync('ordersRembourse') || '[]'),
        orderListByOpenId: JSON.parse(uni.getStorageSync('orderListByOpenId') || '[]'),
        orderListWithoutBoxId: JSON.parse(uni.getStorageSync('orderListWithoutBoxId') || '[]'),
-       catTree:  JSON.parse(uni.getStorageSync('catTree') || '[]')
+       catTree:  JSON.parse(uni.getStorageSync('catTree') || '[]'),
+	   warehouseRequestList: JSON.parse(uni.getStorageSync('warehouseRequestList') || '[]'),
     }),
     
     mutations:{
-        
+        updateWarehouseRequestByOpenId(state, warehouseRequestList) {
+			state.warehouseRequestList = warehouseRequestList
+			this.commit('m_order/saveWarehouseRequestByOpenIdToStorage')
+		},
+		saveWarehouseRequestByOpenIdToStorage(state) {
+		    uni.setStorageSync('warehouseRequestList', JSON.stringify(state.warehouseRequestList))
+		},
         updateOrderListWithoutBoxId(state, orderListWithoutBoxId) {
             state.orderListWithoutBoxId = orderListWithoutBoxId
             this.commit('m_order/saveOrderListWithoutBoxIdToStorage')
@@ -165,5 +172,10 @@ export default {
            console.log('ocount:',ocount)
           return  ocount
         },
+		
+		requestCount(state) {
+			let flag = state.warehouseRequestList.filter(x=>x.isAccepted === 0).reduce((total, item)=> total += 1, 0)
+			return flag
+		}
     },
 }
