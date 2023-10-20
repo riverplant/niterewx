@@ -83,9 +83,10 @@
 				const {
 				    data: res
 				} = await uni.$http.get('http://127.0.0.1:8080/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
-				console.log('res.status:', res.status)
+				console.log('res.status:', res.data)
 				if (res.status !== 200) return uni.$showMsg()
 				this.warehouseRequestList = res.data
+				
 				this.updateWarehouseRequestByOpenId(res.data)
 			}
         }

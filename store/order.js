@@ -173,11 +173,17 @@ export default {
           return  ocount
         },
 		
-		requestCount(state) {
+		requestReviewCount(state) {
 			console.log('state.warehouseRequestList.length',state.warehouseRequestList.length)
 			if(state.warehouseRequestList.length === 0) return 0
 			
 			let flag = state.warehouseRequestList.filter(x=>x.isAccepted === 0).reduce((total, item)=> total += 1, 0)
+			console.log('flag=',flag)
+			return flag
+		},
+		
+		requestCount(state) {
+			let flag = state.warehouseRequestList.reduce((total, item)=> total += 1, 0)
 			return flag
 		}
     },

@@ -6,7 +6,7 @@
 			 </navigator>
          </view>
        <view class="warehouse-info-box" v-else >
-		   <navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form'" v-if="requestCount == 0" >
+		   <navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form'" v-if="requestReviewCount == 0" >
            <view class="row1">
               <view class="row1-left">
                   <view class="username"> 收货碼: {{code}}</view>
@@ -14,7 +14,7 @@
            </view>
            <view class="row2"  >
               <view class="row2-left">收货倉庫: </view>
-              <view class="row2-right">{{pickPoint}} {{this.requestCount}} </view>  
+              <view class="row2-right">{{pickPoint}} </view>  
            </view>
            </navigator>
 		   <navigator class="panel-item" :url="''" v-else>
@@ -29,7 +29,7 @@
 		   </view>
 		   </navigator>
 		   
-		   <view class="table">
+		   <view class="table" v-if=" requestCount > 0">
 		   	
 		   	<view class="tr">
 		   		<view class="th">舊倉庫</view>
@@ -67,7 +67,7 @@
         computed: {
             ...mapState('m_user', ['userinfo', 'pickPointList', 'pickPoint', 'code', 'openid']),
 			 ...mapState('m_order', ['warehouseRequestList']), 
-			  ...mapGetters('m_order', ['requestCount'])
+			  ...mapGetters('m_order', ['requestCount', 'requestReviewCount'])
         },
 
         methods: {
@@ -111,6 +111,7 @@
 
 <style>
 	.warehouse-info-box {
+	    margin-top: 40px;
 	    font-size: 12px;
 	    height: 90px;
 	    display: flex;
@@ -144,6 +145,8 @@
 	 } 
 	
 	.table {
+		margin-top: 15px;
+		justify-content: space-around;
 		width: 95%;
 		border-radius: 8rpx;
 		display: table;
@@ -151,7 +154,6 @@
 		border-collapse: collapse;
 		margin-left: 8px;
 		margin-right: 3px;
-		margin-top: 10px;
 	}
  
 	.th {
