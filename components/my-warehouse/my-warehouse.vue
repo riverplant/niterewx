@@ -1,12 +1,12 @@
 <template>
     <view>
         <view class="warehouse-choose-box" v-if="code == ''">
-			<navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form?uinfo='">
+			<navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form' ">
          <button type="primary"  class="btnChooseAddress" >創建倉庫+</button> 
 			 </navigator>
          </view>
        <view class="warehouse-info-box" v-else >
-		   <navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form?uinfo='+JSON.stringify(this.userinfo)" v-if="this.requestCount > 0" >
+		   <navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form'" v-if="requestCount == 0" >
            <view class="row1">
               <view class="row1-left">
                   <view class="username"> 收货碼: {{code}}</view>
@@ -14,7 +14,7 @@
            </view>
            <view class="row2"  >
               <view class="row2-left">收货倉庫: </view>
-              <view class="row2-right">{{pickPoint}} </view>  
+              <view class="row2-right">{{pickPoint}} {{this.requestCount}} </view>  
            </view>
            </navigator>
 		   <navigator class="panel-item" :url="''" v-else>

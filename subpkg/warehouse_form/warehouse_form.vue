@@ -5,7 +5,7 @@
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
 						<uni-forms-item label="收貨碼" required name="code">
-							<uni-easyinput disabled v-model="orderFormData.code"  />
+							<uni-easyinput disabled v-model="dynamicFormData.code"  />
 						</uni-forms-item>
 		            <uni-forms-item label="收穫倉庫" required>
 		            	<uni-data-picker placeholder="请选择收穫倉庫" popup-title="请选择所在地区" :localdata="pickPointList"
@@ -46,15 +46,12 @@
 	        ...mapState('m_user', ['userinfo', 'pickPointList', 'pickPoint', 'code', 'openid']), 
 	    },
 		onLoad(e) {
-		    console.log('e:',e)
-			if(e.uinfo != '') {
-				let uinfo = JSON.parse(e.uinfo)
-				     if(uinfo.code)
-				     this.dynamicFormData.code = uinfo.code
+			if(this.code != '' ) {
+				     this.dynamicFormData.code = this.code
 			}
 		    },
 	    methods: {
-	        ...mapMutations('m_user',['updatePickPointList', 'updatePickPoint', 'updateCode']),
+	        ...mapMutations('m_user',['updatePickPointList', 'updatePickPoint', 'updateCode', 'updateUserInfo']),
 	        onchange(e) {
 	            const value = e.detail.value
 	            this.node = value[value.length - 1].value
