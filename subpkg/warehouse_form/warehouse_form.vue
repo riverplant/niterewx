@@ -47,11 +47,11 @@
 	    },
 		onLoad(e) {
 		    console.log('e:',e)
-		   let uinfo = JSON.parse(e.uinfo)
-		    if(uinfo !== null || uinfo !== {}) {
-		        if(uinfo.code)
-		        this.dynamicFormData.code = uinfo.code
-		    }
+			if(e.uinfo != '') {
+				let uinfo = JSON.parse(e.uinfo)
+				     if(uinfo.code)
+				     this.dynamicFormData.code = uinfo.code
+			}
 		    },
 	    methods: {
 	        ...mapMutations('m_user',['updatePickPointList', 'updatePickPoint', 'updateCode']),
@@ -67,9 +67,9 @@
 				}
 			},
 	        async createWarehouse() { 
-	            dynamicFormData.openid = this.openid
-	            dynamicFormData.pid =  this.node
-	            const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/createWarehouse', dynamicFormData );
+	            this.dynamicFormData.openid = this.openid
+	            this.dynamicFormData.pid =  this.node
+	            const { data:result } =   await uni.$http.post('http://127.0.0.1:8080/wx/users/createWarehouse', this.dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
 	                this.updateCode(result.data.code)
 	                this.updatePickPoint(result.data.ppName)
@@ -80,10 +80,10 @@
 	        },
 	        
 	        async updateWarehouse() {
-	                dynamicFormData.openid = this.openid
-	                dynamicFormData.pid =  this.node
-					dynamicFormData.code = this.code
-	            const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/updateWarehouse', dynamicFormData );
+	                this.dynamicFormData.openid = this.openid
+	                this.dynamicFormData.pid =  this.node
+					this.dynamicFormData.code = this.code
+	            const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/updateWarehouse', this.dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
 	                uni.navigateBack({
 	                    delta: 1

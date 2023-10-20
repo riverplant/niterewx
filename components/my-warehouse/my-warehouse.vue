@@ -1,7 +1,7 @@
 <template>
     <view>
         <view class="warehouse-choose-box" v-if="code == ''">
-			<navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form'">
+			<navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form?uinfo='">
          <button type="primary"  class="btnChooseAddress" >創建倉庫+</button> 
 			 </navigator>
          </view>
