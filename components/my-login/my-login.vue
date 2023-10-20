@@ -9,16 +9,26 @@
 </template>
 
 <script>
-    import {mapMutations} from 'vuex'
+    import {mapMutations, mapState} from 'vuex'
     export default {
         name: "my-login",
         data() {
             return {
+				orderList: [],
+				ordersNonValide: [],
+				ordersNonPayer: [],
+				ordersNonLivrer: [],
+				ordersRembourse: [],
+				warehouseRequestList: []
             };
         },
+		computed: {
+		    ...mapState('m_user', ['token', 'openid'])
+		},
         methods: {
             ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken','updateAddress']),
-           ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse']),
+           ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId']),
+	
             //用户授权之后，获取用户的基础信息
             getUserInfo(e) {
                 if (e.detail.errMsg == 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权!')
@@ -38,14 +48,61 @@
                 }
                 
             const { data:result } =   await uni.$http.get('http://127.0.0.1:8080/wx/users/login', query );
-              if( result.status !== 200 ) return uni.$showMsg()     
+              if( result.status !== 200 ) return uni.$showMsg( result.msg )     
               this.updateToken(result.data.token)
               this.updateOpenid(result.data.openid)
               this.updateAddress(result.data.address)
  
             //获取后台返回的token,保存到storage中
             uni.$showMsg('登录成功!')
-            }         
+			this.initSwiperDate()
+			this.getWarehouseRequest()
+            } ,
+					
+			async initSwiperDate() {
+			    const {
+			        data: result
+			    } = await uni.$http.get('https://www.uinav.com/api/public/v1/home/swiperdata')
+			    if (result.meta.status !== 200) return uni.$showMsg()
+			    console.log('swiperdata:', result.message)
+			    this.updateSwiperList(result.message)
+			    this.initOrders()
+			
+			},
+			async initOrders() {
+			    const {
+			        data: res
+			    } = await uni.$http.get('http://127.0.0.1:8080/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
+			    console.log('res.status:', res.status)
+			    if (res.status !== 200) return uni.$showMsg()
+			    this.orderList = res.data
+			    this.updateOrderListByOpenId(res.data)
+			    this.initOrderList()
+			
+			},
+			
+			initOrderList() {
+			    console.log('ordrelist:', this.orderList)
+			    this.ordersNonValide = this.orderList.filter(x => x.orderStatus === 2)
+			    this.setOrdersNonValide(this.ordersNonValide)
+			    this.ordersNonPayer = this.orderList.filter(x => x.orderStatus === 1)
+			    console.log('ordersNonPayer:', this.ordersNonPayer)
+			    this.setOrdersNonPayer(this.ordersNonPayer)
+			    this.ordersNonLivrer = this.orderList.filter(x => x.payStatus === 20)
+			    this.setOrdersNonLivrer(this.ordersNonLivrer)
+			    this.ordersRembourse = this.orderList.filter(x => x.payStatus === 40)
+			    this.setOrdersRembouse(this.ordersRembourse)
+			
+			},
+			
+			async getWarehouseRequest() {
+				const {
+				    data: res
+				} = await uni.$http.get('http://127.0.0.1:8080/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
+				if (res.status !== 200) return uni.$showMsg()
+				this.warehouseRequestList = res.data
+				this.updateWarehouseRequestByOpenId(res.data)
+			}
         }
     }
 </script>

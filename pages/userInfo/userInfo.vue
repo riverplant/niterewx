@@ -26,7 +26,7 @@
 				warehouseRequestList: []
             }
         },
-
+        
         onShow() {
             if (this.token) {
                 console.log('onShow......')
@@ -51,7 +51,7 @@
                 console.log('swiperdata:', result.message)
                 this.updateSwiperList(result.message)
                 this.initOrders()
-                // this.initOrderList()
+
             },
             async initOrders() {
                 const {

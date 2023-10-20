@@ -2,11 +2,11 @@
     <view>
         <view class="warehouse-choose-box" v-if="code == ''">
 			<navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form'">
-         <button type="primary" size="mini" class="btnChooseAddress" >創建倉庫+</button> 
+         <button type="primary"  class="btnChooseAddress" >創建倉庫+</button> 
 			 </navigator>
          </view>
        <view class="warehouse-info-box" v-else >
-		   <navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form'" v-if="this.requestCount > 0">
+		   <navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form?uinfo='+JSON.stringify(this.userinfo)" v-if="this.requestCount > 0" >
            <view class="row1">
               <view class="row1-left">
                   <view class="username"> 收货碼: {{code}}</view>
@@ -28,25 +28,27 @@
 		      <view class="row2-right">{{pickPoint}} </view>  
 		   </view>
 		   </navigator>
+		   
+		   <view class="table">
+		   	
+		   	<view class="tr">
+		   		<view class="th">舊倉庫</view>
+		   		<view class="th">新倉庫</view>
+		   		<view class="th">申請狀態</view>	
+		   		<view class="th">審核信息</view>
+		   	</view>
+		   	<block v-for="(item, index) in warehouseRequestList" :key="index">
+		   		<view class="tr">
+		   			<view class="td">{{ item.pidOlderName }}</view>
+		   			<view class="td">{{ item.pidNewName }}</view>
+		   			<view class="td">{{ item.isAccepted === 1 ? '申請審核中' : item.isAccepted === 2 ? '申請通過' : '申請拒絕'}}</view>
+		   		<view class="td">{{ item.msg || '無'}}</view>
+		   		</view>
+		   	</block>
+		   	
+		   </view> 
 	 </view>     	   
-<view class="table">
-	
-	<view class="tr">
-		<view class="th">舊倉庫</view>
-		<view class="th">新倉庫</view>
-		<view class="th">申請狀態</view>	
-		<view class="th">審核信息</view>
-	</view>
-	<block v-for="(item, index) in warehouseRequestList" :key="index">
-		<view class="tr">
-			<view class="td">{{ item.pidOlderName }}</view>
-			<view class="td">{{ item.pidNewName }}</view>
-			<view class="td">{{ item.isAccepted === 0 ? '申請審核中' : item.isAccepted === 1 ? '申請通過' : '申請拒絕'}}</view>
-		<view class="td">{{ item.msg || '無'}}</view>
-		</view>
-	</block>
-	
-</view>         
+        
     </view>
 </template>
 

@@ -1,9 +1,12 @@
 <template>
 	<view>
 		<uni-section  type="line">
-			<view class="address-form-containe">
+			<view class="warehouse-form-containe">
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
+						<uni-forms-item label="收貨碼" required name="code">
+							<uni-easyinput disabled v-model="orderFormData.code"  />
+						</uni-forms-item>
 		            <uni-forms-item label="收穫倉庫" required>
 		            	<uni-data-picker placeholder="请选择收穫倉庫" popup-title="请选择所在地区" :localdata="pickPointList"
 		            	    @change="onchange" >
@@ -13,7 +16,7 @@
 				</uni-forms>
 		      
 				<view class="button-group">
-					<button type="primary" size="mini" @click="submit()">提交</button>
+					<button type="primary" size="mini" @click="submit(dynamicForm)">提交</button>
 				</view>
 			</view>
 		</uni-section>
@@ -30,45 +33,57 @@
 	    data() {
 	        return {
 	           dataTree:[],
-	           node:''
+	           node:'',
+			   dynamicFormData: {
+			       code:  '',
+			       pid: '',
+			       openId: ''
+			   	
+			   },
 	        }
 	    },
 	    computed: {
 	        ...mapState('m_user', ['userinfo', 'pickPointList', 'pickPoint', 'code', 'openid']), 
 	    },
+		onLoad(e) {
+		    console.log('e:',e)
+		   let uinfo = JSON.parse(e.uinfo)
+		    if(uinfo !== null || uinfo !== {}) {
+		        if(uinfo.code)
+		        this.dynamicFormData.code = uinfo.code
+		    }
+		    },
 	    methods: {
 	        ...mapMutations('m_user',['updatePickPointList', 'updatePickPoint', 'updateCode']),
 	        onchange(e) {
 	            const value = e.detail.value
 	            this.node = value[value.length - 1].value
 	        },
-	        submit() {
-				if(this.pickPoint === '') {
+	        submit(ref) {
+				if(this.code === '') {
 					this.createWarehouse()
 				}else {
 					 this.updateWarehouse()
 				}
 			},
 	        async createWarehouse() { 
-	            const param = {
-	                openid: this.openid,
-	                pid:  this.node
-	            }
-	            const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/createWarehouse', param );
+	            dynamicFormData.openid = this.openid
+	            dynamicFormData.pid =  this.node
+	            const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/createWarehouse', dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
 	                this.updateCode(result.data.code)
 	                this.updatePickPoint(result.data.ppName)
+					this.updateUserInfo(result.data)
 	                uni.navigateBack({
 	                    delta: 1
 	                });
 	        },
 	        
 	        async updateWarehouse() {
-	            const param = {
-	                openid: this.openid,
-	                pid:  this.node
-	            }
-	            const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/updateWarehouse', param );
+	                dynamicFormData.openid = this.openid
+	                dynamicFormData.pid =  this.node
+					dynamicFormData.code = this.code
+	            const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/updateWarehouse', dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
 	                uni.navigateBack({
 	                    delta: 1
@@ -83,4 +98,36 @@
 
 <style lang="scss">
 
+	.warehouse-form-containe {
+		padding: 15px;
+		background-color: #fff;
+	}
+
+	.segmented-control {
+		margin-bottom: 15px;
+	}
+
+	.button-group {
+		margin-top: 15px;
+		display: flex;
+		justify-content: space-around;
+	}
+
+	.form-item {
+		display: flex;
+		align-items: center;
+	}
+
+	.button {
+		display: flex;
+		align-items: center;
+		height: 35px;
+		margin-left: 10px;
+	}
+    
+    .content {
+    	text-align: center;
+    	height: 100%;
+    }
+    
 </style>

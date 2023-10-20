@@ -9,7 +9,7 @@ export default {
         code: uni.getStorageSync('code') || '',
         address: JSON.parse(uni.getStorageSync('address') || '{}'),
         role: uni.getStorageSync('role') || 0, 
-        pickPoint: JSON.parse(uni.getStorageSync('pickPoint') || '{}'), 
+        pickPoint: uni.getStorageSync('pickPoint') || '', 
     }),
     
     mutations:{
@@ -56,7 +56,7 @@ export default {
         },
         
         savepickPointToStorage(state) {
-            uni.setStorageSync('pickPoint', JSON.stringify(state.pickPoint)) 
+            uni.setStorageSync('pickPoint', state.pickPoint) 
         },
         savePickPointListToStorage(state) {
           uni.setStorageSync('pickPointList', JSON.stringify(state.pickPointList))    

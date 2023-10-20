@@ -12,14 +12,14 @@
         <view class="panel-list">
          <view class="panel">
              <view class="panel-body">
-                 <view class="panel-item">
-                     <text>{{code}}</text>
-                     <text>我的提货码</text>  
-                 </view>
-                 <view class="panel-item">
-                     <text>{{pickPoint}} </text>
-                     <text>我的送货分区</text>  
-                 </view>
+				 <view class="panel-item" >
+				 	<text >{{code}} </text>
+				     <text>我的提货码</text>  
+				 </view>
+				 <view class="panel-item" >
+				     <text>{{pickPoint}}</text>
+				     <text>我的送货分区</text>  
+				 </view>
                  <view class="panel-item">
                      <text>{{orderCount}}</text>
                      <text>我的总订单数</text>  
@@ -105,11 +105,9 @@
     export default {
         data() {
             return {
-                value:9999
-                
+                value:99           
             };
         },
-
         computed: {
             ...mapState('m_user', ['userinfo', 'swiperList','code', 'pickPoint']),
             ...mapGetters('m_order', ['checkedCount', 'count', 'ordersNonValideTotal', 'orderCount'])
