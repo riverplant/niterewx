@@ -8,6 +8,7 @@
 				<!-- 动态表单校验 -->
 				<uni-forms ref="orderFormData" :rules="dynamicRules" :modelValue="orderFormData" label-position="top">
                     	<uni-easyinput disabled v-model="orderFormData.id"  v-if="isHidden === true" />
+						<uni-easyinput disabled v-model="orderFormData.openId"  v-if="isHidden === true" />
                     <uni-forms-item label="訂單號" required name="orderNumber">
                     	<uni-easyinput disabled v-model="orderFormData.orderNumber"  />
                     </uni-forms-item>
@@ -77,7 +78,8 @@
                     catId: '',
                     pass:'',
                     msg:'',
-                    orderStatus: 1
+                    orderStatus: 1,
+					openId:''
                     
 					
 				},
@@ -129,6 +131,8 @@
                           this.orderFormData.pWeight = uinfo.pWeight
                           if(uinfo.msg)
                            this.orderFormData.msg = uinfo.msg
+						   if(uinfo.openId)
+						    this.orderFormData.openId = uinfo.openId
                            if(uinfo.catId)
                             this.orderFormData.pLong = uinfo.pLong
                              this.radioValue = uinfo.orderStatus+''
