@@ -87,7 +87,7 @@
                        this.isShowPriceAndRadio = false
                  }else {
                     this.searchResults = this.ordersRembourse 
-                     this.title = "支付失败/退款/退货" 
+                     this.title = "退款/退货" 
                        this.isShowPriceAndRadio = false
                  } 
             

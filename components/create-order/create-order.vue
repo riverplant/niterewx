@@ -12,7 +12,7 @@
            </view>
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
-         <navigator class="panel-item" :url="'/subpkg/order_form/order_form?oinfo='+JSON.stringify(this.item)""> 
+         <navigator class="panel-item" :url="'/subpkg/order_form/order_form?oinfo='+JSON.stringify(item)"> 
          <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
               <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
          </uni-swipe-action-item>
@@ -81,7 +81,7 @@
             ...mapMutations('m_order',['updateOrderState', 'removeItemById']),
             swipeItemClickHandler(item) {
                 console.log(item)
-                this.removeItemById(item.id)
+                //this.removeItemById(item.id)
             },
             search(res) {
                 clearTimeout(this.timer)
