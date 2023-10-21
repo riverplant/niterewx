@@ -1,6 +1,6 @@
 <template>
     <view>
-        <view class="address-choose-box" v-if="this.userinfo.formatted_address === ''">
+        <view class="address-choose-box" v-if="userinfo.formatted_address == null">
         <!--选择收获地址得盒子-->
         <navigator class="panel-item" :url="'/subpkg/adress_form/adress_form'">
          <text class="button-text">點擊完善您的個人信息+</text>   
@@ -8,7 +8,7 @@
         </view>     
         <!--渲染收货信息得盒子-->
     <view class="address-info-box" v-else >
-         <navigator class="panel-item" :url="'/subpkg/adress_form/adress_form?uinfo='+JSON.stringify(this.userinfo)">
+         <navigator class="panel-item" :url="'/subpkg/adress_form/adress_form'">
            <view class="row1">
               <view class="row1-left">
                   <view class="username"> 收货人: {{userinfo.userName}}</view>

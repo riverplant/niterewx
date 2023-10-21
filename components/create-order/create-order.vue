@@ -8,7 +8,7 @@
                <!--左侧得图标-->
                 <uni-icons type="shop" size="18"></uni-icons>
                <!--右侧得文本-->
-               <text class="create-order-title-text">包裹</text>
+               <text class="create-order-title-text">包裹列表</text>
            </view>
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
@@ -62,6 +62,14 @@
 
             };
         },
+		
+		beforeMount() {
+			const sysInfo =  uni.getSystemInfoSync()
+			this.wh = sysInfo.windowHeight - 50
+			this.searchResults = this.orderListWithoutBoxId
+			console.log('searchResults:', this.searchResults)
+			this.searchResultsBak = this.searchResults
+		},
         filters: {
             tofixed(num) {
                 return Number(num).toFixed(2)
@@ -71,12 +79,7 @@
             ...mapState('m_user', ['code']),
              ...mapState('m_order', ['ordersNonValide','ordersNonPayer','ordersNonLivrer','ordersRembourse', 'orderListWithoutBoxId'])
         },
-        onLoad() {
-            const sysInfo =  uni.getSystemInfoSync()
-            this.wh = sysInfo.windowHeight - 50
-            this.searchResults = this.orderListWithoutBoxId
-            this.searchResultsBak = this.searchResults
-        },
+		
         methods: {    
             ...mapMutations('m_order',['updateOrderState', 'removeItemById']),
             swipeItemClickHandler(item) {
@@ -96,7 +99,7 @@
            if(this.kw === '') {
              this.searchResults = this.searchResultsBak  
            }else {
-             this.searchResults = this.searchResults.filter( item=> item.id.indexOf( this.kw ) > -1 );   
+             this.searchResults = this.orderListWithoutBoxId.filter( item=> item.orderNumber.indexOf( this.kw ) > -1 );   
            }
           
       

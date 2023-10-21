@@ -26,7 +26,7 @@
 		    ...mapState('m_user', ['token', 'openid'])
 		},
         methods: {
-            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken','updateAddress']),
+            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken','updateAddress', 'updatePickPoint', 'updateCode']),
            ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId']),
 	
             //用户授权之后，获取用户的基础信息
@@ -52,6 +52,9 @@
               this.updateToken(result.data.token)
               this.updateOpenid(result.data.openid)
               this.updateAddress(result.data.address)
+			   this.updateUserInfo(JSON.stringify(result.data))
+			   this.updateCode(result.data.code)
+			   this.updatePickPoint(result.data.ppName)
  
             //获取后台返回的token,保存到storage中
             uni.$showMsg('登录成功!')

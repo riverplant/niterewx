@@ -93,7 +93,8 @@ export default {
         updateOrdersNonPayer(state, orderInfo) {
            let filteredordersNonPayer = state.ordersNonPayer.filter( item => item.id !== orderInfo.id);
             filteredordersNonPayer.push(orderInfo)
-            setOrdersNonPayer(filteredordersNonPayer)
+            state.ordersNonPayer = filteredordersNonPayer
+                this.commit('m_order/saveOrdersNonPayerToStorage')
         },
         
         setOrdersNonPayer(state, ordersNonPayer) {

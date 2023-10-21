@@ -7,7 +7,7 @@
                             </view>
 				<!-- 动态表单校验 -->
 				<uni-forms ref="orderFormData" :rules="dynamicRules" :modelValue="orderFormData" label-position="top">
-                    	<uni-easyinput disabled v-model="orderFormData.id"  v-if="isHidden === true" />
+                    	<uni-easyinput disabled v-model="orderFormData.orderId"  v-if="isHidden === true" />
 						<uni-easyinput disabled v-model="orderFormData.openId"  v-if="isHidden === true" />
                     <uni-forms-item label="訂單號" required name="orderNumber">
                     	<uni-easyinput disabled v-model="orderFormData.orderNumber"  />
@@ -67,7 +67,7 @@
                 isShow : false,
                 radioValue: '1',
 				orderFormData: {
-                    id: '',
+                    orderId: '',
                     trackingNumber:  '',
 					orderNumber: '',
                     code:  '',
@@ -109,33 +109,24 @@
 		},
 
 		onLoad(e) {
-            console.log('catTree:', this.catTree.data)
             this.catList = this.catTree.data
             console.log('e:',e)
             if(e && e.oinfo) {
                let uinfo = JSON.parse(e.oinfo)
                 if(uinfo !== null || uinfo !== {}) {
-                    if(uinfo.id)
-                    this.orderFormData.id = uinfo.id
-                    if(uinfo.orderNumber)
-                     this.orderFormData.orderNumber = uinfo.orderNumber
-                     if(uinfo.trackingNumber)
-                      this.orderFormData.trackingNumber = uinfo.trackingNumber
-                      if(uinfo.code)
-                       this.orderFormData.code = uinfo.code
-                       if(uinfo.pLong)
-                        this.orderFormData.pLong = uinfo.pLong
-                        if(uinfo.pWidth)
-                         this.orderFormData.pWidth = uinfo.pWidth
-                         if(uinfo.pWeight)
-                          this.orderFormData.pWeight = uinfo.pWeight
-                          if(uinfo.msg)
-                           this.orderFormData.msg = uinfo.msg
-						   if(uinfo.openId)
-						    this.orderFormData.openId = uinfo.openId
-                           if(uinfo.catId)
-                            this.orderFormData.pLong = uinfo.pLong
-                             this.radioValue = uinfo.orderStatus+''
+                    this.orderFormData.orderId = uinfo.id
+                    this.orderFormData.orderNumber = uinfo.orderNumber
+                    this.orderFormData.trackingNumber = uinfo.trackingNumber
+                    this.orderFormData.code = uinfo.code
+                    this.orderFormData.pLong = uinfo.pLong
+                    this.orderFormData.pWidth = uinfo.pWidth
+					this.orderFormData.pHeight = uinfo.pHeight
+                    this.orderFormData.pWeight = uinfo.pWeight
+                   
+                    this.radioValue = uinfo.orderStatus+''
+					this.isShow = uinfo.orderStatus == 2
+					if(this.isShow)
+					   this.orderFormData.msg = uinfo.msg
                       
                
                 } 
@@ -165,7 +156,6 @@
                               },
            
             radioChange: function (e) {
-                    console.log(e.detail.value)
                     this.orderFormData.orderStatus = e.detail.value === '2' ? 2 : 1
                     this.isShow = e.detail.value === '2' ? true : false
             	},
@@ -182,9 +172,11 @@
 			},
 
 			submit(ref) {
+			    this.orderFormData.openId = this.userinfo.openId
+				console.log('orderFormData:', this.orderFormData)
 				this.$refs[ref].validate().then(res => {
-                  console.log('orderFormData:', this.orderFormData)
-                  if(this.orderFormData.id === '') {
+                 
+                  if(this.orderFormData.orderId === '') {
                      this.createOrder()  
                   }else {
                      this.updateOrder()   
@@ -195,58 +187,21 @@
 			},
             
             async createOrder() {
+				console.log('orderFormData:', this.orderFormData)
                const {
                    data: orderRes
                } = await uni.$http.post('http://127.0.0.1:8080/wx/orders/createOrder', this.orderFormData)  
                 if (orderRes.status != 200) return uni.$showMsg('創建包裹信息失败!') 
-                console.log('orderRes', orderRes)
-                let order = {
-                    "id": orderRes.data.id,
-                    "catName":  orderRes.data.catName,
-                    "trackingNumber": orderRes.data.trackingNumber,
-                    "price": orderRes.data.price,
-                    "pLong": orderRes.data.pLong,
-                    "pWidth": orderRes.data.pWidth,
-                    "pHeight": orderRes.data.pHeight,
-                    "pWeight": orderRes.data.pWeight,
-                    "pWeightByVolume": orderRes.data.pWeightByVolume,
-                    "state": orderRes.data.state,
-                    "orderStatus": orderRes.data.orderStatus
-                }
-                console.log('order:', order)
-                if(orderRes.data.orderStatus === 1)
-                this.addToOrdersNonPayer(order)
-                else
-                this.addToOrdersNonValide(order)
-               
+ 
                uni.navigateBack({
                    delta: 1
-               });
+               }); 
             },
             async updateOrder() {
               const {   
                   data: orderRes
               } = await uni.$http.put('http://127.0.0.1:8080/wx/orders/updateOrder', this.orderFormData)  
                if (orderRes.status != 200) return uni.$showMsg('更新包裹信息失败!') 
-               console.log('orderRes', orderRes)
-               let order = {
-                   "id": orderRes.data.id,
-                   "catName":  orderRes.data.catName,
-                   "trackingNumber": orderRes.data.trackingNumber,
-                   "price": orderRes.data.price,
-                   "pLong": orderRes.data.pLong,
-                   "pWidth": orderRes.data.pWidth,
-                   "pHeight": orderRes.data.pHeight,
-                   "pWeight": orderRes.data.pWeight,
-                   "pWeightByVolume": orderRes.data.pWeightByVolume,
-                   "state": orderRes.data.state,
-                   "orderStatus": orderRes.data.orderStatus
-               }
-               console.log('order:', order)
-               if(orderRes.data.orderStatus === 1)
-               this.updateOrdersNonPayer(order)
-               else
-               this.updateOrdersNonValide(order)
                
              uni.navigateBack({
                  delta: 1
@@ -259,7 +214,8 @@
             
 		},
         computed: {
-            ...mapState('m_order',['catTree']) 
+            ...mapState('m_order',['catTree']) ,
+			...mapState('m_user', ['userinfo'])
         }
 	}
 </script>

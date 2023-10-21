@@ -114,7 +114,7 @@
            if(this.kw === '') {
              this.searchResults = this.searchResultsBak  
            }else {
-             this.searchResults = this.searchResults.filter( item=> item.id.indexOf( this.kw ) > -1 );   
+             this.searchResults = this.searchResults.filter( item=> item.orderNumber.indexOf( this.kw ) > -1 );   
            }
           
       

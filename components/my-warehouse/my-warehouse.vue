@@ -1,6 +1,6 @@
 <template>
     <view>
-        <view class="warehouse-choose-box" v-if="code == ''">
+        <view class="warehouse-choose-box" v-if="userinfo.pid == ''">
 			<navigator class="panel-item" :url="'/subpkg/warehouse_form/warehouse_form' ">
          <button type="primary"  class="btnChooseAddress" >創建倉庫+</button> 
 			 </navigator>
