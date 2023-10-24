@@ -82,9 +82,9 @@
 		
         methods: {    
             ...mapMutations('m_order',['updateOrderState', 'removeItemById']),
-            swipeItemClickHandler(item) {
-                console.log(item)
-                //this.removeItemById(item.id)
+            
+			swipeItemClickHandler(item) {
+                this.removeItemById(item.id)
             },
             search(res) {
                 clearTimeout(this.timer)
@@ -104,6 +104,17 @@
           
       
      },
+	 
+	async removeItemById(id) {
+		 const {
+		     data: orderRes
+		 } = await uni.$http.delete('http://127.0.0.1:8080/wx/orders/'+ id)  
+		  if (orderRes.status != 200) return uni.$showMsg('删除包裹信息失败!') 
+		  
+		 uni.navigateBack({
+		     delta: 1
+		 }); 
+	 },
 
      radioChangeHandler(e) {
          this.updateOrderState(e)

@@ -4,9 +4,9 @@
 			<view class="address-form-containe">
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
-                  <!--  <uni-forms-item label="用戶名" required name="userName">
+                    <uni-forms-item label="用戶名" required name="userName">
                     	<uni-easyinput v-model="dynamicFormData.userName" placeholder="请输入用戶名" />
-                    </uni-forms-item> -->
+                    </uni-forms-item> 
                     <uni-forms-item label="電話號碼" required name="mobile">
                     	<uni-easyinput v-model="dynamicFormData.mobile" placeholder="请输入電話號碼" />
                     </uni-forms-item>

@@ -13,11 +13,11 @@
          <view class="panel">
              <view class="panel-body">
 				 <view class="panel-item" >
-				 	<text >{{code}} </text>
+				 	<text >{{userinfo.code}} </text>
 				     <text>我的提货码</text>  
 				 </view>
 				 <view class="panel-item" >
-				     <text>{{pickPoint}}</text>
+				     <text>{{userinfo.ppName}}</text>
 				     <text>我的送货分区</text>  
 				 </view>
                  <view class="panel-item">
@@ -58,14 +58,7 @@
                                 <text>待发货</text>
                      </navigator>
                      </uni-badge>
-                     
-                     <uni-badge size="small" :max-num="value" :text="this.ordersRembourse.lenght" absolute="rightTop" >
-                     <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+4">
-                                 <image src="/static/icon-my-order-04.png" class="icon"></image>
-                                 <text>支付失败</text>
-                     </navigator>
-                      </uni-badge>
-                      
+                                 
                      <uni-badge size="small" :max-num="value" :text="this.ordersRembourse.lenght" absolute="rightTop" >
                     <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+5">
                                 <image src="/static/icon-my-order-05.png" class="icon"></image>
@@ -83,9 +76,11 @@
                               <uni-icons type="arrowright" size="15"></uni-icons> 
                     </view> 
                 </navigator>
-                  <navigator  :url="'/subpkg/warehouse/warehouse'">
+				
+               <navigator  :url="'/subpkg/warehouse/warehouse'">
                <view class="panel-list-item">
-                   <text >申请修改仓库</text>
+                   <text v-if="code == '无'" >申请仓库</text>
+				    <text v-else >申请修改仓库</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>
                </view>
                 </navigator>

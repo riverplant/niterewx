@@ -1,19 +1,19 @@
 <template>
     <view class="claim-container">
         <view class="search-box">
-              <uni-search-bar placeholder="输入订单号查找订单" bgColor=" #FFFFFF" @input="search" cancel-button="none" :radius="100" />  
+              <uni-search-bar placeholder="输入快递号查找" bgColor=" #FFFFFF" @input="search" cancel-button="none" :radius="100" />  
             </view>
             <!--订单标题区域-->
            <view class="claim-title">
                <!--左侧得图标-->
                 <uni-icons type="shop" size="18"></uni-icons>
                <!--右侧得文本-->
-               <text class="claim-title-text">包裹認領</text>
+               <text class="claim-title-text">認領申请</text>
            </view>
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
              <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-                  <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
+                  <claim-item :order="item"  :show-msg="isShowMsg" ></claim-item>
              </uni-swipe-action-item>
              </block>
          </uni-swipe-action>
@@ -41,62 +41,24 @@
                 searchResultsBak:[],
                 type:1,
                 title:'',
-                isShowPriceAndRadio:false,
                 isShowMsg:false,
                 isShow:false,
-
-                queryObj:{
-                    code:'',
-                    id:'',
-                    pageNum:1,
-                    pageSize:10,
-                    orderStatus:1,
-                    payStatus:10   
-                },
-                total:0,
                 isloading:true,
-               
-                
-
             };
         },
-        filters: {
-            tofixed(num) {
-                return Number(num).toFixed(2)
-            }
-        },
         computed: {
-            ...mapState('m_user', ['code']),
-             ...mapState('m_order', ['ordersNonValide','ordersNonPayer','ordersNonLivrer','ordersRembourse'])
+            ...mapState('m_user', ['code','openid']),
+			...mapState('m_order', ['code','claimList'])
         },
-        onLoad(e) {
-             this.type = e.type
-             if(this.type === '1') {
-               this.searchResults = this.ordersNonValide
-               this.title = "支付未通过"
-                this.isShowPriceAndRadio = false
-                this.isShowMsg = true
-             }else if(this.type === '2') {
-                     this.searchResults = this.ordersNonPayer
-                     this.title = "未支付"
-                     this.isShowPriceAndRadio = true
-                     this.isShow = true
-                 }else if(this.type === '3') {
-                     this.searchResults = this.ordersNonLivrer
-                      this.title = "已支付未发货"
-                       this.isShowPriceAndRadio = false
-                 }else {
-                    this.searchResults = this.ordersRembourse 
-                     this.title = "支付失败/退款/退货" 
-                       this.isShowPriceAndRadio = false
-                 } 
-            
-            const sysInfo =  uni.getSystemInfoSync()
-            this.wh = sysInfo.windowHeight - 50
-            this.searchResultsBak = this.searchResults
-        },
-        methods: {    
-            ...mapMutations('m_order',['updateOrderState', 'removeItemById']),
+		onShow() {
+		    console.log('onshow......')
+			const sysInfo =  uni.getSystemInfoSync()
+			this.wh = sysInfo.windowHeight - 50
+			this.searchResults = this.claimList
+			this.searchResultsBak = this.searchResults
+		},
+        methods: {    	
+			
             swipeItemClickHandler(item) {
                 console.log(item)
                 this.removeItemById(item.id)
@@ -114,21 +76,9 @@
            if(this.kw === '') {
              this.searchResults = this.searchResultsBak  
            }else {
-             this.searchResults = this.searchResults.filter( item=> item.id.indexOf( this.kw ) > -1 );   
+             this.searchResults = this.searchResults.filter( item=> item.trackingNumber.indexOf( this.kw ) > -1 );   
            }
-          
-      
-          // if(this.code !== '')  {
-          //     if(this.kw === '') {
-          //        this.searchResults = this.searchResultsBak 
-          //     }else {
-          //        this.searchResults = this.searchResults.filter(function (item) { return item.id.indexOf(this.kw)>-1; });     
-          //     }
-          //     this.isloading = false      
-          //     //调用回调函数
-          //     cb && cb()
-          //     this.total = this.searchResults.length
-          // }             
+                   
      },
      gotoDetail(item) {
          uni.navigateTo({

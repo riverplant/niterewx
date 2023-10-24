@@ -6,7 +6,7 @@
         </view>
         <view class="claim-item-right">
             <view class="order-item-desc">
-                 <view class="order-item-desc-text1">快遞單號: {{order.id}} </view>
+                 <view class="order-item-desc-text1">快遞單號: {{order.trackingNumber}} </view>
                 <view class="order-item-desc-text1"> 附件：</view>
             </view>
             <view class="order-item-info-box">
@@ -34,42 +34,26 @@
 <script>
     export default {
         props: {
-            order: {
+            claim: {
                 type:Object,
                 default:{}   
-            },
-            showPrice: {
-                type: Boolean,
-                default: false,
             },
             showMsg: {
                 type: Boolean,
                 default: false,
-            },
-            showRadio: {
-                type: Boolean,
-                default: false,
-            },
+            }
         },
         data() {
             return {
                defaultPic:'/static/package.png',
 			   defaultMsgPic:'/static/note_icon.png',
             };
-        },
-        methods: {
-            radioChangeHandler() {
-                this.$emit('radio-change', {
-                   id: this.order.id,
-                   state: !this.order.state
-                })
-            }
         }
     }
 </script>
 
 <style lang="scss">
-claim-item {
+.claim-item {
     width: 750rpx;
     box-sizing: border-box;
     //box-sizing: border-box;

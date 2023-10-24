@@ -29,18 +29,20 @@
         
         onShow() {
             if (this.token) {
-                console.log('onShow......')
                 this.initSwiperDate()
 				this.getWarehouseRequest()
+				this.getuserInfo()
+				console.log('getClaimeList......')
+				this.getClaimeList()
             }
         },
         computed: {
             ...mapState('m_user', ['token', 'openid'])
         },
         methods: {
-            ...mapMutations('m_user', ['updateSwiperList']),
+            ...mapMutations('m_user', ['updateSwiperList','updateUserInfo']),
             ...mapMutations('m_order', ['setOrdersNonValide', 'setOrdersNonPayer', 'setOrdersNonLivrer',
-                'setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId'
+                'setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId', 'updateClaimList'
             ]),
 
             async initSwiperDate() {
@@ -57,7 +59,6 @@
                 const {
                     data: res
                 } = await uni.$http.get('http://127.0.0.1:8080/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
-                console.log('res.status:', res.status)
                 if (res.status !== 200) return uni.$showMsg()
                 this.orderList = res.data
                 this.updateOrderListByOpenId(res.data)
@@ -66,11 +67,9 @@
             },
 
             initOrderList() {
-                console.log('ordrelist:', this.orderList)
                 this.ordersNonValide = this.orderList.filter(x => x.orderStatus === 2)
                 this.setOrdersNonValide(this.ordersNonValide)
                 this.ordersNonPayer = this.orderList.filter(x => x.orderStatus === 1)
-                console.log('ordersNonPayer:', this.ordersNonPayer)
                 this.setOrdersNonPayer(this.ordersNonPayer)
                 this.ordersNonLivrer = this.orderList.filter(x => x.payStatus === 20)
                 this.setOrdersNonLivrer(this.ordersNonLivrer)
@@ -88,7 +87,26 @@
 				this.warehouseRequestList = res.data
 				
 				this.updateWarehouseRequestByOpenId(res.data)
+			},
+			
+			async getuserInfo() {
+				const {
+				    data: res
+				} = await uni.$http.get('http://127.0.0.1:8080/wx/users/getUserinfos/' + this.openid)
+				console.log('res.status:', res.data)
+				if (res.status !== 200) return uni.$showMsg()
+				this.updateUserInfo(res.data)
+			},
+
+			async getClaimeList() {
+				const {
+				    data: res
+				} = await uni.$http.get('http://127.0.0.1:8080/wx/users/claimList')
+				console.log('res.status:', res.data)
+				if (res.status !== 200) return uni.$showMsg()
+				this.updateClaimList(res.data)
 			}
+			
         }
     }
 </script>

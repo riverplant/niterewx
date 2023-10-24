@@ -13,9 +13,20 @@ export default {
        orderListWithoutBoxId: JSON.parse(uni.getStorageSync('orderListWithoutBoxId') || '[]'),
        catTree:  JSON.parse(uni.getStorageSync('catTree') || '[]'),
 	   warehouseRequestList: JSON.parse(uni.getStorageSync('warehouseRequestList') || '[]'),
+	   claimList: JSON.parse(uni.getStorageSync('claimList') || '[]'),
     }),
     
     mutations:{
+		updateClaimList(state, claimList) {
+			state.claimList = claimList
+			console.log('claimList:',state.claimList)
+			this.commit('m_order/saveClaimListToStorage')
+		},
+		saveClaimListToStorage(state) {
+			console.log('claimList:',state.claimList)
+		    uni.setStorageSync('claimList', JSON.stringify(state.claimList))
+		},
+		
         updateWarehouseRequestByOpenId(state, warehouseRequestList) {
 			state.warehouseRequestList = warehouseRequestList
 			this.commit('m_order/saveWarehouseRequestByOpenIdToStorage')

@@ -79,7 +79,7 @@
                     name: '前置摄像头'
                 }],
                 cameraIndex: 0, //上传视频时的数量
-                maxCount: 9 //图片和视频允许上传的总数
+                maxCount: 2 //图片和视频允许上传的总数
             }
         },
 
@@ -128,8 +128,6 @@
                                          trackingNumber: this.claimFormData.orderNumber  
                                      },
                                      success: (res) => {
-                                          //uni.showLoading()
-                                          
                                         console.log(res)
                                        
                                      },
