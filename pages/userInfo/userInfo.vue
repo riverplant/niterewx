@@ -32,8 +32,6 @@
                 this.initSwiperDate()
 				this.getWarehouseRequest()
 				this.getuserInfo()
-				console.log('getClaimeList......')
-				this.getClaimeList()
             }
         },
         computed: {
@@ -96,17 +94,9 @@
 				console.log('res.status:', res.data)
 				if (res.status !== 200) return uni.$showMsg()
 				this.updateUserInfo(res.data)
-			},
-
-			async getClaimeList() {
-				const {
-				    data: res
-				} = await uni.$http.get('http://127.0.0.1:8080/wx/users/claimList')
-				console.log('res.status:', res.data)
-				if (res.status !== 200) return uni.$showMsg()
-				this.updateClaimList(res.data)
 			}
-			
+
+		
         }
     }
 </script>

@@ -13,7 +13,7 @@
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
              <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-                  <claim-item :order="item"  :show-msg="isShowMsg" ></claim-item>
+                  <claim-item :claim="item"  :show-msg="isShowMsg" ></claim-item>
              </uni-swipe-action-item>
              </block>
          </uni-swipe-action>
@@ -44,21 +44,23 @@
                 isShowMsg:false,
                 isShow:false,
                 isloading:true,
+				updateClaimList:[]
             };
         },
         computed: {
             ...mapState('m_user', ['code','openid']),
 			...mapState('m_order', ['code','claimList'])
+			
         },
+
 		onShow() {
-		    console.log('onshow......')
+		    console.log('onshow...getClaimeList...')
+			this.getClaimeList()
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
-			this.searchResults = this.claimList
-			this.searchResultsBak = this.searchResults
-		},
-        methods: {    	
 			
+		},
+        methods: {    		
             swipeItemClickHandler(item) {
                 console.log(item)
                 this.removeItemById(item.id)
@@ -85,6 +87,15 @@
              url: '/subpkg/orders_detail/orders_detail?item=' + JSON.stringify(item)
          })
      },
+	 async getClaimeList() {
+	 	const {
+	 	    data: res
+	 	} = await uni.$http.get('http://127.0.0.1:8080/wx/users/claimList')
+	 	if (res.status !== 200) return uni.$showMsg()
+		this.updateClaimList = res.data
+		this.searchResults = this.updateClaimList.filter(claim=>claim.openid == this.openid)
+		this.searchResultsBak = this.searchResults
+	 },
      radioChangeHandler(e) {
          this.updateOrderState(e)
      }

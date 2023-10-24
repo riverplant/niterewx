@@ -98,24 +98,22 @@
                 })
             },
              async sendClaimForm() {
-                for(let i = 0; i < this.imageList.length; i++) {
-                  console.log('image:' + this.imageList[i])  
-                }     
-                const param = {
-                    openid: this.openid,
-                    url:JSON.stringify( this.imageList ),
-                    trackingNumber:this.claimFormData.orderNumber
-                }
-
-                for (let i = 0; i < this.imageList.length; i++) {
-                    const result = await this.uploadFilePromise(this.imageList[i])
-                }  
-                uni.showToast({
-                  title: "提交表單成功"
-                })
-                uni.navigateBack({
-                    delta: 1
-                });
+				 if(this.imageList.length == 2 ) {
+					for (let i = 0; i < this.imageList.length; i++) {
+					    const result = await this.uploadFilePromise(this.imageList[i])
+					}  
+					uni.showToast({
+					  title: "提交表單成功"
+					})
+					uni.navigateBack({
+					    delta: 1
+					}); 
+				 }else {
+					uni.showToast({
+					  title: "请上传两张图片"
+					}) 
+				 }
+                
             },
             
            async uploadFilePromise( imgUrl ) {

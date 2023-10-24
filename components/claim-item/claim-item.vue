@@ -1,31 +1,31 @@
 <template>
     <view class="claim-item">
         <view class="claim-item-left">
-            <radio :checked="order.state" color="#C00000" v-if="showRadio" @click="radioChangeHandler"/>
+            <radio :checked="claim.state" color="#C00000" v-if="showRadio" @click="radioChangeHandler"/>
            <image :src="defaultPic" class="order-pic"></image> 
         </view>
         <view class="claim-item-right">
             <view class="order-item-desc">
-                 <view class="order-item-desc-text1">快遞單號: {{order.trackingNumber}} </view>
-                <view class="order-item-desc-text1"> 附件：</view>
+                 <view class="order-item-desc-text1">快遞單號: {{claim.trackingNumber}} </view>
+				 
+				  <view class="order-item-desc-text1">最近更新时间: {{claim.updateTime}} </view>
             </view>
             <view class="order-item-info-box">
-                <view v-if="showPrice" class="order-item-price">
+                <view  class="order-item-price">
                     <view class="order-item-sub-left">
 						當前申請狀態
 					</view>
-					<view class="order-item-sub-right-price">
-						 審核中....
+					<view class="order-item-sub-right-price" v-if="claim.status == 1">
+						 處理中...
+					</view>
+					<view class="order-item-sub-right-price" v-else-if="claim.status == 2">
+						 處理完成
+					</view>
+					<view class="order-item-sub-right-price" v-else>
+						 丟失
 					</view>
                 </view>
-                <view v-if="showMsg" class="order-item-msg">
-                    <view class="order-item-sub-left">
-						審核結果:
-					</view>
-					<wiew class="order-item-sub-right">
-						審核中....
-					</wiew>
-                </view>
+
             </view>
         </view>
     </view>
@@ -117,6 +117,12 @@
 	font-weight: 800;
 	font-size: 30rpx;
 	color: #000000;
+	}
+
+.order-item-photos {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between; 
 	}
 .order-item-desc-text2 {
 	font-size: 20rpx;
