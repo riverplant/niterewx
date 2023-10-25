@@ -1,7 +1,7 @@
 <template>
     <view class="my-claim-container" >
-        <navigator class="panel-item" :url="'/subpkg/claim_form/claim_form'">
-         <view class="btn-claim" @click="requestClaim">發起申請</view>
+        <navigator :url="'/subpkg/claim_form/claim_form'">
+         <view class="btn-claim" @click="requestClaim">发起申请</view>
         </navigator>
         </view> 
     </view>
@@ -58,10 +58,11 @@
         justify-content: space-between;
         align-items: center;
         font-size: 14px;
-        padding-left: 5px;
+        padding-left: 0px;
 
         .btn-claim {
-            background-color: #C00000;
+			width:750rpx;
+            background-color: #00aa00;
             height: 50px;
             color: white;
             line-height: 50px;
@@ -70,4 +71,5 @@
             text-align: center;
         }
     }
+
 </style>

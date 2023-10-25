@@ -13,22 +13,14 @@
          <view class="panel">
              <view class="panel-body">
 				 <view class="panel-item" >
-				 	<text >{{userinfo.code}} </text>
-				     <text>我的提货码</text>  
+					<text class="sub-item-title">我的提货码</text> 
+				 	<text class="sub-item-text1">{{userinfo.code}} </text>
 				 </view>
 				 <view class="panel-item" >
-				     <text>{{userinfo.ppName}}</text>
-				     <text>我的送货分区</text>  
+					 <text class="sub-item-title">我的送货分区</text> 
+				     <text class="sub-item-text2">{{userinfo.ppName}}</text> 
+
 				 </view>
-                 <view class="panel-item">
-                     <text>{{orderCount}}</text>
-                     <text>我的总订单数</text>  
-                 </view>
-                 <view class="panel-item">
-                     <text>尚未完成支付</text>
-                     <text>我的总支付金额</text>  
-                 </view>
-                 
              </view>
              
          </view> 
@@ -84,10 +76,12 @@
                    <uni-icons type="arrowright" size="15"></uni-icons>
                </view>
                 </navigator>
+				<navigator class="panel-item" url="/pages/info/support-qr/support-qr">
                <view class="panel-list-item">
                    <text>联系客服</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>
                </view>   
+			   </navigator>
            </view>
                 
         </view>
@@ -174,6 +168,30 @@
                   width: 35px;
                   height: 35px;
               }
+			  .sub-item-title {
+			  	margin-top: 10rpx;
+			  	margin-bottom: 10rpx;
+			  	margin-left: 30rpx;
+			  	margin-right: 30rpx;
+			  	display: flex;
+			  	justify-content: space-between;
+			  	align-items: center;
+				font-size: 20rpx;
+				color: #aaaaaa
+			  	}
+			  .sub-item-text1 {
+			  	display: flex;
+			  	flex-direction: column;
+			  	justify-content: space-between;
+				font-size: 30rpx;
+				font-weight: 800;
+				color: #ee9900
+			  	}
+				.sub-item-text2 {
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					}
           }
       }  
     }

@@ -17,6 +17,15 @@
              </uni-swipe-action-item>
              </block>
          </uni-swipe-action>
+		 <view class="order-item-msg">
+		 	<view class="order-item-sub-left">
+		 		<image src="/static/note_icon.png" class="order-item-sub-icon"></image>
+		 	</view>
+		 	<view class="order-item-sub-right">
+		 		<text>当您的物流信息表明您的包裹已经在逆海淘国内仓库签收，但是在您的包裹列表页面迟迟不见其显示。 您可以发起包裹认领/查找请求。</text>
+		 	</view>
+		 </view>
+
          <!--自定义结算组件-->
          <my-claim-button></my-claim-button> 
     </view>
@@ -146,5 +155,29 @@
             margin-right: 3px;
         }
     }
+	
 }
+.order-item-msg{
+		display: flex;
+		width: 660rpx;
+		margin: 20rpx;
+		font-size: 25rpx;
+		color: #fe642c;
+		}
+	.order-item-sub-left{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		}
+	.order-item-sub-right{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		}
+		.order-item-sub-icon{
+			margin-right: 10rpx;
+			width: 30rpx;
+			height: 30rpx;
+			display: block;
+			}
 </style>
