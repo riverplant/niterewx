@@ -52,8 +52,7 @@
                 title:'',
                 isShowMsg:false,
                 isShow:false,
-                isloading:true,
-				updateClaimList:[]
+                isloading:true
             };
         },
         computed: {
@@ -71,9 +70,36 @@
 		},
         methods: {    		
             swipeItemClickHandler(item) {
-                console.log(item)
-                this.removeItemById(item.id)
+                this.removeItemById(item.trackingNumber)
             },
+			
+			removeItemById(trackingNumber) {
+				uni.showModal({
+				    title: '提示',
+				    content: '确定要删除该申请吗',
+				    success: function (res) {
+				        if (res.confirm) {
+				           this.deleteItemById(trackingNumber)
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }.bind(this)
+				});
+
+			},
+			
+			async deleteItemById(trackingNumber) {
+				const {
+				    data: res
+				} = await uni.$http.delete('http://127.0.0.1:8080/wx/users/deleteClaim/'+ trackingNumber)
+				if (res.status !== 200) return uni.$showMsg()
+				this.searchResults = this.searchResultsBak.filter(
+				                           claim=> claim.openid == this.openid 
+										   && claim.trackingNumber != trackingNumber 
+										   && claim.isDelete == 1)
+				this.searchResultsBak = this.searchResults
+			},
+			
             search(res) {
                 clearTimeout(this.timer)
                 this.timer = setTimeout(() => {
@@ -91,18 +117,14 @@
            }
                    
      },
-     gotoDetail(item) {
-         uni.navigateTo({
-             url: '/subpkg/orders_detail/orders_detail?item=' + JSON.stringify(item)
-         })
-     },
 	 async getClaimeList() {
 	 	const {
 	 	    data: res
 	 	} = await uni.$http.get('http://127.0.0.1:8080/wx/users/claimList')
 	 	if (res.status !== 200) return uni.$showMsg()
-		this.updateClaimList = res.data
-		this.searchResults = this.updateClaimList.filter(claim=>claim.openid == this.openid)
+		console.log('updateClaimList:', res.data)
+		this.searchResults = res.data.filter(claim=>claim.openid == this.openid && claim.isDelete == 1)
+		console.log('searchResults:', this.searchResults)
 		this.searchResultsBak = this.searchResults
 	 },
      radioChangeHandler(e) {
