@@ -137,6 +137,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/claimManage/claimManage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
     "subPackages": [
       {
@@ -212,6 +221,15 @@
                 }
                 
                 }
+                ,{
+                    "path" : "claim_table/claim_table",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
       }  
     ],
@@ -234,20 +252,26 @@
 				"selectedIconPath": "static/icon-client-tabbar-01a.png"
 
             },
-
              {
-                     "pagePath": "pages/package/package",
-                     "text": "包裹管理",
-                     "iconPath": "static/c1.png"
+                 "pagePath": "pages/package/package",
+                 "text": "包裹管理",
+                "iconPath": "static/c1.png"
             
-                },
-                {
-                    "pagePath": "pages/claim/claim",
+             },
+             {
+                "pagePath": "pages/claim/claim",
                     "text": "认领请求",
                     "iconPath": "static/icon-client-tabbar-02b.png",
 					"selectedIconPath": "static/icon-client-tabbar-02a.png"
             
                 },
+                {
+                   "pagePath": "pages/claimManage/claimManage",
+                       "text": "认领请求管理",
+                       "iconPath": "static/icon-client-tabbar-02b.png",
+                					"selectedIconPath": "static/icon-client-tabbar-02a.png"
+                            
+                   },
 				{
 				    "pagePath": "pages/info/info",
 				    "text": "用户须知",
@@ -255,12 +279,13 @@
 					"selectedIconPath": "static/icon-client-tabbar-03a.png"
 				            
 				}
-            //     {
-            //         "pagePath": "pages/box/box",
-            //         "text": "装箱",
-            //         "iconPath": "static/c1.png"
+             /**   {
+                     "pagePath": "pages/box/box",
+                     "text": "装箱",
+                    "iconPath": "static/package.png"
             
-            //     },
+                 }
+                 **/
             //     {
             //         "pagePath": "pages/cabinet/cabinet",
             //         "text": "装柜",
