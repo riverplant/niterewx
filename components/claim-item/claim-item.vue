@@ -15,10 +15,10 @@
                     <view class="order-item-sub-left">
 						當前申請狀態
 					</view>
-					<view class="order-item-sub-right-price" v-if="claim.status == 1">
+					<view class="order-item-sub-right-price" v-if="claim.status == 0">
 						 處理中...
 					</view>
-					<view class="order-item-sub-right-price" v-else-if="claim.status == 2">
+					<view class="order-item-sub-right-price" v-else-if="claim.status == 1">
 						 處理完成
 					</view>
 					<view class="order-item-sub-right-price" v-else>

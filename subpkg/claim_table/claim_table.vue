@@ -46,22 +46,25 @@
                 isShow : false,
                 isHidden: false,
 				imageUrlList: [],
+				radioValue: 0,
                 claimFormData: {
                     trackingNumber:  '',
-                    orderStatus: 1,
+                    status: 0,
 					msg:''	
                 }
             };
         },
         
         onLoad(e) {
-            console.log('e:',e)
+            
             if(e && e.claim) {
                let uinfo = JSON.parse(e.claim)
+			   console.log('uinfo:',uinfo)
                 if(uinfo !== null || uinfo !== {}) {
                     this.claimFormData.trackingNumber = uinfo.trackingNumber
-                    this.radioValue = uinfo.orderStatus+''
-        			this.isShow = uinfo.orderStatus == 2
+                    this.radioValue = uinfo.status+''
+					 console.log('radioValue:', this.radioValue)
+        			this.isShow = uinfo.status == 2
         			if(this.isShow)
         			   this.claimFormData.msg = uinfo.msg
 					this.imageUrlList = uinfo.imageUrlList
@@ -72,7 +75,7 @@
         methods: {
 
                     radioChange: function (e) {
-                            this.claimFormData.orderStatus = e.detail.value === '2' ? 2 : 1
+                            this.claimFormData.status = e.detail.value === '2' ? 2 : 1
                             this.isShow = e.detail.value === '2' ? true : false
                     	},
         			 TanPreviewImage(){  
