@@ -8,31 +8,10 @@
 </template>
 
 <script>
-    import {
-        mapGetters,
-        mapState,
-        mapMutations
-    } from 'vuex'
     export default {
-        props: {
-            show: {
-                type: Boolean,
-                default: false,
-            }
-        },
         data() {
             return {
             };
-        },
-        computed: {
-            ...mapState('m_user', ['code', 'openid', 'userinfo']),
-            ...mapGetters('m_order', ['checkedCount', 'count', 'total']),
-            isFullCheck() {
-                return this.count === this.checkedCount
-            }
-        },
-        methods: {
-            ...mapMutations('m_order', ['updateAllOrdersState', 'setOrdersNonPayer']),
         }
     }
 </script>

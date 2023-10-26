@@ -118,7 +118,7 @@
             
            async uploadFilePromise( imgUrl ) {
               let a = await uni.uploadFile({
-                                     url: 'http://127.0.0.1:8080/wx/users/picture', // 仅为示例，非真实的接口地址
+                                     url: '/wx/users/picture', 
                                      filePath: imgUrl,
                                      name: 'file',
                                      formData: {

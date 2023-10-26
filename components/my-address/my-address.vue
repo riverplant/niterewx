@@ -29,35 +29,10 @@
 </template>
 
 <script>
-    import { mapState,mapMutations, mapGetters } from 'vuex'
     export default {
-        name:"my-address",
         data() {
             return {
             };
-        },
-        
-        onShow() {
-            console.log('address:', JSON.stringify(address))
-             console.log(JSON.stringify(address) === '{}')
-        },
-        methods: {
-            ...mapMutations('m_user',['updateAddress']),
-            // async chooseAddress() {
-            //     const[err, succ] = await uni.chooseAddress().catch(err => err)                
-            //     if(err === null && succ.errMsg === 'chooseAddress:ok') {
-            //        console.log('succ:',succ)
-            //         this.address = succ
-            //         this.updateAddress(succ)
-            //     }else {
-            //          console.log('err:',err)
-            //     }
-            // }
-            
-        },
-        computed: {
-            ...mapState('m_user',['address','userinfo']) 
-           
         }
     }
 </script>

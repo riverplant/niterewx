@@ -66,7 +66,7 @@
 	        async createWarehouse() { 
 	            this.dynamicFormData.openid = this.openid
 	            this.dynamicFormData.pid =  this.node
-	            const { data:result } =   await uni.$http.post('http://127.0.0.1:8080/wx/users/createWarehouse', this.dynamicFormData );
+	            const { data:result } =   await uni.$http.post('/wx/users/createWarehouse', this.dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
 	                this.updateCode(result.data.code)
 	                this.updatePickPoint(result.data.ppName)
@@ -80,7 +80,7 @@
 	                this.dynamicFormData.openid = this.openid
 	                this.dynamicFormData.pid =  this.node
 					this.dynamicFormData.code = this.code
-	            const { data:result } =   await uni.$http.put('http://127.0.0.1:8080/wx/users/updateWarehouse', this.dynamicFormData );
+	            const { data:result } =   await uni.$http.put('/wx/users/updateWarehouse', this.dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
 	                uni.navigateBack({
 	                    delta: 1

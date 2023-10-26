@@ -93,7 +93,7 @@
 
                     const {
                         data: res
-                    } = await uni.$http.post('https://13bc-184-162-136-202.ngrok.io/wx/orders/create', orderInfo)
+                    } = await uni.$http.post('/wx/orders/create', orderInfo)
                     if (res.status != 200) return uni.$showMsg('创建订单失败!')
                     console.log('res.data:', res.data)
                     const oNumber = res.data
@@ -104,7 +104,7 @@
                     //調用統一下單已支付
                     const {
                         data: preparePayRes
-                    } = await uni.$http.post('https://13bc-184-162-136-202.ngrok.io/wx/orders/unifiedorder', param)
+                    } = await uni.$http.post('/wx/orders/unifiedorder', param)
                     if (res.status != 200) return uni.$showMsg('獲取預订单號失败!')
                     console.log('res.data:', preparePayRes.data)
                     console.log(preparePayRes.return_code)

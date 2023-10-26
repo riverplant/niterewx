@@ -56,7 +56,7 @@
             async initOrders() {
                 const {
                     data: res
-                } = await uni.$http.get('http://127.0.0.1:8080/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
+                } = await uni.$http.get('/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
                 if (res.status !== 200) return uni.$showMsg()
                 this.orderList = res.data
                 this.updateOrderListByOpenId(res.data)
@@ -79,7 +79,7 @@
 			async getWarehouseRequest() {
 				const {
 				    data: res
-				} = await uni.$http.get('http://127.0.0.1:8080/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
+				} = await uni.$http.get('/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
 				console.log('res.status:', res.data)
 				if (res.status !== 200) return uni.$showMsg()
 				this.warehouseRequestList = res.data
@@ -90,7 +90,7 @@
 			async getuserInfo() {
 				const {
 				    data: res
-				} = await uni.$http.get('http://127.0.0.1:8080/wx/users/getUserinfos/' + this.openid)
+				} = await uni.$http.get('/wx/users/getUserinfos/' + this.openid)
 				console.log('res.status:', res.data)
 				if (res.status !== 200) return uni.$showMsg()
 				this.updateUserInfo(res.data)

@@ -11,14 +11,12 @@
                <text class="claim-title-text">認領申请管理</text>
            </view>
          <uni-swipe-action>
-         <!--     <block v-for="(item,i) in searchResults" :key='i'>
+            <block v-for="(item,i) in searchResults" :key='i'>
             <navigator class="panel-item" :url="'/subpkg/claim_table/claim_table?claim='+JSON.stringify(item)"> 
                   <claim-item :claim="item" ></claim-item>
             </navigator>
-             </block> -->
-             <navigator class="panel-item" :url="'/subpkg/claim_table/claim_table?claim='+JSON.stringify(item)">
-                   <view >aaaaaaaaaaaaaaaa</view>
-             </navigator>
+             </block> 
+
          </uni-swipe-action>
     </view>
 </template>
@@ -79,9 +77,9 @@
 	 async getClaimeList() {
 	 	const {
 	 	    data: res
-	 	} = await uni.$http.get('http://127.0.0.1:8080/wx/users/claimList')
+	 	} = await uni.$http.get('/wx/users/claimList')
 	 	if (res.status !== 200) return uni.$showMsg()
-		this.searchResults = res.data.filter( claim.isDelete == 1)
+		this.searchResults = res.data.filter(claim=> claim.isDelete == 1)
 		this.searchResultsBak = this.searchResults
 	 }
 

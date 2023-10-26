@@ -109,7 +109,7 @@
                    }
                    const {
                        data: addressRes
-                   } = await uni.$http.get('http://127.0.0.1:8080/wx/users/addressItemList?kw='+this.kw)
+                   } = await uni.$http.get('/wx/users/addressItemList?kw='+this.kw)
                    if (addressRes.status != 200) return uni.$showMsg('獲取地址列表失败!')
                    console.log('res.data:', addressRes.data)
                    this.autocompleteStringList = addressRes.data
@@ -134,7 +134,7 @@
             async updateUserInfos() {
               const {
                   data: userInfoRes
-              } = await uni.$http.put('http://127.0.0.1:8080/wx/users/updateUserInfo', this.dynamicFormData)  
+              } = await uni.$http.put('/wx/users/updateUserInfo', this.dynamicFormData)  
                if (userInfoRes.status != 200) return uni.$showMsg('更新用戶信息失败!')
                this.updateAddress(this.dynamicFormData.formatted_address)
                this.updateUserInfo(userInfoRes.data)

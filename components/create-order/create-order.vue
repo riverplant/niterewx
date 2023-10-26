@@ -108,7 +108,7 @@
 	async removeItemById(id) {
 		 const {
 		     data: orderRes
-		 } = await uni.$http.delete('http://127.0.0.1:8080/wx/orders/'+ id)  
+		 } = await uni.$http.delete('/wx/orders/'+ id)  
 		  if (orderRes.status != 200) return uni.$showMsg('删除包裹信息失败!') 
 		  
 		 uni.navigateBack({

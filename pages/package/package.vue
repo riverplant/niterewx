@@ -23,14 +23,14 @@
          ...mapMutations('m_order',['updateCatTree','updateOrderListWithoutBoxId']),
          
          async initOrderListWithoutBoxId() {
-           const {data: res} = await uni.$http.get('http://127.0.0.1:8080/wx/orders/orderListWithoutBoxId')
+           const {data: res} = await uni.$http.get('/wx/orders/orderListWithoutBoxId')
            if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
             console.log('res:', res.data)
             this.updateOrderListWithoutBoxId(res.data)  
          },
          
          async initCatTree() {
-             const {data: res} = await uni.$http.get('http://127.0.0.1:8080/wx/orders/catlist')
+             const {data: res} = await uni.$http.get('/wx/orders/catlist')
              if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
               console.log('res:', res.data)
               this.updateCatTree(res.data)

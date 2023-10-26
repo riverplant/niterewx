@@ -190,7 +190,7 @@
 				console.log('orderFormData:', this.orderFormData)
                const {
                    data: orderRes
-               } = await uni.$http.post('http://127.0.0.1:8080/wx/orders/createOrder', this.orderFormData)  
+               } = await uni.$http.post('/wx/orders/createOrder', this.orderFormData)  
                 if (orderRes.status != 200) return uni.$showMsg('創建包裹信息失败!') 
  
                uni.navigateBack({
@@ -200,7 +200,7 @@
             async updateOrder() {
               const {   
                   data: orderRes
-              } = await uni.$http.put('http://127.0.0.1:8080/wx/orders/updateOrder', this.orderFormData)  
+              } = await uni.$http.put('/wx/orders/updateOrder', this.orderFormData)  
                if (orderRes.status != 200) return uni.$showMsg('更新包裹信息失败!') 
                
              uni.navigateBack({

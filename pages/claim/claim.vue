@@ -91,7 +91,7 @@
 			async deleteItemById(trackingNumber) {
 				const {
 				    data: res
-				} = await uni.$http.delete('http://127.0.0.1:8080/wx/users/deleteClaim/'+ trackingNumber)
+				} = await uni.$http.delete('/wx/users/deleteClaim/'+ trackingNumber)
 				if (res.status !== 200) return uni.$showMsg()
 				this.searchResults = this.searchResultsBak.filter(
 				                           claim=> claim.openid == this.openid 
@@ -120,7 +120,7 @@
 	 async getClaimeList() {
 	 	const {
 	 	    data: res
-	 	} = await uni.$http.get('http://127.0.0.1:8080/wx/users/claimList')
+	 	} = await uni.$http.get('/wx/users/claimList')
 	 	if (res.status !== 200) return uni.$showMsg()
 		console.log('updateClaimList:', res.data)
 		this.searchResults = res.data.filter(claim=>claim.openid == this.openid && claim.isDelete == 1)
