@@ -1,5 +1,5 @@
 <template>
-    <view class="my-claim-container" >
+    <view class="my-claim-button-container" >
         <navigator :url="'/subpkg/claim_form/claim_form'">
          <view class="btn-claim" @click="requestClaim">发起申请</view>
         </navigator>
@@ -47,8 +47,8 @@
 </script>
 
 <style lang="scss">
-    .my-claim-container {
-        position: fixed;
+    .my-claim-button-container {
+        position: relative;
         bottom: 0;
         left: 0;
         width: 100%;

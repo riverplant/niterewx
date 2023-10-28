@@ -189,7 +189,7 @@ export default {
 			console.log('state.warehouseRequestList.length',state.warehouseRequestList.length)
 			if(state.warehouseRequestList.length === 0) return 0
 			
-			let flag = state.warehouseRequestList.filter(x=>x.isAccepted === 0).reduce((total, item)=> total += 1, 0)
+			let flag = state.warehouseRequestList.filter(x=>x.isAccepted === 1).reduce((total, item)=> total += 1, 0)
 			console.log('flag=',flag)
 			return flag
 		},

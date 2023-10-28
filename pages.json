@@ -1,4 +1,7 @@
 {
+	"easycom": {
+				"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+			},
     "vue-google-autocomplete" : [ {
             "path": "vue-google-autocomplete/VueGoogleAutocomplete",
             "style": {}
@@ -245,6 +248,15 @@
     
     "tabBar": {
         "selectedColor": "#c00000",
+		"list": [
+			{ "pagePath": "pages/userInfo/userInfo"},
+			{ "pagePath": "pages/package/package"},
+			{ "pagePath": "pages/claim/claim"},
+			{ "pagePath": "pages/claimManage/claimManage"},
+			{ "pagePath": "pages/info/info"}
+			]
+		  
+		   /** 
         "list": [ {
                 "pagePath": "pages/userInfo/userInfo",
                 "text": "我的账户",
@@ -279,20 +291,20 @@
 					"selectedIconPath": "static/icon-client-tabbar-03a.png"
 				            
 				}
-             /**   {
+            {
                      "pagePath": "pages/box/box",
                      "text": "装箱",
                     "iconPath": "static/package.png"
             
                  }
-                 **/
-            //     {
-            //         "pagePath": "pages/cabinet/cabinet",
-            //         "text": "装柜",
-            //         "iconPath": "static/c1.png"
+                 
+                 {
+                     "pagePath": "pages/cabinet/cabinet",
+                     "text": "装柜",
+                    "iconPath": "static/c1.png"
                             
-            //     }
+                }
            
-        ]
+        ]**/
     }
 }

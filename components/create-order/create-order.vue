@@ -8,7 +8,8 @@
                <!--左侧得图标-->
                 <uni-icons type="shop" size="18"></uni-icons>
                <!--右侧得文本-->
-               <text class="create-order-title-text">包裹列表</text>
+               <text class="create-order-title-text">所有包裹列表</text>
+			            
            </view>
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
@@ -20,7 +21,8 @@
              </block>
          </uni-swipe-action>
          <!--自定义结算组件-->
-         <my-create-order-button></my-create-order-button> 
+ <my-create-order-button></my-create-order-button>
+		  <tabBar :current="1"></tabBar>
     </view>
 </template>
 
@@ -39,7 +41,7 @@
                 wh:0,
                 timer: null,
                 kw: '',
-                searchResults:[],
+                searchResults: this.orderListWithoutBoxId,
                 searchResultsBak:[],
                 type:1,
                 title:'',

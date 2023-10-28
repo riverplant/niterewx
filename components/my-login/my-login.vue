@@ -26,8 +26,8 @@
 		    ...mapState('m_user', ['token', 'openid'])
 		},
         methods: {
-            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken','updateAddress', 'updatePickPoint', 'updateCode']),
-           ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId']),
+            ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken','updateAddress', 'updatePickPoint', 'updateCode','updateTabBarList']),
+           ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId','updateCatTree','updateOrderListWithoutBoxId']),
 	
             //用户授权之后，获取用户的基础信息
             getUserInfo(e) {
@@ -58,10 +58,35 @@
  
             //获取后台返回的token,保存到storage中
             uni.$showMsg('登录成功!')
-			this.initSwiperDate()
+			//this.initSwiperDate()
 			this.getWarehouseRequest()
+			this.initTabBar(result.data)
+			this.initCatTree()
+			this.initOrderListWithoutBoxId()
             } ,
-					
+			
+			async initCatTree() {
+			    const {data: res} = await uni.$http.get('/wx/orders/catlist')
+			    if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
+			     console.log('res:', res.data)
+			     this.updateCatTree(res.data)
+			} ,
+			
+			async initOrderListWithoutBoxId() {
+			  const {data: res} = await uni.$http.get('/wx/orders/orderListWithoutBoxId')
+			  if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
+			   console.log('res:', res.data)
+			   this.updateOrderListWithoutBoxId(res.data)  
+			},
+			initTabBar(userInfo) {
+				if(userInfo.userRoles == 3) {
+					this.updateTabBarList( getApp().globalData.clientTabBarList )
+				}else {
+					this.updateTabBarList( getApp().globalData.adminTabBarList )
+				}
+				console.log("tabBarList:", getApp().globalData.clientTabBarList)
+			},
+				
 			async initSwiperDate() {
 			    const {
 			        data: result

@@ -10,10 +10,20 @@ export default {
         address: JSON.parse(uni.getStorageSync('address') || '{}'),
         role: uni.getStorageSync('role') || 0, 
         pickPoint: uni.getStorageSync('pickPoint') || '', 
+		tabBarList: JSON.parse(uni.getStorageSync('tabBarList') || '[]'),
     }),
     
     mutations:{
+		
+		updateTabBarList(state, tabBarList) {
+		   state.tabBarList =  tabBarList
+		   this.commit('m_user/saveTabBarListToStorage')
+		},
         
+		saveTabBarListToStorage(state) {
+			uni.setStorageSync('tabBarList', JSON.stringify(state.tabBarList))    
+		},
+		
         updatePickPoint(state, pickPoint) {
            state.pickPoint =  pickPoint
            this.commit('m_user/savepickPointToStorage')

@@ -1,11 +1,58 @@
 <script>
 	export default {
+		globalData: {  
+		            clientTabBarList: [
+						{
+							path: "pages/userInfo/userInfo",
+							iconPath: "/static/icon-client-tabbar-01b.png",
+							text: "我的账户",
+							index: 0
+						},
+						{
+							path: "pages/claim/claim",
+							iconPath: "/static/icon-client-tabbar-02a.png",
+							text: "认领请求",
+							index: 1
+						},
+						{
+							path: "pages/info/info",
+							iconPath: "/static/icon-client-tabbar-03b.png",
+							text: "用户须知",
+							index: 2
+						}
+						],
+						
+					adminTabBarList: [
+						{
+							path: "pages/userInfo/userInfo",
+							iconPath: "/static/icon-client-tabbar-01b.png",
+							text: "我的账户",
+							index: 0
+						},
+						{
+							path: "pages/package/package",
+							iconPath: "/static/package.png",
+							text: "包裹管理",
+							index: 1
+						},
+						{
+							path: "pages/claimManage/claimManage",
+							iconPath: "/static/icon-client-tabbar-02b.png",
+							text: "认领请求管理",
+							index: 2
+						}
+						]
+						  
+				     
+		        },
+				
 		onLaunch: function() {
-			console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上！')
 			console.log('App Launch')
+			uni.hideTabBar({})
 		},
 		onShow: function() {
 			console.log('App Show')
+			uni.hideTabBar({})
 		},
 		onHide: function() {
 			console.log('App Hide')
@@ -14,6 +61,7 @@
 </script>
 
 <style lang="scss">
+	@import "uview-ui/index.scss";
 	/*每个页面公共css */
 	@import '@/uni_modules/uni-scss/index.scss';
 	/* #ifndef APP-NVUE */

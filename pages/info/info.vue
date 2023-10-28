@@ -1,7 +1,9 @@
 <template>
     <view class="my-container">
       <my-information></my-information>
+	   <tabBar :current="2"></tabBar>
     </view>
+	 
 </template>
 
 

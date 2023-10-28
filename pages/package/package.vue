@@ -1,7 +1,12 @@
 <template>
     <view>
-      <create-order></create-order>
+		<view class="">
+			 <create-order></create-order>
+		</view>
+
+	  
     </view>
+	
 </template>
 
 <script>
@@ -14,8 +19,8 @@
                 
             };
         },
-        
         onShow() {
+			console.log('onShow.....')
             this.initOrderListWithoutBoxId()
             this.initCatTree()
         },

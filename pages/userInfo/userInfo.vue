@@ -2,7 +2,7 @@
     <view class="my-container">
         <my-login v-if="!token"></my-login>
         <my-userinfo v-else></my-userinfo>
-
+      <tabBar :current="0"></tabBar>
 
 
 

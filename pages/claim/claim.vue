@@ -28,6 +28,9 @@
 
          <!--自定义结算组件-->
          <my-claim-button></my-claim-button> 
+		 <view class="tabaar">
+		  <tabBar :current="1"></tabBar>	
+		 </view>
     </view>
 </template>
 

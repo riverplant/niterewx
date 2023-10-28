@@ -5,8 +5,9 @@ import App from './App'
 import {$http} from '@escook/request-miniprogram'
 import store from '@/store/store.js'
 import vueGoogleAutocomplete from 'vue-google-autocomplete'
+import uView from "uview-ui"
 
-
+Vue.use(uView)
 uni.$http = $http
 
 uni.$showMsg = function( title='数据加载失败', duration = 1500 ) {

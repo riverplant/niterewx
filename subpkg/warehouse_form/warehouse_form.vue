@@ -42,6 +42,15 @@
 			   },
 	        }
 	    },
+		
+		dynamicRules: {
+		    code: {
+		        rules: [{
+		            required: true,
+		            errorMessage: '用户的收货码不能为空'
+		        }]
+		    }
+		},
 	    computed: {
 	        ...mapState('m_user', ['userinfo', 'pickPointList', 'pickPoint', 'code', 'openid']), 
 	    },
@@ -57,11 +66,20 @@
 	            this.node = value[value.length - 1].value
 	        },
 	        submit(ref) {
-				if(this.code === '') {
-					this.createWarehouse()
-				}else {
-					 this.updateWarehouse()
+				if(this.node == '') {
+					uni.showToast({
+					  title: "请从仓库列表中选择仓库",
+					  duration: 2000,
+					  icon: 'none'
+					}) 
+				} else  {
+					if(this.code === '') {
+						this.createWarehouse()
+					}else {
+						 this.updateWarehouse()
+					}
 				}
+				
 			},
 	        async createWarehouse() { 
 	            this.dynamicFormData.openid = this.openid
@@ -82,12 +100,20 @@
 					this.dynamicFormData.code = this.code
 	            const { data:result } =   await uni.$http.put('/wx/users/updateWarehouse', this.dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
+				  this.getWarehouseRequest()
 	                uni.navigateBack({
 	                    delta: 1
 	                });
 	                
 	        },
-	         
+	       async getWarehouseRequest() {
+	       	const {
+	       	    data: res
+	       	} = await uni.$http.get('/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
+	       	if (res.status !== 200) return uni.$showMsg()
+	       	this.warehouseRequestList = res.data
+	       	this.updateWarehouseRequestByOpenId(res.data)
+	       }
 	       
 	    },   
 	}

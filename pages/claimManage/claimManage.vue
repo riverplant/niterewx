@@ -18,6 +18,7 @@
              </block> 
 
          </uni-swipe-action>
+		   <tabBar :current="4"></tabBar>
     </view>
 </template>
 

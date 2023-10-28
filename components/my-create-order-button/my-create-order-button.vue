@@ -1,5 +1,5 @@
 <template>
-    <view class="create-order-container" >
+    <view class="create-order-button-container" >
         <navigator class="panel-item" :url="'/subpkg/order_form/order_form'">
          <view class="btn-claim">創建新的訂單</view>
         </navigator>
@@ -17,8 +17,8 @@
 </script>
 
 <style lang="scss">
-    .create-order-container {
-        position: fixed;
+    .create-order-button-container {
+        position: relative;
         bottom: 0;
         left: 0;
         width: 100%;

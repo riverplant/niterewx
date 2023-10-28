@@ -20,7 +20,7 @@
            </view>
            <view class="row2">
               <view class="row2-left">收货地址: </view>
-            <view class="row2-right">{{address}} </view>  
+            <view class="row2-right">{{userinfo.formatted_address}} </view>  
        </view> 
        </navigator>     
        </view> 
@@ -29,11 +29,15 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
     export default {
         data() {
             return {
             };
-        }
+        },
+		computed: {
+		    ...mapState('m_user', ['userinfo']),
+		},
     }
 </script>
 
