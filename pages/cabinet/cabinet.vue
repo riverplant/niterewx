@@ -1,165 +1,27 @@
 <template>
 	<view class="page">
-		<view class="content">
-
-			<view class="unit-title">使用静态数据示例</view>
-			<view class="unit-wrapper">
-				<view class="unit-item">
-					<view class="unit-item__label">名称：</view>
-					<input-autocomplete class="unit-item__input" :min=1 :value="testObj.sname" v-model="testObj.sname" placeholder="请输入报价单名称"
-					 highlightColor="#FF0000" :stringList="autocompleteStringList" v-on:selectItem="selectItemS"></input-autocomplete>
-				</view>
-			</view>
-		
-			<button @tap="printLog">打印结果</button>
-			<button @tap="changeStaticData">改变静态数据</button>
-		</view>
+		<tabBar :current="3"></tabBar>
 	</view>
 </template>
 
 <script>
-	import inputAutocomplete from '@/components/address-autocomplete/address-autocomplete.vue'
 	export default {
-		components: {inputAutocomplete}, 
 		data() {
 			return {
-				testObj: {
-					sname: '静',
-					dname: '动态'
-				},
-				//使用静态数据
-				autocompleteStringList: [
-					'汉字行',
-					'guang zhou',
-					{
-						//自定义数据对象必须要有text属性
-						text: 'hello',
-						//其它字段根据业务需要添加
-						key: 'hello key'
-					},
-					'不 行',
-					{
-						//自定义数据对象必须要有text属性
-						text: '我是静态数据',
-						//其它字段根据业务需要添加
-						id: 'hz'
-					}
-				]
+			
 			};
 		},
 		methods: {
 	
-			//响应选择事件，接收选中的数据
-			selectItemD(data) {
-				//选择事件
-				//【重要！！！】v1.0.12以后，选中的数据格式发生了变化，新版本中选中的数据的格式为：{'selectItem':选中的数据,'param':传入组件的自定义参数}
-				console.log('收到数据了:', data);
-			},
-			selectItemS(data) {
-				//选择事件
-				console.log('收到数据了:', data);
-			},
-			printLog() {
-				console.log(this.testObj);
-			}
-			,
-			changeStaticData() {
-				console.log('改变静态数据');
-				this.autocompleteStringList= [
-					'1汉字行',
-					'1change data',
-					'1guang zhou',
-					{
-						//自定义数据对象必须要有text属性
-						text: '1hello',
-						//其它字段根据业务需要添加
-						key: '1hello key'
-					},
-					'1不 行',
-					{
-						//自定义数据对象必须要有text属性
-						text: '1我是静态数据',
-						//其它字段根据业务需要添加
-						id: '1hz'
-					}
-				];
-			}
+			
 		},
 		
 		computed:{
-			computedParam(){
-				return function({item,i}){
-					return {
-						data:item,
-						index:i,
-					};
-				}
-			}
-		},
-
-		onLoad: function(option) {
-			let that = this;
+			
 		}
 	};
 </script>
 
 <style>
-	.content {
-		text-align: center;
-		height: 100%;
-	}
-
-	.unit-title {
-		font-size: 30upx;
-		/* font-style: oblique; */
-		color: #fff;
-		padding: 16upx 26upx 50upx 26upx;
-		padding-bottom: 10upx;
-		text-align: left;
-	}
-
-	.unit-wrapper {
-		padding: 44upx 0;
-		margin: 0 30upx;
-		border-radius: 32upx;
-		margin-bottom: 20upx;
-		background-color: #fff;
-		color: #000;
-	}
-
-	.unit-item {
-		display: flex;
-		justify-content: flex-end;
-		padding-right: 30upx;
-		padding-left: 30upx;
-		margin-bottom: 30upx;
-	}
-
-	.unit-item__header {
-		margin-top: 0;
-		margin-bottom: 8upx;
-		padding: 0upx 8upx;
-		display: flex;
-		justify-content: space-between;
-	}
-
-	.unit-item__label {
-		padding-top: 2px;
-		text-align: right;
-		font-size: 28upx;
-		margin: 8upx 0 4upx 16upx;
-		min-width: 188upx;
-		width: 240upx;
-	}
-
-	.unit-item__input {
-		text-align: left;
-		width: 100%;
-		font-size: 28upx;
-		margin: 4upx 16upx 0 4upx;
-		border: 2upx solid #eaeaea;
-		border-radius: 12upx;
-		min-height: 52.5upx;
-		line-height: 52.5upx;
-	}
+	
 </style>

@@ -62,7 +62,7 @@
 			this.getWarehouseRequest()
 			this.initTabBar(result.data)
 			this.initCatTree()
-			this.initOrderListWithoutBoxId()
+			this.getAllorderList()
             } ,
 			
 			async initCatTree() {
@@ -72,9 +72,9 @@
 			     this.updateCatTree(res.data)
 			} ,
 			
-			async initOrderListWithoutBoxId() {
-			  const {data: res} = await uni.$http.get('/wx/orders/orderListWithoutBoxId')
-			  if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
+			async getAllorderList() {
+			  const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
+			  if (res.status != 200) return uni.$showMsg('查詢訂單列表失败!')
 			   console.log('res:', res.data)
 			   this.updateOrderListWithoutBoxId(res.data)  
 			},

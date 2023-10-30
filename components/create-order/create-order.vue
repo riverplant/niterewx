@@ -69,7 +69,6 @@
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
 			this.searchResults = this.orderListWithoutBoxId
-			console.log('searchResults:', this.searchResults)
 			this.searchResultsBak = this.searchResults
 		},
         filters: {

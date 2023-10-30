@@ -251,9 +251,11 @@
 		"list": [
 			{ "pagePath": "pages/userInfo/userInfo"},
 			{ "pagePath": "pages/package/package"},
-			{ "pagePath": "pages/claim/claim"},
+			//{ "pagePath": "pages/claim/claim"},
 			{ "pagePath": "pages/claimManage/claimManage"},
-			{ "pagePath": "pages/info/info"}
+			//{ "pagePath": "pages/info/info"}
+			{ "pagePath": "pages/box/box"},
+			{ "pagePath": "pages/cabinet/cabinet"}
 			]
 		  
 		   /** 

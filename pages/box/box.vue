@@ -1,6 +1,7 @@
 <template>
     <view>
         box
+		<tabBar :current="2"></tabBar>
     </view>
 </template>
 
