@@ -9,6 +9,7 @@
                  <view class="order-item-desc-text1">包裹号码: {{order.orderNumber}} </view>
                 <view class="order-item-desc-text2"> 尺寸：{{order.pLong}} × {{order.pWidth}} × {{order.pHeight}} CM</view>
                 <view class="order-item-desc-text3"> 体积重：{{order.pWeightByVolume}} KG | 实际重:{{order.pWeight}} KG</view>
+				 <view class="order-item-desc-text3"> 提货码：{{order.code}}</view>
             </view>
             <view class="order-item-info-box">
                 <view v-if="showPrice" class="order-item-price">

@@ -100,7 +100,8 @@
            if(this.kw === '') {
              this.searchResults = this.searchResultsBak  
            }else {
-             this.searchResults = this.orderListWithoutBoxId.filter( item=> item.orderNumber.indexOf( this.kw ) > -1 );   
+			   console.log('this.orderListWithoutBoxId:',this.orderListWithoutBoxId)
+             this.searchResults = this.orderListWithoutBoxId.filter( item=> (item.orderNumber.indexOf( this.kw ) > -1 || item.code.indexOf( this.kw ) > -1 ) );   
            }
           
       

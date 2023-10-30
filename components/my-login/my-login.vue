@@ -51,18 +51,22 @@
               if( result.status !== 200 ) return uni.$showMsg( result.msg )     
               this.updateToken(result.data.token)
               this.updateOpenid(result.data.openid)
-              this.updateAddress(result.data.address)
-			   this.updateUserInfo(JSON.stringify(result.data))
-			   this.updateCode(result.data.code)
-			   this.updatePickPoint(result.data.ppName)
+			  this.updateUserInfo(JSON.stringify(result.data))
+			  this.initTabBar(result.data)
+			  this.getAllorderList()
+              if(result.data.userRoles == 3) {
+				this.updateAddress(result.data.address)
+				this.updateCode(result.data.code)
+				this.updatePickPoint(result.data.ppName)  
+				//this.initSwiperDate()
+			  }
+			  
  
             //获取后台返回的token,保存到storage中
             uni.$showMsg('登录成功!')
-			//this.initSwiperDate()
 			this.getWarehouseRequest()
-			this.initTabBar(result.data)
 			this.initCatTree()
-			this.getAllorderList()
+
             } ,
 			
 			async initCatTree() {
@@ -84,7 +88,6 @@
 				}else {
 					this.updateTabBarList( getApp().globalData.adminTabBarList )
 				}
-				console.log("tabBarList:", getApp().globalData.clientTabBarList)
 			},
 				
 			async initSwiperDate() {
@@ -101,7 +104,6 @@
 			    const {
 			        data: res
 			    } = await uni.$http.get('/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
-			    console.log('res.status:', res.status)
 			    if (res.status !== 200) return uni.$showMsg()
 			    this.orderList = res.data
 			    this.updateOrderListByOpenId(res.data)
@@ -110,7 +112,6 @@
 			},
 			
 			initOrderList() {
-			    console.log('ordrelist:', this.orderList)
 			    this.ordersNonValide = this.orderList.filter(x => x.orderStatus === 2)
 			    this.setOrdersNonValide(this.ordersNonValide)
 			    this.ordersNonPayer = this.orderList.filter(x => x.orderStatus === 1)
