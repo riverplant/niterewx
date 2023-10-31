@@ -80,7 +80,6 @@
 				const {
 				    data: res
 				} = await uni.$http.get('/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
-				console.log('res.status:', res.data)
 				if (res.status !== 200) return uni.$showMsg()
 				this.warehouseRequestList = res.data
 				
@@ -91,7 +90,6 @@
 				const {
 				    data: res
 				} = await uni.$http.get('/wx/users/getUserinfos/' + this.openid)
-				console.log('res.status:', res.data)
 				if (res.status !== 200) return uni.$showMsg()
 				this.updateUserInfo(res.data)
 			}

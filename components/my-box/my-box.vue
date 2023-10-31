@@ -1,14 +1,14 @@
 <template>
-    <view class="create-order-container">
+    <view class="box-container">
         <view class="search-box">
-              <uni-search-bar placeholder="输入订单号查找订单" bgColor=" #FFFFFF" @input="search" cancel-button="none" :radius="100" />  
+              <uni-search-bar placeholder="输入箱号查找订单" bgColor=" #FFFFFF" @input="search" cancel-button="none" :radius="100" />  
             </view>
             <!--订单标题区域-->
-           <view class="create-order-title">
+           <view class="create-box-title">
                <!--左侧得图标-->
                 <uni-icons type="shop" size="18"></uni-icons>
                <!--右侧得文本-->
-               <text class="create-order-title-text">所有包裹列表</text>
+               <text class="create-box-title-text">所有箱子列表</text>
 			            
            </view>
          <uni-swipe-action>
@@ -21,7 +21,7 @@
              </block>
          </uni-swipe-action>
          <!--自定义结算组件-->
- <my-create-order-button></my-create-order-button>
+ <my-create-box-button></my-create-box-button>
 		  <tabBar :current="1"></tabBar>
     </view>
 </template>
@@ -41,12 +41,10 @@
                 wh:0,
                 timer: null,
                 kw: '',
-                searchResults: this.orderListWithoutBoxId,
+                searchResults: this.boxList,
                 searchResultsBak:[],
                 type:1,
                 title:'',
-                isShowPriceAndRadio:false,
-                isShowMsg:false,
                 isShow:false,
 
                 queryObj:{
@@ -68,7 +66,7 @@
 		beforeMount() {
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
-			this.searchResults = this.orderList
+			this.searchResults = this.boxList
 			this.searchResultsBak = this.searchResults
 		},
         filters: {
@@ -78,7 +76,7 @@
         },
         computed: {
             ...mapState('m_user', ['code']),
-             ...mapState('m_order', ['ordersNonValide','ordersNonPayer','ordersNonLivrer','ordersRembourse', 'orderList'])
+             ...mapState('m_order', ['boxList'])
         },
 		
         methods: {    
@@ -100,7 +98,7 @@
            if(this.kw === '') {
              this.searchResults = this.searchResultsBak  
            }else {
-             this.searchResults = this.orderList.filter( item=> (item.orderNumber.indexOf( this.kw ) > -1 || item.code.indexOf( this.kw ) > -1 ) );   
+             this.searchResults = this.boxList.filter( item=> item.boxNumber.indexOf( this.kw ) > -1  );   
            }
           
       
@@ -126,16 +124,16 @@
 </script>
 
 <style lang="scss">
-    .create-order-container {
+    .box-container {
         padding-bottom: 50px;
     }
-    .create-order-title {
+    .create-box-title {
         height: 40px;
         display: flex;
         align-items: center;
         padding-left: 5px;
         border-bottom: 1px solid #EFEFEF;
-        .create-order-title-text{
+        .create-box-title-text{
             font-size: 14px;
             margin-left: 10px;
         }

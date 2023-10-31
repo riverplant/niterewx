@@ -25,13 +25,13 @@
             this.initCatTree()
         },
         methods: {
-         ...mapMutations('m_order',['updateCatTree','updateOrderListWithoutBoxId']),
+         ...mapMutations('m_order',['updateCatTree','updateOrderList']),
          
          async initOrderListWithoutBoxId() {
            const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
            if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
             console.log('res:', res.data)
-            this.updateOrderListWithoutBoxId(res.data)  
+            this.updateOrderList(res.data)  
          },
          
          async initCatTree() {

@@ -27,7 +27,7 @@
 		},
         methods: {
             ...mapMutations('m_user',['updateUserInfo','updateOpenid','updateSwiperList', 'updateToken','updateAddress', 'updatePickPoint', 'updateCode','updateTabBarList']),
-           ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId','updateCatTree','updateOrderListWithoutBoxId']),
+           ...mapMutations('m_order',['setOrdersNonValide','setOrdersNonPayer','setOrdersNonLivrer','setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId','updateCatTree','updateOrderList','updateBoxList']),
 	
             //用户授权之后，获取用户的基础信息
             getUserInfo(e) {
@@ -54,6 +54,7 @@
 			  this.updateUserInfo(JSON.stringify(result.data))
 			  this.initTabBar(result.data)
 			  this.getAllorderList()
+			  this.getAllBoxList()
               if(result.data.userRoles == 3) {
 				this.updateAddress(result.data.address)
 				this.updateCode(result.data.code)
@@ -80,7 +81,7 @@
 			  const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
 			  if (res.status != 200) return uni.$showMsg('查詢訂單列表失败!')
 			   console.log('res:', res.data)
-			   this.updateOrderListWithoutBoxId(res.data)  
+			   this.updateOrderList(res.data)  
 			},
 			initTabBar(userInfo) {
 				if(userInfo.userRoles == 3) {
@@ -100,6 +101,15 @@
 			    this.initOrders()
 			
 			},
+			
+			async getAllBoxList() {
+				const {
+				    data: result
+				} = await uni.$http.get('/wx/box/list')
+				if (result.status !== 200) return uni.$showMsg('查询箱子列表失败')
+				 this.updateBoxList(res.data)
+			},
+			
 			async initOrders() {
 			    const {
 			        data: res

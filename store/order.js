@@ -10,13 +10,28 @@ export default {
        ordersNonLivrer: JSON.parse(uni.getStorageSync('ordersNonLivrer') || '[]'),
        ordersRembourse: JSON.parse(uni.getStorageSync('ordersRembourse') || '[]'),
        orderListByOpenId: JSON.parse(uni.getStorageSync('orderListByOpenId') || '[]'),
-       orderListWithoutBoxId: JSON.parse(uni.getStorageSync('orderListWithoutBoxId') || '[]'),
+	   orderList: JSON.parse(uni.getStorageSync('orderList') || '[]'),
        catTree:  JSON.parse(uni.getStorageSync('catTree') || '[]'),
 	   warehouseRequestList: JSON.parse(uni.getStorageSync('warehouseRequestList') || '[]'),
 	   claimList: JSON.parse(uni.getStorageSync('claimList') || '[]'),
+	   boxList:JSON.parse(uni.getStorageSync('boxList') || '[]'),
     }),
     
     mutations:{
+		updateBoxList(state, boxList) {
+			state.boxList = boxList
+			this.commit('m_order/saveBoxListToStorage')
+		},
+		saveBoxListToStorage(state) {
+			 uni.setStorageSync('boxList', JSON.stringify(state.boxList))
+		},
+		updateOrderList(state, orderList) {
+			state.orderList = orderList
+			this.commit('m_order/saveOrderListToStorage')
+		},
+		saveOrderListToStorage(state) {
+			 uni.setStorageSync('orderList', JSON.stringify(state.orderList))
+		},
 		updateClaimList(state, claimList) {
 			state.claimList = claimList
 			console.log('claimList:',state.claimList)
@@ -34,13 +49,7 @@ export default {
 		saveWarehouseRequestByOpenIdToStorage(state) {
 		    uni.setStorageSync('warehouseRequestList', JSON.stringify(state.warehouseRequestList))
 		},
-        updateOrderListWithoutBoxId(state, orderListWithoutBoxId) {
-            state.orderListWithoutBoxId = orderListWithoutBoxId
-            this.commit('m_order/saveOrderListWithoutBoxIdToStorage')
-        },
-        saveOrderListWithoutBoxIdToStorage(state) {
-            uni.setStorageSync('orderListWithoutBoxId', JSON.stringify(state.orderListWithoutBoxId))
-        },
+       
         updateOrderListByOpenId(state, orderListByOpenId) {
             state.orderListByOpenId = orderListByOpenId
             this.commit('m_order/saveOrderListByOpenIdToStorage')
