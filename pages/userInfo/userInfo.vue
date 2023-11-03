@@ -29,7 +29,7 @@
         
         onShow() {
             if (this.token) {
-                this.initSwiperDate()
+               // this.initSwiperDate()
 				this.getWarehouseRequest()
 				this.getuserInfo()
             }
@@ -43,7 +43,7 @@
                 'setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId', 'updateClaimList'
             ]),
 
-            async initSwiperDate() {
+           /** async initSwiperDate() {
                 const {
                     data: result
                 } = await uni.$http.get('https://www.uinav.com/api/public/v1/home/swiperdata')
@@ -52,7 +52,7 @@
                 this.updateSwiperList(result.message)
                 this.initOrders()
 
-            },
+            },**/
             async initOrders() {
                 const {
                     data: res

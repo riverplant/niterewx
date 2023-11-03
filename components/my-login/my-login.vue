@@ -64,12 +64,14 @@
 				this.updateUserInfo(JSON.stringify(result.data))
 				this.initTabBar(result.data)
 				this.getAllorderList()
-				this.getAllBoxList()
+				
 				if (result.data.userRoles == 3) {
 					this.updateAddress(result.data.address)
 					this.updateCode(result.data.code)
 					this.updatePickPoint(result.data.ppName)
-					//this.initSwiperDate()
+					this.initSwiperDate()
+				}else {
+					this.getAllBoxList()
 				}
 
 
@@ -116,18 +118,7 @@
 			
 			},*/
 			async initSwiperDate() {
-				let imageList = [{
-						"image_src": "/static/banner-01.jpg"
-					},
-					{
-						"image_src": "/static/banner-02.jpg"
-					},
-					{
-						"image_src": "/static/banner-03.jpg"
-					},
-				]
-
-				this.updateSwiperList(imageList)
+				this.updateSwiperList(getApp().globalData.imageList)
 				this.initOrders()
 
 			},
@@ -137,7 +128,7 @@
 					data: result
 				} = await uni.$http.get('/wx/box/list')
 				if (result.status !== 200) return uni.$showMsg('查询箱子列表失败')
-				this.updateBoxList(res.data)
+				this.updateBoxList(result.data)
 			},
 
 			async initOrders() {

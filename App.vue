@@ -54,6 +54,17 @@
 							text: "认领请求管理",
 							index: 4
 						}
+						],
+						
+						imageList: [{
+								"image_src": "/static/banner-01.jpg"
+							},
+							{
+								"image_src": "/static/banner-02.jpg"
+							},
+							{
+								"image_src": "/static/banner-03.jpg"
+							},
 						]
 						  
 				     
