@@ -41,7 +41,7 @@
                 wh:0,
                 timer: null,
                 kw: '',
-                searchResults: this.orderListWithoutBoxId,
+                searchResults: this.orderList,
                 searchResultsBak:[],
                 type:1,
                 title:'',

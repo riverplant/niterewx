@@ -25,34 +25,28 @@
 					adminTabBarList: [
 						{
 							path: "pages/userInfo/userInfo",
-							iconPath: "/static/icon-client-tabbar-01b.png",
-							text: "我的账户",
-							index: 0
-						},
-						{
-							path: "pages/package/package",
 							iconPath: "/static/package.png",
 							text: "包裹管理",
-							index: 1
+							index: 0
 						},
 						
 						{
 							path: "pages/box/box",
 							iconPath: "/static/package.jpg",
 							text: "箱子管理",
-							index: 2
+							index: 1
 						},
 						{
 							path: "pages/cabinet/cabinet",
 							iconPath: "/static/icon-info-07.png",
 							text: "柜子管理",
-							index: 3
+							index: 2
 						},
 						{
 							path: "pages/claimManage/claimManage",
 							iconPath: "/static/icon-client-tabbar-02b.png",
 							text: "认领请求管理",
-							index: 4
+							index: 3
 						}
 						],
 						

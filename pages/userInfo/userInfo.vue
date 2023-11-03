@@ -1,12 +1,9 @@
 <template>
     <view class="my-container">
         <my-login v-if="!token"></my-login>
-        <my-userinfo v-else></my-userinfo>
+        <my-userinfo v-else-if="userinfo.userRoles == 3"></my-userinfo>
+		<create-order v-else></create-order>
       <tabBar :current="0"></tabBar>
-
-
-
-
     </view>
 </template>
 
@@ -32,15 +29,21 @@
                // this.initSwiperDate()
 				this.getWarehouseRequest()
 				this.getuserInfo()
+				if(this.userinfo.userRoles == 2) 
+				{
+					this.initAllOrderList()
+					this.initCatTree()
+				}
+				
             }
         },
         computed: {
-            ...mapState('m_user', ['token', 'openid'])
+            ...mapState('m_user', ['token', 'openid','userinfo'])
         },
         methods: {
             ...mapMutations('m_user', ['updateSwiperList','updateUserInfo']),
             ...mapMutations('m_order', ['setOrdersNonValide', 'setOrdersNonPayer', 'setOrdersNonLivrer',
-                'setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId', 'updateClaimList'
+                'setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId', 'updateClaimList','updateOrderList','updateCatTree'
             ]),
 
            /** async initSwiperDate() {
@@ -53,6 +56,19 @@
                 this.initOrders()
 
             },**/
+			async initAllOrderList() {
+			  const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
+			  if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
+			   console.log('res:', res.data)
+			   this.updateOrderList(res.data)  
+			},
+			
+			async initCatTree() {
+			    const {data: res} = await uni.$http.get('/wx/orders/catlist')
+			    if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
+			     console.log('res:', res.data)
+			     this.updateCatTree(res.data)
+			},   
             async initOrders() {
                 const {
                     data: res
