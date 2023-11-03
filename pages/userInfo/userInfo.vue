@@ -20,7 +20,8 @@
                 ordersNonPayer: [],
                 ordersNonLivrer: [],
                 ordersRembourse: [],
-				warehouseRequestList: []
+				warehouseRequestList: [],
+				userRole: 0
             }
         },
         

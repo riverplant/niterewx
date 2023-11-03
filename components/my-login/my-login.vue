@@ -40,7 +40,7 @@
 			//用户授权之后，获取用户的基础信息
 			getUserInfo(e) {
 				if (e.detail.errMsg == 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权!')
-				this.updateUserInfo(JSON.stringify(e.detail.userInfo))
+				this.updateUserInfo(e.detail.userInfo)
 				console.log('userInfo:', e.detail.userInfo)
 				this.getToken(e.detail.userInfo)
 			},
@@ -61,7 +61,7 @@
 				if (result.status !== 200) return uni.$showMsg(result.msg)
 				this.updateToken(result.data.token)
 				this.updateOpenid(result.data.openid)
-				this.updateUserInfo(JSON.stringify(result.data))
+				this.updateUserInfo(result.data)
 				this.initTabBar(result.data)
 				this.getAllorderList()
 				
