@@ -8,18 +8,18 @@
 							text: "我的账户",
 							index: 0
 						},
-						/**{
+						{
 							path: "pages/claim/claim",
 							iconPath: "/static/icon-client-tabbar-02a.png",
 							text: "认领请求",
 							index: 1
-						},**/
-						/**{
+						},
+						{
 							path: "pages/info/info",
 							iconPath: "/static/icon-client-tabbar-03b.png",
 							text: "用户须知",
 							index: 2
-						}**/
+						}
 						],
 						
 					adminTabBarList: [
@@ -29,23 +29,23 @@
 							text: "包裹管理",
 							index: 0
 						},
+						{
+							path: "pages/claim/claim",
+							iconPath: "/static/icon-client-tabbar-02b.png",
+							text: "认领请求管理",
+							index: 1
+						},
 						
 						{
 							path: "pages/box/box",
 							iconPath: "/static/package.jpg",
 							text: "箱子管理",
-							index: 1
+							index: 2
 						},
 						{
 							path: "pages/cabinet/cabinet",
 							iconPath: "/static/icon-info-07.png",
 							text: "柜子管理",
-							index: 2
-						},
-						{
-							path: "pages/claimManage/claimManage",
-							iconPath: "/static/icon-client-tabbar-02b.png",
-							text: "认领请求管理",
 							index: 3
 						}
 						],

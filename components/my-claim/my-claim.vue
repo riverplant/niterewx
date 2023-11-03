@@ -11,7 +11,7 @@
                <text class="claim-title-text">認領申请</text>
            </view>
          <uni-swipe-action>
-              <block v-for="(item,i) in claims" :key='i'>
+              <block v-for="(item,i) in searchResults" :key='i'>
              <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
                   <claim-item :claim="item"  :show-msg="isShowMsg" ></claim-item>
              </uni-swipe-action-item>
@@ -52,6 +52,7 @@
                 wh:0,
                 timer: null,
                 kw: '',
+				searchResults:[],
                 searchResultsBak:[],
                 type:1,
                 title:'',
@@ -61,7 +62,7 @@
             };
         },
         computed: {
-            ...mapState('m_user', ['openid']),
+            ...mapState('m_user', ['userinfo']),
 			...mapState('m_order', ['claimList'])
 			
         },
@@ -69,10 +70,17 @@
 		beforeMount() {
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
-			this.searchResultsBak = this.claims
-			
+			this.getClaimeListByOenId()
 		},
-        methods: {    		
+        methods: {
+		   	async getClaimeListByOenId() {
+				const {
+					data: res
+				} = await uni.$http.get('/wx/users/claimList/'+this.userinfo.openid)
+				if (res.status !== 200) return uni.$showMsg()
+				this.searchResults = res.data
+				this.searchResultsBak = res.data
+			},
             swipeItemClickHandler(item) {
                 this.removeItemById(item.trackingNumber)
             },
@@ -98,7 +106,7 @@
 				} = await uni.$http.delete('/wx/users/deleteClaim/'+ trackingNumber)
 				if (res.status !== 200) return uni.$showMsg()
 				this.searchResults = this.searchResultsBak.filter(
-				                           claim=> claim.openid == this.openid 
+				                           claim=> claim.openid == this.userinfo.openid 
 										   && claim.trackingNumber != trackingNumber 
 										   && claim.isDelete == 1)
 				this.searchResultsBak = this.searchResults
@@ -115,15 +123,11 @@
         getSearchResults() {  
         this.isloading = true
            if(this.kw === '') {
-             this.claims = this.searchResultsBak  
+             this.searchResults = this.searchResultsBak  
            }else {
-             this.claims = this.claims.filter( item=> item.trackingNumber.indexOf( this.kw ) > -1 );   
+             this.searchResults = this.searchResults.filter( item=> item.trackingNumber.indexOf( this.kw ) > -1 );   
            }
                    
-     },
-
-     radioChangeHandler(e) {
-         this.updateOrderState(e)
      }
      
         }

@@ -33,7 +33,7 @@
 				'updateAddress', 'updatePickPoint', 'updateCode', 'updateTabBarList'
 			]),
 			...mapMutations('m_order', ['setOrdersNonValide', 'setOrdersNonPayer', 'setOrdersNonLivrer',
-				'setOrdersRembouse', 'updateOrderListByOpenId', 'updateWarehouseRequestByOpenId', 'updateCatTree',
+				'setOrdersRembouse',  'updateWarehouseRequest', 'updateCatTree',
 				'updateOrderList', 'updateBoxList'
 			]),
 
@@ -41,7 +41,6 @@
 			getUserInfo(e) {
 				if (e.detail.errMsg == 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权!')
 				this.updateUserInfo(e.detail.userInfo)
-				console.log('userInfo:', e.detail.userInfo)
 				this.getToken(e.detail.userInfo)
 			},
 			async getToken(info) {
@@ -106,17 +105,7 @@
 					this.updateTabBarList(getApp().globalData.adminTabBarList)
 				}
 			},
-			/*
-			async initSwiperDate() {
-			    const {
-			        data: result
-			    } = await uni.$http.get('https://www.uinav.com/api/public/v1/home/swiperdata')
-			    if (result.meta.status !== 200) return uni.$showMsg()
-			    console.log('swiperdata:', result.message)
-			    this.updateSwiperList(result.message)
-			    this.initOrders()
 			
-			},*/
 			async initSwiperDate() {
 				this.updateSwiperList(getApp().globalData.imageList)
 				this.initOrders()
@@ -137,7 +126,7 @@
 				} = await uni.$http.get('/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
 				if (res.status !== 200) return uni.$showMsg()
 				this.orderList = res.data
-				this.updateOrderListByOpenId(res.data)
+				this.updateOrderList(res.data)
 				this.initOrderList()
 
 			},
@@ -161,7 +150,7 @@
 				} = await uni.$http.get('/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
 				if (res.status !== 200) return uni.$showMsg()
 				this.warehouseRequestList = res.data
-				this.updateWarehouseRequestByOpenId(res.data)
+				this.updateWarehouseRequest(res.data)
 			}
 		}
 	}

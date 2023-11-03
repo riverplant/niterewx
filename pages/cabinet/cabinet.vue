@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<tabBar :current="2"></tabBar>
+		<tabBar :current="3"></tabBar>
 	</view>
 </template>
 

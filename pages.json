@@ -140,15 +140,7 @@
             }
             
         }
-        ,{
-            "path" : "pages/claimManage/claimManage",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
+       
     ],
     "subPackages": [
       {
@@ -250,10 +242,8 @@
         "selectedColor": "#c00000",
 		"list": [
 			{ "pagePath": "pages/userInfo/userInfo"},
-			{ "pagePath": "pages/package/package"},
-			//{ "pagePath": "pages/claim/claim"},
-			{ "pagePath": "pages/claimManage/claimManage"},
-			//{ "pagePath": "pages/info/info"}
+			{ "pagePath": "pages/claim/claim"},
+			{ "pagePath": "pages/info/info"},
 			{ "pagePath": "pages/box/box"},
 			{ "pagePath": "pages/cabinet/cabinet"}
 			]

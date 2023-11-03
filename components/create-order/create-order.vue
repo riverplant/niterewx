@@ -22,7 +22,6 @@
          </uni-swipe-action>
          <!--自定义结算组件-->
  <my-create-order-button></my-create-order-button>
-		  <tabBar :current="1"></tabBar>
     </view>
 </template>
 
@@ -41,7 +40,7 @@
                 wh:0,
                 timer: null,
                 kw: '',
-                searchResults: this.orderList,
+                searchResults:[],
                 searchResultsBak:[],
                 type:1,
                 title:'',
@@ -66,10 +65,10 @@
         },
 		
 		beforeMount() {
+			this.initAllOrderList()
+			this.initCatTree()
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
-			this.searchResults = this.orderList
-			this.searchResultsBak = this.searchResults
 		},
         filters: {
             tofixed(num) {
@@ -82,8 +81,22 @@
         },
 		
         methods: {    
-            ...mapMutations('m_order',['updateOrderState', 'removeItemById']),
+            ...mapMutations('m_order',['updateOrderState', 'removeItemById','updateOrderList','updateCatTree']),
+            async initAllOrderList() {
+              const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
+              if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
+               console.log('res:', res.data)
+               this.updateOrderList(res.data)  
+			   this.searchResults = res.data
+			   this.searchResultsBak = this.searchResults
+            },
             
+            async initCatTree() {
+                const {data: res} = await uni.$http.get('/wx/orders/catlist')
+                if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
+                 console.log('res:', res.data)
+                 this.updateCatTree(res.data)
+            },   
 			swipeItemClickHandler(item) {
                 this.removeItemById(item.id)
             },

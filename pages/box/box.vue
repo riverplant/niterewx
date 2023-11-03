@@ -1,7 +1,7 @@
 <template>
     <view>
         <my-box></my-box>
-		<tabBar :current="1"></tabBar>
+		<tabBar :current="2"></tabBar>
     </view>
 </template>
 

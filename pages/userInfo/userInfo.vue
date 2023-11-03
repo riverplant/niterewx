@@ -34,6 +34,8 @@
 				{
 					this.initAllOrderList()
 					this.initCatTree()
+				}else {
+					this.initOrdersByopenid()
 				}
 				
             }
@@ -44,19 +46,9 @@
         methods: {
             ...mapMutations('m_user', ['updateSwiperList','updateUserInfo']),
             ...mapMutations('m_order', ['setOrdersNonValide', 'setOrdersNonPayer', 'setOrdersNonLivrer',
-                'setOrdersRembouse', 'updateOrderListByOpenId','updateWarehouseRequestByOpenId', 'updateClaimList','updateOrderList','updateCatTree'
+                'setOrdersRembouse', 'updateWarehouseRequest', 'updateClaimList','updateOrderList','updateCatTree'
             ]),
 
-           /** async initSwiperDate() {
-                const {
-                    data: result
-                } = await uni.$http.get('https://www.uinav.com/api/public/v1/home/swiperdata')
-                if (result.meta.status !== 200) return uni.$showMsg()
-                console.log('swiperdata:', result.message)
-                this.updateSwiperList(result.message)
-                this.initOrders()
-
-            },**/
 			async initAllOrderList() {
 			  const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
 			  if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
@@ -70,13 +62,13 @@
 			     console.log('res:', res.data)
 			     this.updateCatTree(res.data)
 			},   
-            async initOrders() {
+            async initOrdersByopenid() {
                 const {
                     data: res
                 } = await uni.$http.get('/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
                 if (res.status !== 200) return uni.$showMsg()
                 this.orderList = res.data
-                this.updateOrderListByOpenId(res.data)
+                this.updateOrderList(res.data)
                 this.initOrderList()
 
             },
@@ -100,7 +92,7 @@
 				if (res.status !== 200) return uni.$showMsg()
 				this.warehouseRequestList = res.data
 				
-				this.updateWarehouseRequestByOpenId(res.data)
+				this.updateWarehouseRequest(res.data)
 			},
 			
 			async getuserInfo() {

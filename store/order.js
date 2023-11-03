@@ -9,7 +9,6 @@ export default {
        ordersNonPayer: JSON.parse(uni.getStorageSync('ordersNonPayer') || '[]'),
        ordersNonLivrer: JSON.parse(uni.getStorageSync('ordersNonLivrer') || '[]'),
        ordersRembourse: JSON.parse(uni.getStorageSync('ordersRembourse') || '[]'),
-       orderListByOpenId: JSON.parse(uni.getStorageSync('orderListByOpenId') || '[]'),
 	   orderList: JSON.parse(uni.getStorageSync('orderList') || '[]'),
        catTree:  JSON.parse(uni.getStorageSync('catTree') || '[]'),
 	   warehouseRequestList: JSON.parse(uni.getStorageSync('warehouseRequestList') || '[]'),
@@ -42,22 +41,14 @@ export default {
 		    uni.setStorageSync('claimList', JSON.stringify(state.claimList))
 		},
 		
-        updateWarehouseRequestByOpenId(state, warehouseRequestList) {
+        updateWarehouseRequest(state, warehouseRequestList) {
 			state.warehouseRequestList = warehouseRequestList
-			this.commit('m_order/saveWarehouseRequestByOpenIdToStorage')
+			this.commit('m_order/saveWarehouseRequestToStorage')
 		},
-		saveWarehouseRequestByOpenIdToStorage(state) {
+		saveWarehouseRequestToStorage(state) {
 		    uni.setStorageSync('warehouseRequestList', JSON.stringify(state.warehouseRequestList))
 		},
-       
-        updateOrderListByOpenId(state, orderListByOpenId) {
-            state.orderListByOpenId = orderListByOpenId
-            this.commit('m_order/saveOrderListByOpenIdToStorage')
-        },
-        
-        saveOrderListByOpenIdToStorage(state) {
-            uni.setStorageSync('orderListByOpenId', JSON.stringify(state.orderListByOpenId))
-        },
+     
         updateCatTree(state, catTree) {
             state.catTree = catTree
             this.commit('m_order/saveCatTreeToStorage')
@@ -189,7 +180,7 @@ export default {
         },
         
         orderCount(state) {
-          let ocount = state.orderListByOpenId.reduce((total, item)=> total += 1, 0)
+          let ocount = state.orderList.reduce((total, item)=> total += 1, 0)
            console.log('ocount:',ocount)
           return  ocount
         },

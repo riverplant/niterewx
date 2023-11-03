@@ -54,12 +54,20 @@
         },
 
 		beforeMount() {
+			this.getClaimeList()
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
-			this.searchResultsBak = this.claims
 			
 		},
-        methods: {    			
+        methods: {  
+		async getClaimeList() {
+						const {
+							data: res
+						} = await uni.$http.get('/wx/users/claimList')
+						if (res.status !== 200) return uni.$showMsg()
+						this.searchResults = res.data
+						this.searchResultsBak = res.data
+					 },			
             search(res) {
                 clearTimeout(this.timer)
                 this.timer = setTimeout(() => {
@@ -71,9 +79,9 @@
         getSearchResults() {  
         this.isloading = true
            if(this.kw === '') {
-             this.claims = this.searchResultsBak  
+             this.searchResults = this.searchResultsBak  
            }else {
-             this.claims = this.claims.filter( item=> item.trackingNumber.indexOf( this.kw ) > -1 );   
+             this.searchResults = this.searchResults.filter( item=> item.trackingNumber.indexOf( this.kw ) > -1 );   
            }
                    
      }
