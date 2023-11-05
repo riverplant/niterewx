@@ -1,6 +1,6 @@
 <template>
     <view class="create-box-button-container" >
-        <navigator class="panel-item" :url="'/subpkg/order_form/order_form'">
+        <navigator class="panel-item" :url="'/subpkg/box_requestWarehouse_form/box_requestWarehouse_form'">
          <view class="btn-claim">新起一箱</view>
         </navigator>
         </view> 

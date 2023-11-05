@@ -30,11 +30,11 @@
 		},
 		methods: {
 			...mapMutations('m_user', ['updateUserInfo', 'updateOpenid', 'updateSwiperList', 'updateToken',
-				'updateAddress', 'updatePickPoint', 'updateCode', 'updateTabBarList'
+				'updateAddress', 'updatePickPoint', 'updateCode', 'updateTabBarList','updatePickPointList'
 			]),
 			...mapMutations('m_order', ['setOrdersNonValide', 'setOrdersNonPayer', 'setOrdersNonLivrer',
 				'setOrdersRembouse',  'updateWarehouseRequest', 'updateCatTree',
-				'updateOrderList', 'updateBoxList'
+				'updateOrderList'
 			]),
 
 			//用户授权之后，获取用户的基础信息
@@ -69,8 +69,6 @@
 					this.updateCode(result.data.code)
 					this.updatePickPoint(result.data.ppName)
 					this.initSwiperDate()
-				}else {
-					this.getAllBoxList()
 				}
 
 
@@ -78,6 +76,7 @@
 				uni.$showMsg('登录成功!')
 				this.getWarehouseRequest()
 				this.initCatTree()
+				this.initpickpoinsTree()
 
 			},
 
@@ -112,14 +111,6 @@
 
 			},
 
-			async getAllBoxList() {
-				const {
-					data: result
-				} = await uni.$http.get('/wx/box/list')
-				if (result.status !== 200) return uni.$showMsg('查询箱子列表失败')
-				this.updateBoxList(result.data)
-			},
-
 			async initOrders() {
 				const {
 					data: res
@@ -151,6 +142,12 @@
 				if (res.status !== 200) return uni.$showMsg()
 				this.warehouseRequestList = res.data
 				this.updateWarehouseRequest(res.data)
+			},
+			
+			async initpickpoinsTree() {
+				    const {data: res} = await uni.$http.get('/wx/users/pickPointList')
+				    if (res.status != 200) return uni.$showMsg('查詢提貨點列表失败!')
+				     this.updatePickPointList(res.data)
 			}
 		}
 	}

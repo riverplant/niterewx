@@ -225,6 +225,24 @@
                 }
                 
                 }
+                ,{
+                    "path" : "box_form/box_form",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "box_requestWarehouse_form/box_requestWarehouse_form",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
       }  
     ],
