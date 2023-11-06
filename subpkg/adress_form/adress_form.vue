@@ -1,31 +1,33 @@
 <template>
-	<view class="container">
 		<uni-section  type="line">
+	<view class="container">
+	
 			<view class="address-form-containe">
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
                     <uni-forms-item label="用戶名" required name="userName">
-                    	<uni-easyinput v-model="dynamicFormData.userName" placeholder="请输入用戶名" />
+                    	<uni-easyinput v-model="dynamicFormData.userName" placeholder="用戶名" />
                     </uni-forms-item> 
-                    <uni-forms-item label="電話號碼" required name="mobile">
-                    	<uni-easyinput v-model="dynamicFormData.mobile" placeholder="请输入電話號碼" />
+                    <uni-forms-item label="电话号码" required name="mobile">
+                    	<uni-easyinput v-model="dynamicFormData.mobile" placeholder="电话号码" />
                     </uni-forms-item>
                     <uni-forms-item label="家庭地址" required >
 
                         <view class="uni-forms-item__content">
-                         <input-autocomplete class="uni-easyinput" :min=1  placeholder="请输入家庭地址" @input="handleInput"   :value="testObj.sname"
+                         <input-autocomplete class="uni-easyinput" :min=1  placeholder="家庭地址" @input="handleInput"   :value="testObj.sname"
                               v-model="testObj.sname" highlightColor="#FF0000" :stringList="autocompleteStringList" v-on:selectItem="selectItemS"></input-autocomplete>
                         </view>
                        
                     </uni-forms-item>
 				</uni-forms>
-      
-				<view class="button-group">
-					<button type="primary" size="mini" @click="submit('dynamicForm')">提交</button>
-				</view>
 			</view>
-		</uni-section>
 	</view>
+	<view class="button-group">
+		<button type="primary" size="mini" @click="submit('dynamicForm')" class="btn-text">
+			<text class="btn-text">提交</text>
+		</button>
+	</view>
+	</uni-section>
 </template>
 
 <script>
@@ -184,5 +186,14 @@
     	text-align: center;
     	height: 100%;
     }
+	.btn-text {
+		width: 750rpx;
+		background-color: #00aa00;
+		height: 50px;
+		color: white;
+		line-height: 50px;
+		text-align: center;
+		text-size: 40rpx;
+	}
     
 </style>
