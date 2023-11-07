@@ -81,11 +81,10 @@
         },
 		
         methods: {    
-            ...mapMutations('m_order',['updateOrderState', 'removeItemById','updateOrderList','updateCatTree']),
+            ...mapMutations('m_order',['updateOrderState', 'updateOrderList','updateCatTree']),
             async initAllOrderList() {
               const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
               if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
-               console.log('res:', res.data)
                this.updateOrderList(res.data)  
 			   this.searchResults = res.data
 			   this.searchResultsBak = this.searchResults
@@ -98,7 +97,18 @@
                  this.updateCatTree(res.data)
             },   
 			swipeItemClickHandler(item) {
-                this.removeItemById(item.id)
+				uni.showModal({
+				    title: '提示',
+				    content: '确定要删除该包裹吗',
+				    success: function (res) {
+				        if (res.confirm) {
+				           this.removeItemById(item.id)
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }.bind(this)
+				});
+               
             },
             search(res) {
                 clearTimeout(this.timer)
@@ -125,9 +135,9 @@
 		 } = await uni.$http.delete('/wx/orders/'+ id)  
 		  if (orderRes.status != 200) return uni.$showMsg('删除包裹信息失败!') 
 		  
-		 uni.navigateBack({
-		     delta: 1
-		 }); 
+	this.searchResults = this.searchResultsBak.filter(
+	                           order=> order.id != id )
+	this.searchResultsBak = this.searchResults
 	 },
 
      radioChangeHandler(e) {

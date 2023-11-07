@@ -2,9 +2,28 @@
 	<view class="container">
 		<uni-section  type="line">
 			<view class="create-box-form-containe">
+				<uni-forms ref="dynamicBoxForm" :modelValue="dynamicBoxForm" >
+					<uni-forms-item label="扫码装箱,箱号: " name="dynamicBoxForm.boxNumber">
+						<uni-easyinput disabled v-model="dynamicBoxForm.boxNumber"  />
+					</uni-forms-item>
+					<uni-forms-item label="所属仓库: " name="dynamicBoxForm.pName">
+						<uni-easyinput disabled v-model="dynamicBoxForm.pName"  />
+					</uni-forms-item>
+					<uni-forms-item >
+						<uni-easyinput v-model="dynamicBoxForm.key" @input="handleInput" suffixIcon="search" placeholder="可输入快递单号/包裹号码" @iconClick="iconClick"/>		
+					</uni-forms-item>
+				</uni-forms>
                 <view class="btn">
                      <button prefixIcon="search" type="default" @click="scan">扫描</button>
-                            </view>
+                   </view>	
+				<uni-swipe-action>
+				     <block v-for="(item,i) in searchResults" :key='i'>
+				<uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
+				     <order-item :order="item"></order-item>
+				</uni-swipe-action-item>
+				    </block>
+				</uni-swipe-action>
+				
 				<view class="button-group">
 					<button type="primary" size="mini" @click="save('orderFormData')">保存</button>
 					<button type="primary" size="mini" @click="submit('orderFormData')">封箱</button>
@@ -19,115 +38,61 @@
 	export default {
 		data() {
 			return {
-                timer: null,
-                isHidden: false,
-                kw: '',
-                isShow : false,
-                radioValue: '1',
-				orderFormData: {
-                    orderId: '',
-                    trackingNumber:  '',
-					orderNumber: '',
-                    code:  '',
-                    pLong:  '',
-                    pWidth:  '',
-                    pHeight: '',
-                    pWeight:'',
-                    catId: '',
-                    pass:'',
-                    msg:'',
-                    orderStatus: 1,
-					openId:''
-                    
+				dynamicBoxForm: {
+					key:'',
+				    boxNumber:  0,
+				    pid: '',
+					pName:''
 					
 				},
-            catList:[],
-                testObj: {
-                	sname: '',
-                	dname: '动态'
-                },
-				dynamicRules: {
-                    mobile: {
-                    	rules: [{
-                    		format: 'number',
-                    		errorMessage: '電話號碼只能输入数字'
-                    	}]
-                    },
-					email: {
-						rules: [{
-							required: true,
-							errorMessage: '域名不能为空'
-						}, {
-							format: 'email',
-							errorMessage: '域名格式错误'
-						}]
-					}
-				}
+            searchResults:[]
 			}
 		},
 
 		onLoad(e) {
-            this.catList = this.catTree.data
             console.log('e:',e)
-            if(e && e.oinfo) {
-               let uinfo = JSON.parse(e.oinfo)
-                if(uinfo !== null || uinfo !== {}) {
-                    this.orderFormData.orderId = uinfo.id
-                    this.orderFormData.orderNumber = uinfo.orderNumber
-                    this.orderFormData.trackingNumber = uinfo.trackingNumber
-                    this.orderFormData.code = uinfo.code
-                    this.orderFormData.pLong = uinfo.pLong
-                    this.orderFormData.pWidth = uinfo.pWidth
-					this.orderFormData.pHeight = uinfo.pHeight
-                    this.orderFormData.pWeight = uinfo.pWeight
+            if(e && e.box) {
+               let box = JSON.parse(e.box)
+               this.dynamicBoxForm.boxNumber = box.boxNumber
+			   this.dynamicBoxForm.pid = box.pid
+			   this.dynamicBoxForm.pName = box.pName
+
                    
-                    this.radioValue = uinfo.orderStatus+''
-					this.isShow = uinfo.orderStatus == 2
-					if(this.isShow)
-					   this.orderFormData.msg = uinfo.msg
-                      
-               
-                } 
+   
             }else {
               this.orderFormData.orderNumber =  Math.floor(Math.random() * 100000000)
             }
           
             },
-		
+		computed: {
+		    ...mapState('m_order',['orderList']) 
+		},
 		methods: {
-            ...mapMutations('m_order',['addToOrdersNonValide','addToOrdersNonPayer','updateOrdersNonPayer','updateOrdersNonValide']),
-            //响应选择事件，接收选中的数据
-            selectItemD(data) {
-            	console.log('收到数据了:', data);
-            },
-            
-              scan() {
+			
+			handleInput(res) {
+			   this.dynamicBoxForm.key = res
+			   
+			},
+			
+			iconClick() {
+				console.log('value:',this.dynamicBoxForm.key)
+				let order = this.orderList.filter(order=>order.orderNumber == this.dynamicBoxForm.key || order.trackingNumber == this.dynamicBoxForm.key)
+				console.log('order:',order)
+				this.searchResults.push(order)
+			},
+             scan() {
                     uni.scanCode({
                       success: (res) => {
-                           console.log(res);
-                       uni.showToast({
-                         title: "讀取二維碼成功"
-                       })
-                       this.orderFormData.userName = res.result
+				     this.dynamicBoxForm.key = res,result
+                           console.log('扫描得到key:',this.dynamicBoxForm.key);
+     
                                           }
                                     })
                               },
            
-            radioChange: function (e) {
-                    this.orderFormData.orderStatus = e.detail.value === '2' ? 2 : 1
-                    this.isShow = e.detail.value === '2' ? true : false
-            	},
-            handleInput(res) {
-              clearTimeout(this.timer)
-              this.timer = setTimeout(() => {
-                  this.kw = res,
-                 this.getAutocompleteStringList() 
-              }, 500)
-            },
-			onClickItem(e) {
-				console.log("create-order:",e);
-				
-			},
+            
+           
+			
 
 			submit(ref) {
 			    this.orderFormData.openId = this.userinfo.openId
@@ -164,17 +129,8 @@
              uni.navigateBack({
                  delta: 1
              });
-            },
-            onchange(e) {
-                const value = e.detail.value
-                this.orderFormData.catId = value[value.length - 1].value
-            },
-            
-		},
-        computed: {
-            ...mapState('m_order',['catTree']) ,
-			...mapState('m_user', ['userinfo'])
-        }
+            },     
+		}
 	}
 </script>
 

@@ -14,7 +14,18 @@
 			}
                
         },
-		 methods: {		
+		onShow() {
+			this.getClaimeList()
+		},
+		 methods: {	
+			 ...mapMutations('m_order',['updateClaimList']),
+			 async getClaimeList() {
+			 				const {
+			 					data: res
+			 				} = await uni.$http.get('/wx/users/claimList')
+			 				if (res.status !== 200) return uni.$showMsg()
+                             this.updateClaimList(res.data)
+			 			 },	
 		 },
         computed: {
             ...mapState('m_user', ['userinfo'])

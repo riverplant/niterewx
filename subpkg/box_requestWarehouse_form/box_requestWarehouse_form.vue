@@ -40,7 +40,8 @@
 			   dynamicBoxForm: {
 				   id:'',
 			       boxNumber:  0,
-			       pid: ''
+			       pid: '',
+				   pName:''
 			   	
 			   },
 	        }
@@ -59,6 +60,7 @@
 				this.dynamicBoxForm.boxNumber = formData.boxNumber
 				this.location = formData.pid
 				this.dynamicBoxForm.id = formData.id
+				this.dynamicBoxForm.pid = formData.pid
 			}
 		    },
 	    methods: {
@@ -66,17 +68,19 @@
 	        onchange(e) {
 	            const value = e.detail.value
 	            this.node = value[value.length - 1].value
+				this.dynamicBoxForm.pName = value[value.length - 1].text
 	        },
 	        submit(ref) {
-				if(this.node == '') {
+				if(this.dynamicBoxForm.pid == '') {
 					uni.showToast({
 					  title: "请从仓库列表中选择仓库",
 					  duration: 2000,
 					  icon: 'none'
 					}) 
 				} else  {
-					uni.navigateBack({
-					  url: '/subpkg/box_form/box_form?box='+JSON.stringify(this.dynamicBoxForm)
+					let url = '/subpkg/box_form/box_form?box='+JSON.stringify(this.dynamicBoxForm)
+					uni.navigateTo({
+					  url: url
 					});
 				}
 				
@@ -101,20 +105,20 @@
 			},
 			
 			save(ref) {
-				if(this.node == '') {
+				if(this.dynamicBoxForm.pid == '') {
 					uni.showToast({
 					  title: "请从仓库列表中选择仓库",
 					  duration: 2000,
 					  icon: 'none'
 					}) 
 				} else  {
-					
 				  this.createBox()
 				}
 				
 			},
 			//客户选择了娥仓库后直接点击保存
-	        async createBox() { 
+	        async createBox() {
+				if(this.node != '' && this.node != this.dynamicBoxForm.pid) {
 				this.dynamicBoxForm.pid =  this.node
 				if(this.dynamicBoxForm.id == '') {
 					const { data:result } =   await uni.$http.post('/wx/box/create', this.dynamicBoxForm );
@@ -134,8 +138,8 @@
 					     duration: 2000,
 					     icon: 'none'
 					   }) 
-				}
-	            
+				}	
+				}    
 	           
 	        },
 			

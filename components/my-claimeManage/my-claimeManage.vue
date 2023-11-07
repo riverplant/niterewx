@@ -11,7 +11,7 @@
                <text class="claim-title-text">認領申请管理</text>
            </view>
          <uni-swipe-action>
-            <block v-for="(item,i) in claims" :key='i'>
+            <block v-for="(item,i) in this.searchResults" :key='i'>
             <navigator class="panel-item" :url="'/subpkg/claim_table/claim_table?claim='+JSON.stringify(item)"> 
                   <claim-item :claim="item" ></claim-item>
             </navigator>
@@ -24,12 +24,6 @@
 <script>
     import {mapState, mapMutations} from 'vuex'
     export default {
-		props: {
-		    claims: {
-		        type:Array,
-		        default:[]   
-		    }
-		},
         data() {
             return {
                 //右侧滑动删除时显示得文本
@@ -42,14 +36,16 @@
                 wh:0,
                 timer: null,
                 kw: '',
-                searchResultsBak:[],
+				searchResults:this.claimList,
+                searchResultsBak:this.claimList,
                 type:1,
                 title:'',
                 isloading:true
             };
         },
         computed: {
-            ...mapState('m_user', ['openid'])
+            ...mapState('m_user', ['openid']),
+			...mapState('m_order', ['claimList'])
 			
         },
 

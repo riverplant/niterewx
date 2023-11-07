@@ -14,7 +14,7 @@
               <uni-swipe-action>
                    <block v-for="(item,i) in this.searchResults" :key='i'>
               <navigator class="panel-item" :url="'/subpkg/box_requestWarehouse_form/box_requestWarehouse_form?box='+JSON.stringify(item)" > 
-              <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
+             <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
                    <box-item :box="item"  ></box-item>
               </uni-swipe-action-item>
               </navigator>
@@ -30,7 +30,6 @@
 	import {mapState, mapMutations} from 'vuex'
     export default {
 		onShow() {
-		  console.log('onshow......')
 		  const sysInfo =  uni.getSystemInfoSync()
 		  this.wh = sysInfo.windowHeight - 50
 		  this.getBoxList() 
@@ -79,8 +78,30 @@
             	
             },
 			swipeItemClickHandler(item) {
-			            this.removeItemById(item.id)
+				uni.showModal({
+				    title: '提示',
+				    content: '确定要删除该箱子吗',
+				    success: function (res) {
+				        if (res.confirm) {
+				           this.removeBoxById(item.id)
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }.bind(this)
+				});
 			        },
+					
+					async removeBoxById(id) {
+						 const {
+						     data: orderRes
+						 } = await uni.$http.delete('/wx/box/'+ id)  
+						  if (orderRes.status != 200) return uni.$showMsg('删除包裹信息失败!') 
+						  
+						this.searchResults = this.searchResultsBak.filter(
+						                           box=> box.id != id )
+						this.searchResultsBak = this.searchResults
+					 },
+					
 			        search(res) {
 			            clearTimeout(this.timer)
 			            this.timer = setTimeout(() => {
@@ -98,19 +119,9 @@
 			       }
 			      
 			  
-			 },
-			 
-			async removeItemById(id) {
-				 const {
-				     data: orderRes
-				 } = await uni.$http.delete('/wx/orders/'+ id)  
-				  if (orderRes.status != 200) return uni.$showMsg('删除包裹信息失败!') 
-				  
-				 uni.navigateBack({
-				     delta: 1
-				 }); 
-			 },
-        },
+			 }
+			 	
+        }
        
     }
 </script>
