@@ -1,14 +1,10 @@
 <template>
 	<view class="container">
-		<uni-section  type="line">
 			<view class="create-box-form-containe">
+				<view class="box_form_title">
+					箱号:{{dynamicBoxForm.boxNumber}} || 所属仓库:{{dynamicBoxForm.pName}}
+				</view>
 				<uni-forms ref="dynamicBoxForm" :modelValue="dynamicBoxForm" >
-					<uni-forms-item label="扫码装箱,箱号: " name="dynamicBoxForm.boxNumber">
-						<uni-easyinput disabled v-model="dynamicBoxForm.boxNumber"  />
-					</uni-forms-item>
-					<uni-forms-item label="所属仓库: " name="dynamicBoxForm.pName">
-						<uni-easyinput disabled v-model="dynamicBoxForm.pName"  />
-					</uni-forms-item>
 					<uni-forms-item >
 						<uni-easyinput v-model="dynamicBoxForm.key" @input="handleInput" suffixIcon="search" placeholder="可输入快递单号/包裹号码" @iconClick="iconClick"/>		
 					</uni-forms-item>
@@ -25,11 +21,10 @@
 				</uni-swipe-action>
 				
 				<view class="button-group">
-					<button type="primary" size="mini" @click="save('orderFormData')">保存</button>
-					<button type="primary" size="mini" @click="submit('orderFormData')">封箱</button>
+					<button type="primary" size="mini" @click="save('dynamicBoxForm')">保存</button>
+					<button type="primary" size="mini" @click="submit('dynamicBoxForm')">封箱</button>
 				</view>
 			</view>
-		</uni-section>
 	</view>
 </template>
 
@@ -59,8 +54,6 @@
 
                    
    
-            }else {
-              this.orderFormData.orderNumber =  Math.floor(Math.random() * 100000000)
             }
           
             },
@@ -68,74 +61,96 @@
 		    ...mapState('m_order',['orderList']) 
 		},
 		methods: {
-			
 			handleInput(res) {
-			   this.dynamicBoxForm.key = res
-			   
+			   this.dynamicBoxForm.key = res   
 			},
 			
 			iconClick() {
-				console.log('value:',this.dynamicBoxForm.key)
-				let order = this.orderList.filter(order=>order.orderNumber == this.dynamicBoxForm.key || order.trackingNumber == this.dynamicBoxForm.key)
-				console.log('order:',order)
-				this.searchResults.push(order)
+				this.updateOrderList()
+	
+			},
+			
+			updateOrderList() {
+				let order = this.orderList.filter(order=>order.orderNumber == this.dynamicBoxForm.key || order.trackingNumber == this.dynamicBoxForm.key)[0]
+				if(order != undefined) {
+				if(order.pid != null && order.pid != this.dynamicBoxForm.pid) {
+					return uni.showToast({
+					  title: "装箱失败，去往"+this.dynamicBoxForm.pName+"箱子不能装去往"+order.pName+"的包裹",
+					  duration: 2000,
+					  icon: 'none'
+					}) 
+				}
+				if( order.boxNumber != 0 && order.boxNumber != this.dynamicBoxForm.boxNumber) {
+					console.log('order.boxNumber:',order.boxNumber)
+					return uni.showToast({
+					  title: "该包裹已经被装入箱子:"+ order.boxNumber,
+					  duration: 2000,
+					  icon: 'none'
+					}) 
+				}
+				 if(order.boxNumber != 0 && order.boxNumber == this.dynamicBoxForm.boxNumber) {
+					return uni.showToast({
+					  title: "该包裹已经被装入箱子,不需要重复添加",
+					  duration: 2000,
+					  icon: 'none'
+					}) 
+				}
+				if(this.searchResults.filter( item=> item.orderNumber == order.orderNumber ).length != 0){
+					console.log('3')
+					return uni.showToast({
+							title: "该包裹已经被装入箱子,不需要重复添加",
+							duration: 2000,
+							icon: 'none'
+							  }) 
+						} else {
+							this.searchResults.push(order)
+						}
+					
+				}else {
+					return uni.showToast({
+					  title: "该包裹号码为空",
+					  duration: 2000,
+					  icon: 'none'
+					}) 
+				}
 			},
              scan() {
                     uni.scanCode({
                       success: (res) => {
 				     this.dynamicBoxForm.key = res,result
-                           console.log('扫描得到key:',this.dynamicBoxForm.key);
-     
-                                          }
-                                    })
-                              },
-           
-            
-           
+                         this.updateOrderList()}
+                          })
+                      },
 			
-
-			submit(ref) {
-			    this.orderFormData.openId = this.userinfo.openId
+			save(ref) {
 				console.log('orderFormData:', this.orderFormData)
 				this.$refs[ref].validate().then(res => {
-                 
-                  if(this.orderFormData.orderId === '') {
-                     this.createOrder()  
-                  }else {
-                     this.updateOrder()   
-                  } 
+                     this.updateBox()   
 				}).catch(err => {
 					console.log('err', err);
 				})
 			},
             
-            async createOrder() {
-				console.log('orderFormData:', this.orderFormData)
-               const {
-                   data: orderRes
-               } = await uni.$http.post('/wx/orders/createOrder', this.orderFormData)  
-                if (orderRes.status != 200) return uni.$showMsg('創建包裹信息失败!') 
- 
-               uni.navigateBack({
-                   delta: 1
-               }); 
-            },
-            async updateOrder() {
-              const {   
+            async updateBox() {
+				let weightTotal = this.searchResults.reduce((total, item)=> total += item.pWeight, 0)
+				console.log('weightTotal:',weightTotal)
+            /**  const {   
                   data: orderRes
               } = await uni.$http.put('/wx/orders/updateOrder', this.orderFormData)  
                if (orderRes.status != 200) return uni.$showMsg('更新包裹信息失败!') 
                
              uni.navigateBack({
                  delta: 1
-             });
+             });**/
             },     
 		}
 	}
 </script>
 
 <style lang="scss">
-
+    .box_form_title {
+		margin-bottom: 15px;
+	}
 	.create-box-form-containe {
 		padding: 15px;
 		background-color: #fff;

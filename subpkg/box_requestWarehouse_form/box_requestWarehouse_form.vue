@@ -61,6 +61,7 @@
 				this.location = formData.pid
 				this.dynamicBoxForm.id = formData.id
 				this.dynamicBoxForm.pid = formData.pid
+				this.dynamicBoxForm.pName = formData.pName
 			}
 		    },
 	    methods: {
