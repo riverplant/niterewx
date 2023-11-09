@@ -1,27 +1,13 @@
 <template>
-	<view class="page">
+    <view>
+        <nitere-bluetoothPrint></nitere-bluetoothPrint>
 		<tabBar :current="3"></tabBar>
-	</view>
+    </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-			
-			};
-		},
-		methods: {
-	
-			
-		},
-		
-		computed:{
-			
-		}
-	};
-</script>
 
-<style>
-	
-</style>
+export default {
+    
+}
+</script>

@@ -50,6 +50,7 @@ app.$mount()
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
 import App from './App.vue'
+import nitereBluetoothPrintVue from './components/nitere-bluetoothPrint/nitere-bluetoothPrint.vue'
 export function createApp() {
   const app = createSSRApp(App)
   return {

@@ -5,8 +5,14 @@
 					箱号:{{dynamicBoxForm.boxNumber}} || 所属仓库:{{dynamicBoxForm.pName}}
 				</view>
 				<uni-forms ref="dynamicBoxForm" :modelValue="dynamicBoxForm" >
+					<block v-if="isShow">
 					<uni-forms-item >
-						<uni-easyinput v-model="dynamicBoxForm.key" @input="handleInput" suffixIcon="search" placeholder="可输入快递单号/包裹号码" @iconClick="iconClick"/>		
+						<uni-easyinput v-model="dynamicBoxForm.id" />		
+					</uni-forms-item>	
+					</block>
+					
+					<uni-forms-item >
+						<uni-easyinput v-model="key" @input="handleInput" suffixIcon="search" placeholder="可输入快递单号/包裹号码" @iconClick="iconClick" @focus="clear"/>		
 					</uni-forms-item>
 				</uni-forms>
                 <view class="btn">
@@ -33,13 +39,25 @@
 	export default {
 		data() {
 			return {
+				key:'',
 				dynamicBoxForm: {
-					key:'',
+					id:'',
 				    boxNumber:  0,
 				    pid: '',
-					pName:''
+					pName:'',
+					boxStatus: 1,
+					boxType: 1,
+					code:'',
+					orderIds:[],
+					isShow:false
 					
 				},
+				devices: [],
+				deviceId: '',
+				serverList: [],
+				serviceId: '',
+				characteristics: [],
+				characteristicId: '',
             searchResults:[]
 			}
 		},
@@ -48,21 +66,53 @@
             console.log('e:',e)
             if(e && e.box) {
                let box = JSON.parse(e.box)
+			   this.dynamicBoxForm.id = box.id
                this.dynamicBoxForm.boxNumber = box.boxNumber
 			   this.dynamicBoxForm.pid = box.pid
 			   this.dynamicBoxForm.pName = box.pName
-
-                   
-   
+               this.dynamicBoxForm.boxStatus = box.boxStatus
+               this.dynamicBoxForm.boxType = box.boxType
+			   this.dynamicBoxForm.orderIds = box.orderIds
+			   if(box.orderIds.length > 0) {
+				   this.searchResults = this.orderList.filter(order=> box.orderIds.includes(order.id))
+			   }
             }
           
             },
 		computed: {
 		    ...mapState('m_order',['orderList']) 
 		},
+		 mounted () {
+		      // 初始化蓝牙模块
+		  this.openBluetoothAdapter()
+		      },
 		methods: {
+			 openBluetoothAdapter () {
+			                  var _this = this
+			                  uni.openBluetoothAdapter({
+			                        complete (e) {
+			                              console.log(e);
+			                              if (!e.errCode) {
+			                                    console.log('初始化完成')
+			                              } else if (e.errCode == 10001) {
+			                                    uni.showToast({
+			                                          icon: 'none',
+			                                          title: '请打开手机蓝牙'
+			                                    })
+			                              } else {
+			                                    uni.showToast({
+			                                          icon: 'none',
+			                                          title: e.errMsg
+			                                    })
+			                              }
+			                        }
+			                  })
+			            },
+			clear() {
+				this.key = ''
+			},
 			handleInput(res) {
-			   this.dynamicBoxForm.key = res   
+			   this.key = res   
 			},
 			
 			iconClick() {
@@ -70,9 +120,7 @@
 	
 			},
 			
-			updateOrderList() {
-				let order = this.orderList.filter(order=>order.orderNumber == this.dynamicBoxForm.key || order.trackingNumber == this.dynamicBoxForm.key)[0]
-				if(order != undefined) {
+			validePid(order) {
 				if(order.pid != null && order.pid != this.dynamicBoxForm.pid) {
 					return uni.showToast({
 					  title: "装箱失败，去往"+this.dynamicBoxForm.pName+"箱子不能装去往"+order.pName+"的包裹",
@@ -80,6 +128,9 @@
 					  icon: 'none'
 					}) 
 				}
+			},
+			
+			valideBoxNumber(order) {
 				if( order.boxNumber != 0 && order.boxNumber != this.dynamicBoxForm.boxNumber) {
 					console.log('order.boxNumber:',order.boxNumber)
 					return uni.showToast({
@@ -95,15 +146,21 @@
 					  icon: 'none'
 					}) 
 				}
+			},
+			updateOrderList() {
+				let order = this.orderList.filter(order=>order.orderNumber == this.key || order.trackingNumber == this.key)[0]
+				if(order != undefined) {
+					this.validePid(order)
+					this.valideBoxNumber(order)
+
 				if(this.searchResults.filter( item=> item.orderNumber == order.orderNumber ).length != 0){
-					console.log('3')
 					return uni.showToast({
 							title: "该包裹已经被装入箱子,不需要重复添加",
 							duration: 2000,
 							icon: 'none'
 							  }) 
 						} else {
-							this.searchResults.push(order)
+							this.validaeBoxType(order)
 						}
 					
 				}else {
@@ -112,6 +169,30 @@
 					  duration: 2000,
 					  icon: 'none'
 					}) 
+				}
+			},
+			
+			validaeBoxType(order) {
+				if( this.searchResults.length > 0 
+				&& this.searchResults.filter(item=> item.code).length == 0) 
+				{
+					uni.showModal({
+					    title: '提示',
+					    content: '該包裹的提貨碼不同，你確定要加入嗎？箱子的類型會變成合裝箱',
+					    success: function (res) {
+					        if (res.confirm) {
+					           this.searchResults.push(order)
+					           this.dynamicBoxForm.orderIds.push(order.id)
+							   this.dynamicBoxForm.boxType = 2
+							   
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }.bind(this)
+					});
+				}else {
+					this.searchResults.push(order)
+					this.dynamicBoxForm.orderIds.push(order.id)
 				}
 			},
              scan() {
@@ -123,26 +204,77 @@
                       },
 			
 			save(ref) {
-				console.log('orderFormData:', this.orderFormData)
+				console.log('this.dynamicBoxForm:',this.dynamicBoxForm)
+				
 				this.$refs[ref].validate().then(res => {
-                     this.updateBox()   
+					if(this.dynamicBoxForm.id == '') {
+						this.createBox()
+					}else {
+					 this.updateBox()   	
+					}   
 				}).catch(err => {
-					console.log('err', err);
+					 uni.$showMsg(err) 
 				})
+				uni.navigateBack({
+				    delta: 1
+				});
 			},
-            
+			
+            async createBox() {
+             const {   
+                  data: boxRes
+              } = await uni.$http.put('/wx/box/create', this.dynamicBoxForm)  
+               if (boxRes.status != 200) return uni.$showMsg('更新箱子信息失败!') 
+               uni.$showMsg('更新箱子信息完成!') 
+            }, 
+				
             async updateBox() {
-				let weightTotal = this.searchResults.reduce((total, item)=> total += item.pWeight, 0)
-				console.log('weightTotal:',weightTotal)
-            /**  const {   
-                  data: orderRes
-              } = await uni.$http.put('/wx/orders/updateOrder', this.orderFormData)  
-               if (orderRes.status != 200) return uni.$showMsg('更新包裹信息失败!') 
-               
-             uni.navigateBack({
-                 delta: 1
-             });**/
-            },     
+             const {   
+                  data: boxRes
+              } = await uni.$http.put('/wx/box/update', this.dynamicBoxForm)  
+               if (boxRes.status != 200) return uni.$showMsg('更新箱子信息失败!') 
+               uni.$showMsg('更新箱子信息完成!') 
+            },  
+			   
+			submit(ref) {
+				console.log('submit.................')
+				this.$refs[ref].validate().then(res => {
+					console.log('startBluetoothDevicesDiscovery')
+				wx.startBluetoothDevicesDiscovery({
+								// services: ['E7810A71-73AE-499D-8C15-FAA9AEF0C3F2'],
+								// E7810A71-73AE-499D-8C15-FAA9AEF0C3F2
+								success: function(res) {
+									console.log(res);
+									setTimeout(function() {
+										wx.getBluetoothDevices({
+											success: function(res) {
+												console.log(res)
+												var devices = [];
+												var num = 0;
+												for (var i = 0; i < res.devices.length; ++i) {
+													if (res.devices[i].name != '未知设备') {
+														devices[num] = res.devices[i];
+														num++;
+													}
+												}
+												this.devices = devices
+												wx.hideLoading();
+												wx.stopPullDownRefresh();
+												wx.stopBluetoothDevicesDiscovery({
+													success: function(res) {
+														console.log('停止搜索蓝牙');
+													}
+												});
+											}
+										});
+									}, 5000);
+								}
+							});
+
+				}).catch(err => {
+					 uni.$showMsg(err) 
+				})
+			}
 		}
 	}
 </script>

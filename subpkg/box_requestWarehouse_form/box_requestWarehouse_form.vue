@@ -41,8 +41,10 @@
 				   id:'',
 			       boxNumber:  0,
 			       pid: '',
-				   pName:''
-			   	
+				   pName:'',
+				   boxStatus: 1,
+				   boxType: 1,
+				   orderIds:[]
 			   },
 	        }
 	    },
@@ -57,11 +59,19 @@
 				this.dynamicBoxForm.boxNumber =  Math.floor(Math.random() * 1000000)	     
 			}else {
 				let formData = JSON.parse(e.box)
+				this.dynamicBoxForm.id = formData.id
 				this.dynamicBoxForm.boxNumber = formData.boxNumber
 				this.location = formData.pid
 				this.dynamicBoxForm.id = formData.id
 				this.dynamicBoxForm.pid = formData.pid
 				this.dynamicBoxForm.pName = formData.pName
+				this.dynamicBoxForm.pName = formData.pName
+				this.dynamicBoxForm.boxStatus = formData.boxStatus
+				this.dynamicBoxForm.boxType = formData.boxType
+				if(formData.orderInfos.length > 0) {
+				this.dynamicBoxForm.orderIds = formData.orderInfos.map(orderInfos=>orderInfos.id)	
+				}
+				
 			}
 		    },
 	    methods: {

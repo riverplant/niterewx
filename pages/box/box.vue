@@ -48,9 +48,6 @@
                 kw: '',
                 searchResults: [],
                 searchResultsBak:[],
-                type:1,
-                title:'',
-                isShow:false,
         
                 queryObj:{
                     code:'',
