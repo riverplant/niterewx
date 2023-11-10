@@ -37,7 +37,6 @@
 <script>
     import {
         mapState,
-        mapMutations,
         mapGetters
     } from 'vuex'
     var sourceType = [
@@ -89,7 +88,6 @@
         },
 
         methods: {
-            ...mapMutations('m_user', ['updateAddress', 'updateUserInfo']),
             submit(ref) {
                 this.$refs[ref].validate().then(res => {
                     this.sendClaimForm()
@@ -122,8 +120,9 @@
                                      filePath: imgUrl,
                                      name: 'file',
                                      formData: {
-                                         openid: this.openid,
-                                         trackingNumber: this.claimFormData.orderNumber  
+                                         openid: this.userinfo.openid,
+                                         trackingNumber: this.claimFormData.orderNumber,
+										   code: this.userinfo.code
                                      },
                                      success: (res) => {
                                         console.log(res)
@@ -232,7 +231,7 @@
 
         },
         computed: {
-            ...mapState('m_user', ['address', 'openid', 'userinfo'])
+            ...mapState('m_user', [ 'userinfo'])
         }
     }
 </script>

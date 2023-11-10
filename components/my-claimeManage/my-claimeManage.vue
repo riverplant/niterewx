@@ -11,7 +11,7 @@
                <text class="claim-title-text">認領申请管理</text>
            </view>
          <uni-swipe-action>
-            <block v-for="(item,i) in this.searchResults" :key='i'>
+            <block v-for="(item,i) in items" :key='i'>
             <navigator class="panel-item" :url="'/subpkg/claim_table/claim_table?claim='+JSON.stringify(item)"> 
                   <claim-item :claim="item" ></claim-item>
             </navigator>
@@ -24,6 +24,16 @@
 <script>
     import {mapState, mapMutations} from 'vuex'
     export default {
+		props: {
+		    items: {
+				type:Array,
+				default:[]
+			},
+			itemsBak:{
+				type:Array,
+				default:[]
+			}
+			},
         data() {
             return {
                 //右侧滑动删除时显示得文本
@@ -33,11 +43,10 @@
                         backgroundColor: '#C00000'
                     }
                 }],
+			    searchResults: this.claimList,
                 wh:0,
                 timer: null,
                 kw: '',
-				searchResults:this.claimList,
-                searchResultsBak:this.claimList,
                 type:1,
                 title:'',
                 isloading:true
@@ -50,20 +59,12 @@
         },
 
 		beforeMount() {
-			this.getClaimeList()
+			console.log('beforeMount...................')
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
 			
 		},
-        methods: {  
-		async getClaimeList() {
-						const {
-							data: res
-						} = await uni.$http.get('/wx/users/claimList')
-						if (res.status !== 200) return uni.$showMsg()
-						this.searchResults = res.data
-						this.searchResultsBak = res.data
-					 },			
+        methods: {  		
             search(res) {
                 clearTimeout(this.timer)
                 this.timer = setTimeout(() => {
@@ -75,12 +76,13 @@
         getSearchResults() {  
         this.isloading = true
            if(this.kw === '') {
-             this.searchResults = this.searchResultsBak  
+			  this.items = this.itemsBak
            }else {
-             this.searchResults = this.searchResults.filter( item=> item.trackingNumber.indexOf( this.kw ) > -1 );   
+             this.items = this.items.filter( item=> item.trackingNumber.indexOf( this.kw ) > -1 );   
            }
                    
-     }
+     },
+
 
         }
     }

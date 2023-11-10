@@ -1,7 +1,6 @@
 <template>
     <view class="claim-item">
         <view class="claim-item-left">
-            <radio :checked="claim.state" color="#C00000" v-if="showRadio" @click="radioChangeHandler"/>
            <image :src="defaultPic" class="order-pic"></image> 
         </view>
         <view class="claim-item-right">
@@ -15,15 +14,24 @@
                     <view class="order-item-sub-left">
 						當前申請狀態
 					</view>
-					<view class="order-item-sub-right-price" v-if="claim.status == 0">
+					<block v-if="claim.status == 1">
+					<view class="order-item-sub-right-price" >
 						 處理中...
+					</view>	
+					</block>
+					
+					<block v-else-if="claim.status == 2">
+					<view class="order-item-sub-right-price" >
+						 認領成功
 					</view>
-					<view class="order-item-sub-right-price" v-else-if="claim.status == 1">
-						 處理完成
-					</view>
-					<view class="order-item-sub-right-price" v-else>
-						 丟失
-					</view>
+					</block>
+					<block  v-else>
+						<view class="order-item-sub-right-price" >
+							 認領失敗: {{claim.msg}}
+						</view>
+						</block>
+					
+					
                 </view>
 
             </view>
@@ -37,10 +45,6 @@
             claim: {
                 type:Object,
                 default:{}   
-            },
-            showMsg: {
-                type: Boolean,
-                default: false,
             }
         },
         data() {

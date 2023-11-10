@@ -18,8 +18,8 @@
 
                 <uni-forms-item label="是否驗貨通過" required name="pass">
                     <radio-group @change="radioChange">
-                	<label class="radio"><radio value="1" :checked="radioValue==1" />通過</label>
-                	<label class="radio"><radio value="2" :checked="radioValue==2" />未通過</label>
+                	<label class="radio"><radio value="2" :checked="radioValue==2" />通過</label>
+                	<label class="radio"><radio value="3" :checked="radioValue==3" />未通過</label>
                     </radio-group>
                 </uni-forms-item>
                 
@@ -49,7 +49,7 @@
 				radioValue: 0,
                 claimFormData: {
                     trackingNumber:  '',
-                    status: 0,
+                    status: 1,
 					msg:''	
                 }
             };
@@ -64,7 +64,7 @@
                     this.claimFormData.trackingNumber = uinfo.trackingNumber
                     this.radioValue = uinfo.status+''
 					 console.log('radioValue:', this.radioValue)
-        			this.isShow = uinfo.status == 2
+        			this.isShow = uinfo.status == 3
         			if(this.isShow)
         			   this.claimFormData.msg = uinfo.msg
 					this.imageUrlList = uinfo.imageUrlList
@@ -75,8 +75,8 @@
         methods: {
 
                     radioChange: function (e) {
-                            this.claimFormData.status = e.detail.value === '2' ? 2 : 1
-                            this.isShow = e.detail.value === '2' ? true : false
+                            this.claimFormData.status = e.detail.value === '2' ? 2 : 3
+                            this.isShow = e.detail.value === '3' ? true : false
                     	},
         			 TanPreviewImage(){  
 						 console.log('imageUrlList:', this.imageUrlList)
