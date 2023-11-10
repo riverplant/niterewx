@@ -64,15 +64,15 @@
            <view class="panel">
                 <navigator  :url="'/subpkg/address/address'">
                     <view class="panel-list-item">
-                         <text>完善個人信息</text>
+                         <text>个人信息</text>
                               <uni-icons type="arrowright" size="15"></uni-icons> 
                     </view> 
                 </navigator>
 				
                <navigator  :url="'/subpkg/warehouse/warehouse'">
                <view class="panel-list-item">
-                   <text v-if="code == '无'" >申请仓库</text>
-				    <text v-else >申请修改仓库</text>
+                   <text v-if="code == '无'" >选择仓库</text>
+				    <text v-else >变更仓库</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>
                </view>
                 </navigator>
