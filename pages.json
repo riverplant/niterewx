@@ -166,7 +166,7 @@
                     "path" : "address/address",
                     "style" :                                                                                    
                 {
-                    "navigationBarTitleText": "",
+                    "navigationBarTitleText": "个人信息",
                     "enablePullDownRefresh": false
                 }
                 
@@ -175,7 +175,7 @@
                     "path" : "warehouse/warehouse",
                     "style" :                                                                                    
                 {
-                    "navigationBarTitleText": "",
+                    "navigationBarTitleText": "我的仓库",
                     "enablePullDownRefresh": false
                 }
                 
