@@ -66,15 +66,21 @@
             console.log('e:',e)
             if(e && e.box) {
                let box = JSON.parse(e.box)
+			   console.log('box:',box)
 			   this.dynamicBoxForm.id = box.id
                this.dynamicBoxForm.boxNumber = box.boxNumber
 			   this.dynamicBoxForm.pid = box.pid
 			   this.dynamicBoxForm.pName = box.pName
                this.dynamicBoxForm.boxStatus = box.boxStatus
                this.dynamicBoxForm.boxType = box.boxType
-			   this.dynamicBoxForm.orderIds = box.orderIds
-			   if(box.orderIds.length > 0) {
-				   this.searchResults = this.orderList.filter(order=> box.orderIds.includes(order.id))
+			   if(box.orderInfos.length > 0) {
+			   this.dynamicBoxForm.orderIds = box.orderInfos.map(orderInfos=>orderInfos.id)	
+			   }else {
+				  this.dynamicBoxForm.orderIds = box.orderIds  
+			   }
+			  
+			   if(this.dynamicBoxForm.orderIds.length > 0) {
+				   this.searchResults = this.orderList.filter(order=> this.dynamicBoxForm.orderIds.includes(order.id))
 			   }
             }
           
@@ -239,41 +245,19 @@
 			submit(ref) {
 				console.log('submit.................')
 				this.$refs[ref].validate().then(res => {
-					console.log('startBluetoothDevicesDiscovery')
-				wx.startBluetoothDevicesDiscovery({
-								// services: ['E7810A71-73AE-499D-8C15-FAA9AEF0C3F2'],
-								// E7810A71-73AE-499D-8C15-FAA9AEF0C3F2
-								success: function(res) {
-									console.log(res);
-									setTimeout(function() {
-										wx.getBluetoothDevices({
-											success: function(res) {
-												console.log(res)
-												var devices = [];
-												var num = 0;
-												for (var i = 0; i < res.devices.length; ++i) {
-													if (res.devices[i].name != '未知设备') {
-														devices[num] = res.devices[i];
-														num++;
-													}
-												}
-												this.devices = devices
-												wx.hideLoading();
-												wx.stopPullDownRefresh();
-												wx.stopBluetoothDevicesDiscovery({
-													success: function(res) {
-														console.log('停止搜索蓝牙');
-													}
-												});
-											}
-										});
-									}, 5000);
-								}
-							});
-
+					if(this.dynamicBoxForm.id == '') {
+						this.createBox()
+					}else {
+					 this.updateBox()   	
+					}   
+					this.updateBoxStatus()
 				}).catch(err => {
 					 uni.$showMsg(err) 
 				})
+			},
+			
+			async updateBoxStatus(){
+				console.log('updateBoxStatus.................')
 			}
 		}
 	}

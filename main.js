@@ -19,7 +19,7 @@ uni.$showMsg = function( title='数据加载失败', duration = 1500 ) {
 }
 
 //$http.baseUrl = 'https://13bc-184-162-136-202.ngrok.io'
-$http.baseUrl = 'http://127.0.0.1:8080'
+$http.baseUrl = 'http://10.0.0.168:8080'
 
 $http.beforeRequest = function(options) {
     uni.showLoading({

@@ -40,7 +40,13 @@
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
-            "ios" : {},
+			"ios" : {
+			                "privacyDescription" : {
+			                    "NSBluetoothPeripheralUsageDescription" : "是否允许获取蓝牙用于连续打印机？",
+			                    "NSBluetoothAlwaysUsageDescription" : "是否允许获取蓝牙用于连续打印机？"
+			                },
+			                "UIBackgroundModes" : [ "bluetooth-central" ]
+			 },
             /* ios打包配置 */
             "sdkConfigs" : {
                 "maps" : {}

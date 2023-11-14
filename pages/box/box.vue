@@ -13,11 +13,16 @@
                 </view>
               <uni-swipe-action>
                    <block v-for="(item,i) in this.searchResults" :key='i'>
-              <navigator class="panel-item" :url="'/subpkg/box_requestWarehouse_form/box_requestWarehouse_form?box='+JSON.stringify(item)" > 
+              <navigator class="panel-item" :url="'/subpkg/box_requestWarehouse_form/box_requestWarehouse_form?box='+JSON.stringify(item)" v-if="item.pid === ''"> 
              <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
                    <box-item :box="item"  ></box-item>
               </uni-swipe-action-item>
               </navigator>
+			  <navigator class="panel-item" :url="'/subpkg/box_form/box_form?box='+JSON.stringify(item)" v-else>
+			  <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
+			        <box-item :box="item"  ></box-item>
+			   </uni-swipe-action-item>
+			   </navigator>
                   </block>
               </uni-swipe-action>
               <!--自定义结算组件-->
