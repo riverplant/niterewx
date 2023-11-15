@@ -6,10 +6,11 @@
         </view>
         <view class="cabinet-item-right">
             <view class="cabinet-item-desc">
-                 <view class="cabinet-item-desc-text1">包裹号码: {{order.orderNumber}} </view>
-                <view class="cabinet-item-desc-text2"> 尺寸：{{order.pLong}} × {{order.pWidth}} × {{order.pHeight}} CM</view>
-                <view class="cabinet-item-desc-text3"> 体积重：{{order.pWeightByVolume}} KG | 实际重:{{order.pWeight}} KG</view>
-				 <view class="cabinet-item-desc-text3"> 提货码：{{order.code}}</view>
+                 <view class="cabinet-item-desc-text1">櫃子号码: {{cabinet.cabinetNumber}} </view>
+                <view class="cabinet-item-desc-text2"> 合計重量：{{cabinet.weightTotal}} KG</view>
+                <view class="cabinet-item-desc-text3"> 合計体积：{{cabinet.volumTotal}} m3</view>
+				 <view class="cabinet-item-desc-text3"> 縂包裹數：{{cabinet.orderCount}} </view>
+				 <view class="cabinet-item-desc-text3"> 出海日期：{{cabinet.departureDate}}</view>
             </view>
             <view class="cabinet-item-info-box">
                 <view v-if="showPrice" class="cabinet-item-price">

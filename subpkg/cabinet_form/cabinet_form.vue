@@ -82,8 +82,9 @@
             if( JSON.stringify(e) === "{}" ) {
 				this.cabinetCreateParam.cabinetNumber =  Math.floor(Math.random() * 1000000)	   
 			}else {
-				let formData = JSON.parse(e.cabinet)
-				this.cabinetCreateParam.cabinetNumber = formData.cabinetNumber
+			let formData = JSON.parse(e.cabinet)
+			this.cabinetCreateParam.cabinetNumber = formData.cabinetNumber
+			this.cabinetCreateParam.id = formData.id
             const sysInfo =  uni.getSystemInfoSync()
             this.wh = sysInfo.windowHeight - 50
 			}
@@ -99,28 +100,8 @@
             swipeItemClickHandler(item) {
                 console.log(item)
             },
-            search(res) {
-                clearTimeout(this.timer)
-                this.timer = setTimeout(() => {
-                    this.kw = res,
-                   this.getSearchResults() 
-                }, 500)
-             },  
    
-        getSearchResults() {  
-        this.isloading = true
-           if(this.kw === '') {
-             this.searchResults = this.searchResultsBak  
-           }else {
-             this.searchResults = this.searchResults.filter( item=> item.orderNumber.indexOf( this.kw ) > -1 );   
-           }
-          
-     },
-     gotoDetail(item) {
-         uni.navigateTo({
-             url: '/subpkg/orders_detail/orders_detail?item=' + JSON.stringify(item)
-         })
-     },
+       
      radioChangeHandler(e) {
          this.updateBoxState(e)
      }

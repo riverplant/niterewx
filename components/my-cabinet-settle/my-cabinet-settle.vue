@@ -53,8 +53,28 @@
 				if (this.cabinetCreateParam.departureDate === '') return uni.$showMsg('请选择發貨時間')
 				
 			  this.cabinetCreateParam.boxIds = this.checkedBoxIDS
-              console.log('cabinetCreateParam:',this.cabinetCreateParam)
-            }
+              if(this.cabinetCreateParam.id === ''){
+				  this.createCabinet()
+			  }else {
+				  this.updateCabinet()
+			  }
+            },
+			
+			async createCabinet() {
+			    const {data: res} = await uni.$http.post('/wx/cabinet/create', this.cabinetCreateParam)
+				if (res.status != 200) return uni.$showMsg('創建櫃子失败!')
+				uni.navigateBack({
+				    delta: 1
+				});   
+			},
+			
+			async updateCabinet() {
+			    const {data: res} = await uni.$http.put('/wx/cabinet/update', this.cabinetCreateParam)
+				if (res.status != 200) return uni.$showMsg('更新櫃子失败!')
+				uni.navigateBack({
+				    delta: 1
+				});   
+			}
         }
     }
 </script>
