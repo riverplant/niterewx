@@ -1,8 +1,8 @@
 <template>
     <view class="box-item">
         <view class="box-item-left">
-            <radio :checked="order.state" color="#C00000" v-if="showRadio" @click="radioChangeHandler"/>
-           <image :src="defaultPic" class="order-pic"></image> 
+            <radio :checked="box.state" color="#C00000" v-if="showRadio" @click="radioChangeHandler"/>
+           <image :src="defaultPic" class="box-pic"></image> 
         </view>
         <view class="box-item-center">
             <view class="box-item-desc">
@@ -16,19 +16,6 @@
             </view>
 
         </view>
-		
-	<!--	<view class="box-item-right">
-			<view class="box-item-btn">
-			    <view  class="box-item-price">
-					<view class="order-item-sub-right-price">
-						<view class="button-group">
-							<button type="primary" size="mini" @click="closeAndPrint(box.boxNumber)">打标封箱</button>
-						</view>
-					</view>
-			    </view>
-			        
-			</view>
-		</view> -->
     </view>
 </template>
 
@@ -38,10 +25,6 @@
             box: {
                 type:Object,
                 default:{}   
-            },
-            showPrice: {
-                type: Boolean,
-                default: false,
             },
             showMsg: {
                 type: Boolean,
@@ -61,8 +44,8 @@
         methods: {
             radioChangeHandler() {
                 this.$emit('radio-change', {
-                   id: this.order.id,
-                   state: !this.order.state
+                   id: this.box.id,
+                   state: !this.box.state
                 })
             }
         }
@@ -87,7 +70,7 @@
 	justify-content: space-between;
 	align-items: center;
 	}
-.order-pic {
+.box-pic {
 	width: 150rpx;
 	height: 150rpx;
 	display: block;
@@ -107,32 +90,12 @@
 	align-items: center;
 }**/
 	
-.order-item-sub-left{
+.box-item-sub-left{
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	}
-.order-item-sub-right{
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	}
-.order-item-sub-icon{
-	margin-right: 10rpx;
-	width: 30rpx;
-	height: 30rpx;
-	display: block;
-	}
-	
-.order-item-sub-right-price{
-	width: 320rpx;
-	font-weight: 800;
-	text-align: right;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	color: #00a000;
-	}
+
 .box-item-desc {
 	display: flex;
 	//width: 94px;
@@ -161,11 +124,5 @@
 	font-size: 25rpx;
 	color: #000000;
 	}
-.order-item-msg{
-	display: flex;
-	width: 410rpx;
-	margin-bottom: 20rpx;
-	font-size: 25rpx;
-	color: #fe642c;
-	}
+
 </style>

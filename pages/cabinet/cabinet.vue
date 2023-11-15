@@ -13,21 +13,16 @@
                 </view>
               <uni-swipe-action>
                    <block v-for="(item,i) in this.searchResults" :key='i'>
-              <navigator class="panel-item" :url="'/subpkg/box_requestWarehouse_form/box_requestWarehouse_form?box='+JSON.stringify(item)" v-if="item.pid === ''"> 
+              <navigator class="panel-item" :url="'/subpkg/cabinet_form/cabinet_form?cabinet='+JSON.stringify(item)"> 
              <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-                   <box-item :box="item"  ></box-item>
+                   <cabinet-item :cabinet="item"  ></cabinet-item>
               </uni-swipe-action-item>
               </navigator>
-			  <navigator class="panel-item" :url="'/subpkg/box_form/box_form?box='+JSON.stringify(item)" v-else>
-			  <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-			        <box-item :box="item"  ></box-item>
-			   </uni-swipe-action-item>
-			   </navigator>
                   </block>
               </uni-swipe-action>
               <!--自定义结算组件-->
       <my-create-cabinet-button></my-create-cabinet-button>
-	  <tabBar :current="2"></tabBar>
+	  <tabBar :current="3"></tabBar>
          </view>
 </template>
 
@@ -38,6 +33,7 @@
 		  const sysInfo =  uni.getSystemInfoSync()
 		  this.wh = sysInfo.windowHeight - 50
 		  this.getCabinetList() 
+		  this.getBoxList()
 		},
         data() {
             return {
@@ -70,13 +66,22 @@
             };
         },
         methods: {
+			 ...mapMutations('m_cabinet',['updateBoxList']),
+	    async getBoxList() {
+				const {
+				    data: boxRes
+				} = await uni.$http.get('/wx/box/list')  
+				 if (boxRes.status != 200) return uni.$showMsg('查询箱子列表信息失败!') 
+				 this.updateBoxList(boxRes.data)
+				
+			},
             async getCabinetList() {
             	const {
-            	    data: boxRes
+            	    data: cabinetRes
             	} = await uni.$http.get('/wx/cabinet/list')  
-            	 if (boxRes.status != 200) return uni.$showMsg('查询箱子列表信息失败!') 
-				 this.searchResults = boxRes.data
-				this.searchResultsBak = boxRes.data
+            	 if (cabinetRes.status != 200) return uni.$showMsg('查询箱子列表信息失败!') 
+				 this.searchResults = cabinetRes.data
+				this.searchResultsBak = cabinetRes.data
             	
             },
 			swipeItemClickHandler(item) {
@@ -85,7 +90,7 @@
 				    content: '确定要删除该櫃子吗',
 				    success: function (res) {
 				        if (res.confirm) {
-				           this.removeBoxById(item.id)
+				           this.removeById(item.id)
 				        } else if (res.cancel) {
 				            console.log('用户点击取消');
 				        }
@@ -93,14 +98,14 @@
 				});
 			        },
 					
-					async removeBoxById(id) {
+					async removeById(id) {
 						 const {
 						     data: orderRes
-						 } = await uni.$http.delete('/wx/box/'+ id)  
+						 } = await uni.$http.delete('/wx/cabinet/'+ id)  
 						  if (orderRes.status != 200) return uni.$showMsg('删除包裹信息失败!') 
 						  
 						this.searchResults = this.searchResultsBak.filter(
-						                           box=> box.id != id )
+						                           cabinet=> cabinet.id != id )
 						this.searchResultsBak = this.searchResults
 					 },
 					
@@ -117,7 +122,7 @@
 			       if(this.kw === '') {
 			         this.searchResults = this.searchResultsBak  
 			       }else {
-			         this.searchResults = this.searchResults.filter( item=> (''+item.boxNumber).indexOf( this.kw ) > -1  );   
+			         this.searchResults = this.searchResults.filter( item=> (''+item.cabinetNumber).indexOf( this.kw ) > -1  );   
 			       }
 			      
 			  

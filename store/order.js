@@ -12,18 +12,10 @@ export default {
 	   orderList: JSON.parse(uni.getStorageSync('orderList') || '[]'),
        catTree:  JSON.parse(uni.getStorageSync('catTree') || '[]'),
 	   warehouseRequestList: JSON.parse(uni.getStorageSync('warehouseRequestList') || '[]'),
-	   claimList: JSON.parse(uni.getStorageSync('claimList') || '[]'),
-	   boxList:JSON.parse(uni.getStorageSync('boxList') || '[]'),
+	   claimList: JSON.parse(uni.getStorageSync('claimList') || '[]')
     }),
     
     mutations:{
-		updateBoxList(state, boxList) {
-			state.boxList = boxList
-			this.commit('m_order/saveBoxListToStorage')
-		},
-		saveBoxListToStorage(state) {
-			 uni.setStorageSync('boxList', JSON.stringify(state.boxList))
-		},
 		updateOrderList(state, orderList) {
 			state.orderList = orderList
 			this.commit('m_order/saveOrderListToStorage')

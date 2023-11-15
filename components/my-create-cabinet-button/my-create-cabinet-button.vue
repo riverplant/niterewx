@@ -1,6 +1,6 @@
 <template>
     <view class="create-cabinet-button-container" >
-        <navigator class="panel-item" :url="'/subpkg/box_requestWarehouse_form/box_requestWarehouse_form'">
+        <navigator class="panel-item" :url="'/subpkg/cabinet_form/cabinet_form'">
          <view class="btn-claim">新創建一個櫃子</view>
         </navigator>
         </view> 

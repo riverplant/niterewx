@@ -70,6 +70,7 @@
             };
         },
         methods: {
+			...mapMutations('m_cabinet',['updateBoxList']),
             async getBoxList() {
             	const {
             	    data: boxRes
@@ -77,6 +78,7 @@
             	 if (boxRes.status != 200) return uni.$showMsg('查询箱子列表信息失败!') 
 				 this.searchResults = boxRes.data
 				this.searchResultsBak = boxRes.data
+				this.updateBoxList(boxRes.data)
             	
             },
 			swipeItemClickHandler(item) {
