@@ -119,10 +119,6 @@
 			
 			},
 			async removeItemById(id) {
-				const {
-				    data: res
-				} = await uni.$http.put('/wx/box/remove/'+ id)
-				if (res.status !== 200) return uni.$showMsg()
 				this.searchResults = this.searchResults.filter( box=> box.id  != id )
 			},
 			 openBluetoothAdapter () {
@@ -220,7 +216,6 @@
 					    success: function (res) {
 					        if (res.confirm) {
 					           this.searchResults.push(order)
-					           this.dynamicBoxForm.orderIds.push(order.id)
 							   this.dynamicBoxForm.boxType = 2
 							   
 					        } else if (res.cancel) {
@@ -254,6 +249,7 @@
 			},
 			
             async createBox() {
+				this.dynamicBoxForm.orderIds = this.searchResults.map(item=>item.id)
              const {   
                   data: boxRes
               } = await uni.$http.put('/wx/box/create', this.dynamicBoxForm)  
@@ -265,6 +261,7 @@
             }, 
 				
             async updateBox() {
+				this.dynamicBoxForm.orderIds = this.searchResults.map(item=>item.id)
              const {   
                   data: boxRes
               } = await uni.$http.put('/wx/box/update', this.dynamicBoxForm)  
