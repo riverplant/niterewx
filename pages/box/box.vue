@@ -35,6 +35,7 @@
 	import {mapState, mapMutations} from 'vuex'
     export default {
 		onShow() {
+			console.log('onshow.......')
 		  const sysInfo =  uni.getSystemInfoSync()
 		  this.wh = sysInfo.windowHeight - 50
 		  this.getBoxList() 

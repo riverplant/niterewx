@@ -40,7 +40,6 @@
                 timer: null,
                 kw: '',
                 searchResults:[],
-                searchResultsBak:[],
                 type:1,
                 title:'',
                 isShowPriceAndRadio:true,
@@ -79,17 +78,27 @@
              ...mapState('m_cabinet', ['boxList'])
         },
         onLoad(e) {
+			const sysInfo =  uni.getSystemInfoSync()
+			this.wh = sysInfo.windowHeight - 50
             if( JSON.stringify(e) === "{}" ) {
-				this.cabinetCreateParam.cabinetNumber =  Math.floor(Math.random() * 1000000)	   
+				this.cabinetCreateParam.cabinetNumber =  Math.floor(Math.random() * 1000000)	
+				this.searchResults = this.boxList.filter(item=>item.cabinetId === null)
 			}else {
 			let formData = JSON.parse(e.cabinet)
 			this.cabinetCreateParam.cabinetNumber = formData.cabinetNumber
 			this.cabinetCreateParam.id = formData.id
-            const sysInfo =  uni.getSystemInfoSync()
-            this.wh = sysInfo.windowHeight - 50
+			this.cabinetCreateParam.departureDate = formData.departureDate
+			let ids = formData.boxs.map(item=>item.id)
+			
+			for (var val of this.boxList) {
+				if(ids.includes(val.id))
+				   val.state = true
+				   else
+				   val.state = false
+				 this.searchResults.push(val)  
 			}
-			this.searchResults = this.boxList
-			this.searchResultsBak = this.searchResults
+			}
+			
         },
         methods: {    
             ...mapMutations('m_cabinet',['updateBoxState']),

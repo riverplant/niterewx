@@ -2,7 +2,7 @@
     <view class="my-container">
         <my-login v-if="!token"></my-login>
         <my-userinfo v-else-if="userinfo.userRoles == 3"></my-userinfo>
-		<create-order v-else></create-order>
+		<create-order  :items="items" :itemsBak="items" v-else></create-order>
       <tabBar :current="0"></tabBar>
     </view>
 </template>
@@ -15,7 +15,7 @@
     export default {
         data() {
             return {
-                orderList: [],
+                items: [],
                 ordersNonValide: [],
                 ordersNonPayer: [],
                 ordersNonLivrer: [],
@@ -41,7 +41,8 @@
             }
         },
         computed: {
-            ...mapState('m_user', ['token', 'openid','userinfo'])
+            ...mapState('m_user', ['token', 'openid','userinfo']),
+			...mapState('m_order', ['orderList'])
         },
         methods: {
             ...mapMutations('m_user', ['updateSwiperList','updateUserInfo']),
@@ -52,14 +53,13 @@
 			async initAllOrderList() {
 			  const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
 			  if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
-			   console.log('res:', res.data)
+			  this.items = res.data
 			   this.updateOrderList(res.data)  
 			},
 			
 			async initCatTree() {
 			    const {data: res} = await uni.$http.get('/wx/orders/catlist')
 			    if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
-			     console.log('res:', res.data)
 			     this.updateCatTree(res.data)
 			},   
             async initOrdersByopenid() {
@@ -67,7 +67,7 @@
                     data: res
                 } = await uni.$http.get('/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
                 if (res.status !== 200) return uni.$showMsg()
-                this.orderList = res.data
+				this.items = res.data
                 this.updateOrderList(res.data)
                 this.initOrderList()
 

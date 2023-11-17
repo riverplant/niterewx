@@ -12,7 +12,7 @@
 			            
            </view>
          <uni-swipe-action>
-              <block v-for="(item,i) in searchResults" :key='i'>
+              <block v-for="(item,i) in items" :key='i'>
          <navigator class="panel-item" :url="'/subpkg/order_form/order_form?oinfo='+JSON.stringify(item)"> 
          <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
               <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
@@ -28,6 +28,16 @@
 <script>
     import {mapState, mapMutations} from 'vuex'
     export default {
+		props: {
+		    items: {
+				type:Array,
+				default:[]
+			},
+			itemsBak:{
+				type:Array,
+				default:[]
+			}
+			},
         data() {
             return {
                 //右侧滑动删除时显示得文本
@@ -40,8 +50,6 @@
                 wh:0,
                 timer: null,
                 kw: '',
-                searchResults:[],
-                searchResultsBak:[],
                 type:1,
                 title:'',
                 isShowPriceAndRadio:false,
@@ -65,8 +73,6 @@
         },
 		
 		beforeMount() {
-			this.initAllOrderList()
-			this.initCatTree()
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
 		},
@@ -81,21 +87,7 @@
         },
 		
         methods: {    
-            ...mapMutations('m_order',['updateOrderState', 'updateOrderList','updateCatTree']),
-            async initAllOrderList() {
-              const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
-              if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
-               this.updateOrderList(res.data)  
-			   this.searchResults = res.data
-			   this.searchResultsBak = this.searchResults
-            },
-            
-            async initCatTree() {
-                const {data: res} = await uni.$http.get('/wx/orders/catlist')
-                if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
-                 console.log('res:', res.data)
-                 this.updateCatTree(res.data)
-            },   
+            ...mapMutations('m_order',['updateOrderState', 'updateOrderList','updateCatTree']),  
 			swipeItemClickHandler(item) {
 				uni.showModal({
 				    title: '提示',
@@ -121,9 +113,9 @@
         getSearchResults() {  
         this.isloading = true
            if(this.kw === '') {
-             this.searchResults = this.searchResultsBak  
+             this.items = this.itemsBak  
            }else {
-             this.searchResults = this.orderList.filter( item=> (item.orderNumber.indexOf( this.kw ) > -1 || item.code.indexOf( this.kw ) > -1 ) );   
+             this.items = this.items.filter( item=> (item.orderNumber.indexOf( this.kw ) > -1 || item.code.indexOf( this.kw ) > -1 ) );   
            }
           
       
@@ -135,9 +127,9 @@
 		 } = await uni.$http.delete('/wx/orders/'+ id)  
 		  if (orderRes.status != 200) return uni.$showMsg('删除包裹信息失败!') 
 		  
-	this.searchResults = this.searchResultsBak.filter(
+	this.items = this.itemsBak.filter(
 	                           order=> order.id != id )
-	this.searchResultsBak = this.searchResults
+	this.itemsBak = this.items
 	 },
 
      radioChangeHandler(e) {

@@ -28,7 +28,8 @@
 				
 				<view class="button-group">
 					<button type="primary" size="mini" @click="save('dynamicBoxForm')">保存</button>
-					<button type="primary" size="mini" @click="submit('dynamicBoxForm')">封箱</button>
+					<button type="primary" size="mini" @click="submit('dynamicBoxForm')" v-if="dynamicBoxForm.boxStatus == 1">封箱</button>
+					<button type="primary" size="mini" @click="print('dynamicBoxForm')" v-else>打标</button>
 				</view>
 			</view>
 	</view>
@@ -52,6 +53,13 @@
 					isShow:false
 					
 				},
+				options:[{
+				    text:'删除',
+				    style: {
+				        backgroundColor: '#C00000'
+				    }
+				}],
+				close:false,
 				devices: [],
 				deviceId: '',
 				serverList: [],
@@ -66,7 +74,7 @@
             console.log('e:',e)
             if(e && e.box) {
                let box = JSON.parse(e.box)
-			   console.log('box:',box)
+			  
 			   this.dynamicBoxForm.id = box.id
                this.dynamicBoxForm.boxNumber = box.boxNumber
 			   this.dynamicBoxForm.pid = box.pid
@@ -76,9 +84,9 @@
 			   if(box.orderInfos.length > 0) {
 			   this.dynamicBoxForm.orderIds = box.orderInfos.map(orderInfos=>orderInfos.id)	
 			   }else {
-				  this.dynamicBoxForm.orderIds = box.orderIds  
+				  this.dynamicBoxForm.orderIds = []  
 			   }
-			  
+			   console.log('dynamicBoxForm:',this.dynamicBoxForm)
 			   if(this.dynamicBoxForm.orderIds.length > 0) {
 				   this.searchResults = this.orderList.filter(order=> this.dynamicBoxForm.orderIds.includes(order.id))
 			   }
@@ -93,6 +101,30 @@
 		  this.openBluetoothAdapter()
 		      },
 		methods: {
+			swipeItemClickHandler(item) {
+			    this.presremoveItemById(item.id)
+			},
+			presremoveItemById(id) {
+				uni.showModal({
+				    title: '提示',
+				    content: '确定要从箱子里移除除包裹吗',
+				    success: function (res) {
+				        if (res.confirm) {
+				           this.removeItemById(id)
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }.bind(this)
+				});
+			
+			},
+			async removeItemById(id) {
+				const {
+				    data: res
+				} = await uni.$http.put('/wx/box/remove/'+ id)
+				if (res.status !== 200) return uni.$showMsg()
+				this.searchResults = this.searchResults.filter( box=> box.id  != id )
+			},
 			 openBluetoothAdapter () {
 			                  var _this = this
 			                  uni.openBluetoothAdapter({
@@ -210,8 +242,6 @@
                       },
 			
 			save(ref) {
-				console.log('this.dynamicBoxForm:',this.dynamicBoxForm)
-				
 				this.$refs[ref].validate().then(res => {
 					if(this.dynamicBoxForm.id == '') {
 						this.createBox()
@@ -221,9 +251,6 @@
 				}).catch(err => {
 					 uni.$showMsg(err) 
 				})
-				uni.navigateBack({
-				    delta: 1
-				});
 			},
 			
             async createBox() {
@@ -232,6 +259,9 @@
               } = await uni.$http.put('/wx/box/create', this.dynamicBoxForm)  
                if (boxRes.status != 200) return uni.$showMsg('更新箱子信息失败!') 
                uni.$showMsg('更新箱子信息完成!') 
+			   if(this.close == true) {
+				  this.closeBox()
+			   }
             }, 
 				
             async updateBox() {
@@ -240,24 +270,47 @@
               } = await uni.$http.put('/wx/box/update', this.dynamicBoxForm)  
                if (boxRes.status != 200) return uni.$showMsg('更新箱子信息失败!') 
                uni.$showMsg('更新箱子信息完成!') 
+			   		if(this.dynamicBoxForm.boxStatus === 2)
+			   		     this.openBox()
+			   		else if(this.close == true)
+			   		  this.closeBox()		  
+			   
             },  
 			   
 			submit(ref) {
-				console.log('submit.................')
+				console.log('dynamicBoxForm:',this.dynamicBoxForm)
+				if(this.dynamicBoxForm.orderIds.length === 0) {
+					return uni.$showMsg('请至少在箱子中放入一个包裹!') 
+				}
 				this.$refs[ref].validate().then(res => {
+					this.close = true
 					if(this.dynamicBoxForm.id == '') {
 						this.createBox()
 					}else {
 					 this.updateBox()   	
 					}   
-					this.updateBoxStatus()
 				}).catch(err => {
 					 uni.$showMsg(err) 
 				})
 			},
 			
-			async updateBoxStatus(){
-				console.log('updateBoxStatus.................')
+			async closeBox(){
+				const {
+				     data: boxRes
+				 } = await uni.$http.put('/wx/box/close/'+this.dynamicBoxForm.id)  
+				  if (boxRes.status != 200) return uni.$showMsg('关箱失败!') 
+				  uni.$showMsg('关箱完成!') 
+				  this.close = false
+				  this.dynamicBoxForm.boxStatus = 2
+			},
+			
+			async openBox(){
+				const {
+				     data: boxRes
+				 } = await uni.$http.put('/wx/box/open/'+this.dynamicBoxForm.id)  
+				  if (boxRes.status != 200) return uni.$showMsg('开箱失败!') 
+				  uni.$showMsg('开箱完成!') 
+				  this.dynamicBoxForm.boxStatus = 1
 			}
 		}
 	}
