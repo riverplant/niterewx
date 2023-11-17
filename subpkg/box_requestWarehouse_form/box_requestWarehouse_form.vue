@@ -159,10 +159,7 @@
 				    data: boxRes
 				} = await uni.$http.get('/wx/box/list')  
 				 if (boxRes.status != 200) return uni.$showMsg('查询箱子列表信息失败!') 
-				  console.log('updateboxlist')
 				 this.updateBoxList(boxRes.data)
-				 console.log('updateboxlist')
-				  console.log('updateboxlist',this.boxList)
 				
 			}
 	       

@@ -96,10 +96,6 @@
 		computed: {
 		    ...mapState('m_order',['orderList']) 
 		},
-		 mounted () {
-		      // 初始化蓝牙模块
-		  this.openBluetoothAdapter()
-		      },
 		methods: {
 			swipeItemClickHandler(item) {
 			    this.presremoveItemById(item.id)
@@ -121,27 +117,7 @@
 			async removeItemById(id) {
 				this.searchResults = this.searchResults.filter( box=> box.id  != id )
 			},
-			 openBluetoothAdapter () {
-			                  var _this = this
-			                  uni.openBluetoothAdapter({
-			                        complete (e) {
-			                              console.log(e);
-			                              if (!e.errCode) {
-			                                    console.log('初始化完成')
-			                              } else if (e.errCode == 10001) {
-			                                    uni.showToast({
-			                                          icon: 'none',
-			                                          title: '请打开手机蓝牙'
-			                                    })
-			                              } else {
-			                                    uni.showToast({
-			                                          icon: 'none',
-			                                          title: e.errMsg
-			                                    })
-			                              }
-			                        }
-			                  })
-			            },
+			 
 			clear() {
 				this.key = ''
 			},
@@ -308,6 +284,13 @@
 				  if (boxRes.status != 200) return uni.$showMsg('开箱失败!') 
 				  uni.$showMsg('开箱完成!') 
 				  this.dynamicBoxForm.boxStatus = 1
+			},
+			
+			print() {
+				let url = '/subpkg/print/print?box='+JSON.stringify(this.dynamicBoxForm)
+				uni.navigateTo({
+				  url: url
+				});
 			}
 		}
 	}
