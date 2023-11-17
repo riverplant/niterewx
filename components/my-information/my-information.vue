@@ -20,25 +20,25 @@
 				 
 				<view class="panel-body">
 					<uni-badge size="normal" absolute="rightTop" class="badge-style">
-						<navigator class="panel-item" url="/pages/info/info01/info01">
+						<navigator class="panel-item" url="/subpkg/info/info01/info01">
 							<image src="/static/icon-info-01.png" class="icon"></image>
 							<text class="badge-text">操作指南</text>
 						</navigator>
 					</uni-badge>
 					<uni-badge size="normal" absolute="rightTop" class="badge-style">
-						<navigator class="panel-item" url="/pages/info/info02/info02">
+						<navigator class="panel-item" url="/subpkg/info/info02/info02">
 							<image src="/static/icon-info-02.png" class="icon"></image>
 							<text class="badge-text">国内收货仓地址</text>
 						</navigator>
 					</uni-badge>
 					<uni-badge size="normal" absolute="rightTop" class="badge-style">
-						<navigator class="panel-item" url="/pages/info/info03/info03">
+						<navigator class="panel-item" url="/subpkg/info/info03/info03">
 							<image src="/static/icon-info-03.png" class="icon"></image>
 							<text class="badge-text">提货点/送货分区</text>
 						</navigator>
 					</uni-badge>
 					<uni-badge size="normal" absolute="rightTop" class="badge-style">
-						<navigator class="panel-item" url="/pages/info/info04/info04">
+						<navigator class="panel-item" url="/subpkg/info/info04/info04">
 							<image src="/static/icon-info-04.png" class="icon"></image>
 							<text class="badge-text">计费方式</text>
 						</navigator>
@@ -46,25 +46,25 @@
 				</view>
 				<view class="panel-body">
 					<uni-badge size="normal" absolute="rightTop" class="badge-style">
-						<navigator class="panel-item" url="/pages/info/info05/info05">
+						<navigator class="panel-item" url="/subpkg/info/info05/info05">
 							<image src="/static/icon-info-05.png" class="icon"></image>
 							<text class="badge-text">禁运清单</text>
 						</navigator>
 					</uni-badge>
 					<uni-badge size="normal" absolute="rightTop" class="badge-style">
-						<navigator class="panel-item" url="/pages/info/info06/info06">
+						<navigator class="panel-item" url="/subpkg/info/info06/info06">
 							<image src="/static/icon-info-06.png" class="icon"></image>
 							<text class="badge-text">赔付条款</text>
 						</navigator>
 					</uni-badge>
 					<uni-badge size="normal" absolute="rightTop" class="badge-style">
-						<navigator class="panel-item" url="/pages/info/info07/info07">
+						<navigator class="panel-item" url="/subpkg/info/info07/info07">
 							<image src="/static/icon-info-07.png" class="icon"></image>
 							<text class="badge-text">货运流程</text>
 						</navigator>
 					</uni-badge>
 					<uni-badge size="normal" absolute="rightTop" class="badge-style">
-						<navigator class="panel-item" url="/pages/info/info08/info08">
+						<navigator class="panel-item" url="/subpkg/info/info08/info08">
 							<image src="/static/icon-info-08.png" class="icon"></image>
 							<text class="badge-text">关于自寄物品</text>
 						</navigator>

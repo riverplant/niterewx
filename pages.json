@@ -57,90 +57,7 @@
                 "enablePullDownRefresh": false
             }
             
-        }
-
-        ,{
-            "path" : "pages/info/info01/info01",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "操作指南",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/info/info02/info02",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "国内收货仓地址",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/info/info03/info03",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "提货点/送货分区",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/info/info04/info04",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "计费方式",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/info/info05/info05",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "禁运清单",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/info/info06/info06",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "赔付条款",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/info/info07/info07",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "货运流程",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/info/info08/info08",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "关于自寄物品",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/info/support-qr/support-qr",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "联系客服",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-       
+        }  
     ],
     "subPackages": [
       {
@@ -260,7 +177,88 @@
                     "enablePullDownRefresh": false
                 }
                 
-                }
+                },
+				{
+				    "path" : "info/info01/info01",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "操作指南",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				}
+				,{
+				    "path" : "info/info02/info02",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "国内收货仓地址",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				}
+				,{
+				    "path" : "info/info03/info03",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "提货点/送货分区",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				}
+				,{
+				    "path" : "info/info04/info04",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "计费方式",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				}
+				,{
+				    "path" : "info/info05/info05",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "禁运清单",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				}
+				,{
+				    "path" : "info/info06/info06",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "赔付条款",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				}
+				,{
+				    "path" : "info/info07/info07",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "货运流程",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				}
+				,{
+				    "path" : "info/info08/info08",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "关于自寄物品",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				}
+				,{
+				    "path" : "info/support-qr/support-qr",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "联系客服",
+				        "enablePullDownRefresh": false
+				    }
+				    
+				}
             ]
       }  
     ],
@@ -284,55 +282,5 @@
 			{ "pagePath": "pages/cabinet/cabinet"}
 			]
 		  
-		   /** 
-        "list": [ {
-                "pagePath": "pages/userInfo/userInfo",
-                "text": "我的账户",
-                "iconPath": "static/icon-client-tabbar-01b.png",
-				"selectedIconPath": "static/icon-client-tabbar-01a.png"
-
-            },
-             {
-                 "pagePath": "pages/package/package",
-                 "text": "包裹管理",
-                "iconPath": "static/c1.png"
-            
-             },
-             {
-                "pagePath": "pages/claim/claim",
-                    "text": "认领请求",
-                    "iconPath": "static/icon-client-tabbar-02b.png",
-					"selectedIconPath": "static/icon-client-tabbar-02a.png"
-            
-                },
-                {
-                   "pagePath": "pages/claimManage/claimManage",
-                       "text": "认领请求管理",
-                       "iconPath": "static/icon-client-tabbar-02b.png",
-                					"selectedIconPath": "static/icon-client-tabbar-02a.png"
-                            
-                   },
-				{
-				    "pagePath": "pages/info/info",
-				    "text": "用户须知",
-				    "iconPath": "static/icon-client-tabbar-03b.png",
-					"selectedIconPath": "static/icon-client-tabbar-03a.png"
-				            
-				}
-            {
-                     "pagePath": "pages/box/box",
-                     "text": "装箱",
-                    "iconPath": "static/package.png"
-            
-                 }
-                 
-                 {
-                     "pagePath": "pages/cabinet/cabinet",
-                     "text": "装柜",
-                    "iconPath": "static/c1.png"
-                            
-                }
-           
-        ]**/
     }
 }

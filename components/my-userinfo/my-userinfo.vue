@@ -76,7 +76,7 @@
                    <uni-icons type="arrowright" size="15"></uni-icons>
                </view>
                 </navigator>
-				<navigator class="panel-item" url="/pages/info/support-qr/support-qr">
+				<navigator class="panel-item" url="/subpkg/info/support-qr/support-qr">
                <view class="panel-list-item">
                    <text>联系客服</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>
