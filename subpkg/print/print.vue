@@ -19,7 +19,10 @@
 						<radio :value="item.deviceId" @tap="select_deviceId(item)" />{{item.name }}</view>
 					<view style="font-size: 20rpx">信号强度: {{item.RSSI}}dBm ({{Math.max(100+item.RSSI,0)}}%)</view>
 					<view style="font-size: 20rpx">deviceId: {{item.deviceId}}</view>
-					<view style="font-size: 20rpx">Service数量: {{item.advertisServiceUUIDs.length || 0}}</view>
+					<block v-if="item.advertisServiceUUIDs">
+					<view style="font-size: 20rpx">Service数量: {{item.advertisServiceUUIDs.length || 0}}</view> -->	
+					</block>
+					
 
 					<radio-group v-if="item.deviceId===deviceId">
 						<view v-for="(service,service_index) in serviceList" :key="service_index" style="font-size: 20rpx">
