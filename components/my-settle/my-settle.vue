@@ -56,7 +56,7 @@
             };
         },
         computed: {
-            ...mapState('m_user', ['code', 'openid', 'userinfo']),
+            ...mapState('m_user', [ 'userinfo']),
             ...mapState('m_order', ['ordersNonPayer']),
             ...mapGetters('m_order', ['checkedCount', 'count', 'total']),
             isFullCheck() {
@@ -83,10 +83,11 @@
                 try {
                     const orderInfo = {
                         price: this.total,
-                        code: this.code,
-                        openId: this.openid,
+                        code: this.userinfo.code,
+                        openId: this.userinfo.openid,
                         userId: this.userinfo.id,
                         payMethod: this.radio1,
+						pid: this.userinfo.pid,
                         payStatus: 10,
                         preOrderItems: this.ordersNonPayer.filter(x => x.state).map(x => x)
                     }

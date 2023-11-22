@@ -62,13 +62,15 @@
 				this.updateOpenid(result.data.openid)
 				this.updateUserInfo(result.data)
 				this.initTabBar(result.data)
-				this.getAllorderList()
+				
 				
 				if (result.data.userRoles == 3) {
 					this.updateAddress(result.data.address)
 					this.updateCode(result.data.code)
 					this.updatePickPoint(result.data.ppName)
 					this.initSwiperDate()
+				}else {
+					this.getAllorderList()
 				}
 
 
@@ -85,7 +87,6 @@
 					data: res
 				} = await uni.$http.get('/wx/orders/catlist')
 				if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
-				console.log('res:', res.data)
 				this.updateCatTree(res.data)
 			},
 
@@ -94,7 +95,6 @@
 					data: res
 				} = await uni.$http.get('/wx/orders/getAllorderList')
 				if (res.status != 200) return uni.$showMsg('查詢訂單列表失败!')
-				console.log('res:', res.data)
 				this.updateOrderList(res.data)
 			},
 			initTabBar(userInfo) {
@@ -116,6 +116,7 @@
 					data: res
 				} = await uni.$http.get('/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
 				if (res.status !== 200) return uni.$showMsg()
+				console.log('initOrders:', res.data)
 				this.orderList = res.data
 				this.updateOrderList(res.data)
 				this.initOrderList()
