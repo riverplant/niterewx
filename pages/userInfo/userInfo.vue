@@ -27,7 +27,6 @@
         
         onShow() {
             if (this.token) {
-               // this.initSwiperDate()
 				this.getWarehouseRequest()
 				this.getuserInfo()
 				if(this.userinfo.userRoles == 2) 

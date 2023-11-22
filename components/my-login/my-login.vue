@@ -69,8 +69,6 @@
 					this.updateCode(result.data.code)
 					this.updatePickPoint(result.data.ppName)
 					this.initSwiperDate()
-				}else {
-					this.getAllorderList()
 				}
 
 
@@ -90,13 +88,7 @@
 				this.updateCatTree(res.data)
 			},
 
-			async getAllorderList() {
-				const {
-					data: res
-				} = await uni.$http.get('/wx/orders/getAllorderList')
-				if (res.status != 200) return uni.$showMsg('查詢訂單列表失败!')
-				this.updateOrderList(res.data)
-			},
+		
 			initTabBar(userInfo) {
 				if (userInfo.userRoles == 3) {
 					this.updateTabBarList(getApp().globalData.clientTabBarList)

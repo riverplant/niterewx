@@ -38,6 +38,8 @@
 				default:[]
 			}
 			},
+			
+		
         data() {
             return {
                 //右侧滑动删除时显示得文本
@@ -73,8 +75,11 @@
         },
 		
 		beforeMount() {
+			console.log('beforeMount.............')
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
+			this.getAllorderList()
+			
 		},
         filters: {
             tofixed(num) {
@@ -88,6 +93,15 @@
 		
         methods: {    
             ...mapMutations('m_order',['updateOrderState', 'updateOrderList','updateCatTree']),  
+			async getAllorderList() {
+				const {
+					data: res
+				} = await uni.$http.get('/wx/orders/getAllorderList')
+				if (res.status != 200) return uni.$showMsg('查詢訂單列表失败!')
+				this.updateOrderList(res.data)
+				this.items = res.data
+				this.itemsBak = res.data
+			},
 			swipeItemClickHandler(item) {
 				uni.showModal({
 				    title: '提示',
