@@ -14,11 +14,13 @@
              <view class="panel-body">
 				 <view class="panel-item" >
 					<text class="sub-item-title">我的提货码</text> 
-				 	<text class="sub-item-text1">{{userinfo.code}} </text>
+					<text class="sub-item-text1" v-if="userinfo.code === null">請選擇倉庫獲得提貨碼 </text>
+				 	<text class="sub-item-text1" v-else>{{userinfo.code}} </text>
 				 </view>
 				 <view class="panel-item" >
 					 <text class="sub-item-title">我的送货分区</text> 
-				     <text class="sub-item-text2">{{userinfo.ppName}}</text> 
+					  <text class="sub-item-text2" v-if="userinfo.code === null" >無</text> 
+				     <text class="sub-item-text2"  v-else>{{userinfo.ppName}}</text> 
 
 				 </view>
              </view>
@@ -71,7 +73,7 @@
 				
                <navigator  :url="'/subpkg/warehouse/warehouse'">
                <view class="panel-list-item">
-                   <text v-if="code == '无'" >选择仓库</text>
+                   <text v-if="userinfo.code == null" >选择仓库</text>
 				    <text v-else >变更仓库</text>
                    <uni-icons type="arrowright" size="15"></uni-icons>
                </view>

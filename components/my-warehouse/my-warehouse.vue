@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view v-if="code == ''">
+		<view v-if="userinfo.code == null">
 			<view class="panel-list2">
 				<view class="panel2">
 					<view class="panel-title2">
@@ -36,7 +36,7 @@
 			</view>
 
 
-			<view class="panel-list" v-if=" requestCount > 0">
+			<view class="panel-list" v-if=" requestReviewCount > 0">
 				<view class=panel>
 					<view class="order-item-msg">
 						<view class="order-item-sub-left">

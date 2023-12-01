@@ -4,11 +4,11 @@
 			<view class="warehouse-form-containe">
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
-						<uni-forms-item label="收貨碼" required name="code">
+						<uni-forms-item label="收货碼" required name="code">
 							<uni-easyinput disabled v-model="dynamicFormData.code"  />
 						</uni-forms-item>
-		            <uni-forms-item label="收穫倉庫" required>
-		            	<uni-data-picker placeholder="请选择收穫倉庫" popup-title="请选择所在地区" :localdata="pickPointList"
+		            <uni-forms-item label="收货倉庫" required>
+		            	<uni-data-picker placeholder="请选择收货倉庫" popup-title="请选择所在地区" :localdata="pickPointList"
 		            	    @change="onchange" >
 		            	</uni-data-picker>
 		            </uni-forms-item>
@@ -52,11 +52,11 @@
 		    }
 		},
 	    computed: {
-	        ...mapState('m_user', ['userinfo', 'pickPointList', 'pickPoint', 'code', 'openid']), 
+	        ...mapState('m_user', ['userinfo', 'pickPointList', 'pickPoint', 'openid']), 
 	    },
 		onLoad(e) {
 			if(this.code != '' ) {
-				     this.dynamicFormData.code = this.code
+				     this.dynamicFormData.code = this.userinfo.code
 			}
 		    },
 	    methods: {
@@ -73,7 +73,7 @@
 					  icon: 'none'
 					}) 
 				} else  {
-					if(this.code === '') {
+					if(this.userinfo.code === null) {
 						this.createWarehouse()
 					}else {
 						 this.updateWarehouse()
@@ -86,7 +86,6 @@
 	            this.dynamicFormData.pid =  this.node
 	            const { data:result } =   await uni.$http.post('/wx/users/createWarehouse', this.dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
-	                this.updateCode(result.data.code)
 	                this.updatePickPoint(result.data.ppName)
 					this.updateUserInfo(result.data)
 	                uni.navigateBack({
@@ -95,18 +94,18 @@
 	        },
 	        
 	        async updateWarehouse() {
-	                this.dynamicFormData.openid = this.openid
+	                this.dynamicFormData.openid = this.userinfo.openid
 	                this.dynamicFormData.pid =  this.node
-					this.dynamicFormData.code = this.code
+					this.dynamicFormData.code = this.userinfo.code
 	            const { data:result } =   await uni.$http.put('/wx/users/updateWarehouse', this.dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
-				  this.getWarehouseRequest()
+				 // this.getWarehouseRequest()
 	                uni.navigateBack({
 	                    delta: 1
 	                });
 	                
 	        },
-	       async getWarehouseRequest() {
+	    /**   async getWarehouseRequest() {
 	       	const {
 	       	    data: res
 	       	} = await uni.$http.get('/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
@@ -114,7 +113,7 @@
 	       	this.warehouseRequestList = res.data
 	       	this.updateWarehouseRequestByOpenId(res.data)
 	       }
-	       
+	      **/ 
 	    },   
 	}
 </script>
