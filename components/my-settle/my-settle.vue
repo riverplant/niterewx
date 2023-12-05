@@ -9,15 +9,16 @@
             订单总数: <text class="count">{{count}}</text>
         </view>
 
-        <view class="count-box">
-            订单总价: <text class="total">${{total}}</text>
-        </view>
+       
 
         <!--  结算 -->
         <view class="btn-settle" @click="settlement">结算({{checkedCount}})</view>
 
         <uni-popup ref="popup" :mask-click="false">
             <uni-section title="请选择支付方式" type="line">
+				<view class="uni-px-5 uni-pb-5">
+				    订单总价: <text class="total">${{total}}</text>
+				</view>
                 <view class="uni-px-5 uni-pb-5">
                     <uni-data-checkbox v-model="radio1" :localdata="payMethods"></uni-data-checkbox>
                 </view>
@@ -96,7 +97,6 @@
                         data: res
                     } = await uni.$http.post('/wx/orders/create', orderInfo)
                     if (res.status != 200) return uni.$showMsg('创建订单失败!')
-                    console.log('res.data:', res.data)
                     const oNumber = res.data
 
                     const param = {
@@ -107,9 +107,7 @@
                         data: preparePayRes
                     } = await uni.$http.post('/wx/orders/unifiedorder', param)
                     if (res.status != 200) return uni.$showMsg('獲取預订单號失败!')
-                    console.log('res.data:', preparePayRes.data)
-                    console.log(preparePayRes.return_code)
-                    console.log(preparePayRes.return_code === 'FAIL')
+                    console.log('res.data:', preparePayRes)
 
                     if (preparePayRes.return_code === 'FAIL')
                         return uni.$showMsg(preparePayRes.return_msg)
@@ -123,11 +121,10 @@
                         title: '訂單支付完成!',
                         icon: 'success'
                     })
-                    uni.navigateTo({
-                        url: '/pages/userInfo/userInfo'
-                    })
+                 uni.navigateBack({
+                     delta: 2
+                 }); 
                 } catch (e) {
-                    console.log(e)
                     uni.showToast({
                         title: '訂單支付失敗，請稍後重試!',
                         icon: 'none'
@@ -138,17 +135,21 @@
             },
 
             async requestPay(pay) {
+				console.log('pay:',pay)
                 return new Promise((resolve, reject) => {
                     wx.requestPayment({
                         ...pay,
                         success: (res) => {
+							console.log('success:res:',res)
                             resolve(res)
                         },
                         fail: (err) => {
+							console.log('fail:err:',err)
                             reject(err)
                         }
                     })
                 })
+				
             },
             close() {
                 this.$refs.popup.close()
@@ -188,7 +189,7 @@
             height: 50px;
             color: white;
             line-height: 50px;
-            padding: 0 10px;
+            padding: 0 56px;
             min-width: 100px;
             text-align: center;
         }

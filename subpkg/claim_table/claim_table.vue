@@ -15,23 +15,25 @@
 						</view>
                 	</view>  
                 </uni-forms-item>
-
-                <uni-forms-item label="是否驗貨通過" required name="pass">
+               <block v-if="this.showButton">
+                <uni-forms-item label="是否通過" required name="pass">
                     <radio-group @change="radioChange">
                 	<label class="radio"><radio value="2" :checked="radioValue==2" />通過</label>
                 	<label class="radio"><radio value="3" :checked="radioValue==3" />未通過</label>
                     </radio-group>
                 </uni-forms-item>
                 
-                <uni-forms-item label="驗貨未通過原因 "  name="msg" v-if="isShow" >
+                <uni-forms-item label="未通過原因 "  name="msg" v-if="isShow" >
                 	<uni-easyinput v-model="claimFormData.msg"  />
                 </uni-forms-item>
+				
+				 </block>
             </uni-forms>
-                  
+             <block v-if="this.showButton">      
             <view class="button-group">
             	<button type="primary" size="default" @click="submit('claimFormData')">提交</button>
             </view>
-		    
+		     </block>
 		</view>
 </template>
 <script>
@@ -45,6 +47,7 @@
             return {
                 isShow : false,
                 isHidden: false,
+				showButton:true,
 				imageUrlList: [],
 				radioValue: 0,
                 claimFormData: {
@@ -59,7 +62,6 @@
             
             if(e && e.claim) {
                let uinfo = JSON.parse(e.claim)
-			   console.log('uinfo:',uinfo)
                 if(uinfo !== null || uinfo !== {}) {
                     this.claimFormData.trackingNumber = uinfo.trackingNumber
                     this.radioValue = uinfo.status+''
@@ -69,6 +71,9 @@
         			   this.claimFormData.msg = uinfo.msg
 					this.imageUrlList = uinfo.imageUrlList
                 } 
+				this.showButton = e.showButton
+				console.log('e.showButton:',e.showButton)
+				console.log('this.showButton:',this.showButton)
             }
           
             },

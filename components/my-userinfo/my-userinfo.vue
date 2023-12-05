@@ -29,7 +29,7 @@
            
            <view class="panel">
                <view class="panel-title">
-                   我的订单
+                   我的包裹
                </view>
                <view class="panel-body">
                    <uni-badge size="small" :max-num="value" :text="ordersNonValideTotal" absolute="rightTop" >
@@ -46,14 +46,14 @@
                        </navigator>
                        </uni-badge>
                        
-                    <uni-badge size="small" :max-num="value" :text="this.ordersNonLivrer.lenght" absolute="rightTop" >
+                    <uni-badge size="small" :max-num="value" :text="noLivreCount" absolute="rightTop" >
                     <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+3">
                                 <image src="/static/icon-my-order-03.png" class="icon"></image>
                                 <text>待发货</text>
                      </navigator>
                      </uni-badge>
                                  
-                     <uni-badge size="small" :max-num="value" :text="this.ordersRembourse.lenght" absolute="rightTop" >
+                     <uni-badge size="small" :max-num="value" :text="ordersRembourseCount" absolute="rightTop" >
                     <navigator class="panel-item" :url="'/subpkg/orders/orders?type='+5">
                                 <image src="/static/icon-my-order-05.png" class="icon"></image>
                                 <text>退款/退货</text>
@@ -101,7 +101,7 @@
         },
         computed: {
             ...mapState('m_user', ['userinfo', 'swiperList','code', 'pickPoint']),
-            ...mapGetters('m_order', ['checkedCount', 'count', 'ordersNonValideTotal', 'orderCount'])
+            ...mapGetters('m_order', ['checkedCount', 'count', 'noLivreCount','ordersNonValideTotal', 'ordersRembourseCount', 'orderCount'])
         }
     }
 </script>

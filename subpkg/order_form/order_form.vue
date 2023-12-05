@@ -2,9 +2,6 @@
 	<view class="container">
 		<uni-section  type="line">
 			<view class="create-order-form-containe">
-                <view class="btn">
-                     <button prefixIcon="search" type="default" @click="scan">扫描</button>
-                            </view>
 				<!-- 动态表单校验 -->
 				<uni-forms ref="orderFormData" :rules="dynamicRules" :modelValue="orderFormData" label-position="top">
                     	<uni-easyinput disabled v-model="orderFormData.orderId"  v-if="isHidden === true" />
@@ -13,7 +10,7 @@
                     	<uni-easyinput disabled v-model="orderFormData.orderNumber"  />
                     </uni-forms-item>
                     <uni-forms-item label="快遞單號" required name="trackingNumber">
-                    	<uni-easyinput v-model="orderFormData.trackingNumber" placeholder="请输入快遞單號" />
+                    	<uni-easyinput v-model="orderFormData.trackingNumber" placeholder="掃描或者输入快遞單號" prefixIcon="search" @iconClick="scan"/>
                     </uni-forms-item>
                   
 					<uni-forms-item label="顧客代碼" required name="code">
@@ -173,17 +170,27 @@
 
 			submit(ref) {
 			    this.orderFormData.openId = this.userinfo.openId
-				console.log('orderFormData:', this.orderFormData)
-				this.$refs[ref].validate().then(res => {
-                 
-                  if(this.orderFormData.orderId === '') {
-                     this.createOrder()  
-                  }else {
-                     this.updateOrder()   
-                  } 
-				}).catch(err => {
-					console.log('err', err);
-				})
+				uni.showModal({
+				    title: '提示',
+				    content: '確定填入的用戶提貨碼為:'+this.orderFormData.code+'?',
+				    success: function (res) {
+				        if (res.confirm) {
+				           this.$refs[ref].validate().then(res => {
+				            
+				             if(this.orderFormData.orderId === '') {
+				                this.createOrder()  
+				             }else {
+				                this.updateOrder()   
+				             } 
+				           }).catch(err => {
+				           	console.log('err', err);
+				           })
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }.bind(this)
+				});
+				
 			},
             
             async createOrder() {
@@ -232,6 +239,7 @@
 	}
 
 	.button-group {
+		width: 100%;
 		margin-top: 15px;
 		display: flex;
 		justify-content: space-around;
@@ -245,8 +253,8 @@
 	.button {
 		display: flex;
 		align-items: center;
+		width: 100%;
 		height: 35px;
-		margin-left: 10px;
 	}
     
     .content {

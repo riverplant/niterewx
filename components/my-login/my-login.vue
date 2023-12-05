@@ -26,7 +26,7 @@
 			};
 		},
 		computed: {
-			...mapState('m_user', ['token', 'openid'])
+			...mapState('m_user', ['token', 'openid','userinfo'])
 		},
 		methods: {
 			...mapMutations('m_user', ['updateUserInfo', 'updateOpenid', 'updateSwiperList', 'updateToken',
@@ -106,7 +106,7 @@
 			async initOrders() {
 				const {
 					data: res
-				} = await uni.$http.get('/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
+				} = await uni.$http.get('/wx/orders/getAllOrderListByCode?code=' + this.userinfo.code)
 				if (res.status !== 200) return uni.$showMsg()
 				console.log('initOrders:', res.data)
 				this.orderList = res.data

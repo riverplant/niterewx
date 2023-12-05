@@ -156,6 +156,18 @@ export default {
             console.log('count:',count)
            return  count
         },
+		
+		noLivreCount(state) {
+		     let count = state.ordersNonLivrer.reduce((total, item)=> total += 1, 0)
+		    console.log('noLivreCount:',count)
+		   return  count
+		},
+		
+		ordersRembourseCount(state) {
+		     let count = state.ordersRembourse.reduce((total, item)=> total += 1, 0)
+		    console.log('ordersRembourse:',count)
+		   return  count
+		},
         
         ordersNonValideTotal(state) {
              let ordersNonValideTotal = state.ordersNonValide.reduce((total, item)=> total += 1, 0)

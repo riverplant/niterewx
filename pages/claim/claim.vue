@@ -1,6 +1,6 @@
 <template>
     <view class="claim-container">
-       <my-claim v-if="userinfo.userRoles == 3"></my-claim>
+       <my-claim :items="items" :items-bak="itemsBak" v-if="userinfo.userRoles == 3" ></my-claim>
 	   <my-claimeManage :items="items" :items-bak="itemsBak"  v-else></my-claimeManage>
 	    <tabBar :current="1"></tabBar>
 	   </view>
@@ -17,8 +17,12 @@
                
         },
 		onShow() {
-			console.log('onshow............')
-			this.getClaimeList()
+			if(this.userinfo.userRoles === 3) {
+				this.getClaimListByOpenid()
+			}else {
+				this.getClaimeList()
+			}
+			
 		},
 		 methods: {	
 			 ...mapMutations('m_order',['updateClaimList']),
@@ -31,6 +35,16 @@
 							 this.items = res.data
 							 this.itemsBak = res.data
 			 			 },	
+						 
+			async getClaimListByOpenid() {
+				const {
+					data: res
+				} = await uni.$http.get('/wx/users/claimList/'+this.userinfo.openid)
+				if (res.status !== 200) return uni.$showMsg()
+				 this.updateClaimList(res.data)
+				 this.items = res.data
+				 this.itemsBak = res.data
+			}
 		 },
         computed: {
             ...mapState('m_user', ['userinfo']),

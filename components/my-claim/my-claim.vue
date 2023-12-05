@@ -10,13 +10,15 @@
                <!--右侧得文本-->
                <text class="claim-title-text">認領申请</text>
            </view>
-         <uni-swipe-action>
-              <block v-for="(item,i) in searchResults" :key='i'>
-             <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-                  <claim-item :claim="item"  :show-msg="isShowMsg" ></claim-item>
-             </uni-swipe-action-item>
-             </block>
-         </uni-swipe-action>
+		 <uni-swipe-action>
+		    <block v-for="(item,i) in items" :key='i'>
+				 <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
+					   <navigator class="panel-item" :url="'/subpkg/claim_table/claim_table?claim='+JSON.stringify(item)+'&showButton='+false"> 
+		          <claim-item :claim="item" :show-msg="isShowMsg"></claim-item>
+				   </navigator>
+			 </uni-swipe-action-item>
+		     </block> 
+		 </uni-swipe-action>
 		 <view class="order-item-msg">
 		 	<view class="order-item-sub-left">
 		 		<image src="/static/note_icon.png" class="order-item-sub-icon"></image>
@@ -35,10 +37,14 @@
     import {mapState, mapMutations} from 'vuex'
     export default {
 		props: {
-		    claims: {
-		        type:Array,
-		        default:[]   
-		    }
+		       items: {
+		   		type:Array,
+		   		default:[]
+		   	},
+		   	itemsBak:{
+		   		type:Array,
+		   		default:[]
+		   	}
 		},
         data() {
             return {
@@ -52,8 +58,6 @@
                 wh:0,
                 timer: null,
                 kw: '',
-				searchResults:[],
-                searchResultsBak:[],
                 type:1,
                 title:'',
                 isShowMsg:false,
@@ -67,20 +71,7 @@
 			
         },
 
-		beforeMount() {
-			const sysInfo =  uni.getSystemInfoSync()
-			this.wh = sysInfo.windowHeight - 50
-			this.getClaimeListByOenId()
-		},
         methods: {
-		   	async getClaimeListByOenId() {
-				const {
-					data: res
-				} = await uni.$http.get('/wx/users/claimList/'+this.userinfo.openid)
-				if (res.status !== 200) return uni.$showMsg()
-				this.searchResults = res.data
-				this.searchResultsBak = res.data
-			},
             swipeItemClickHandler(item) {
                 this.removeItemById(item.trackingNumber)
             },
@@ -105,11 +96,11 @@
 				    data: res
 				} = await uni.$http.delete('/wx/users/deleteClaim/'+ trackingNumber)
 				if (res.status !== 200) return uni.$showMsg()
-				this.searchResults = this.searchResultsBak.filter(
+				this.items = this.itemsBak.filter(
 				                           claim=> claim.openid == this.userinfo.openid 
 										   && claim.trackingNumber != trackingNumber 
 										   && claim.isDelete == 1)
-				this.searchResultsBak = this.searchResults
+				this.itemsBak = this.items
 			},
 			
             search(res) {
@@ -120,15 +111,15 @@
                 }, 500)
              },  
    
-        getSearchResults() {  
-        this.isloading = true
-           if(this.kw === '') {
-             this.searchResults = this.searchResultsBak  
-           }else {
-             this.searchResults = this.searchResults.filter( item=> item.trackingNumber.indexOf( this.kw ) > -1 );   
-           }
-                   
-     }
+       getSearchResults() {
+          this.isloading = true
+		  console.log('this.kw',this.kw)
+             if(this.kw === '') {
+       			  this.items = this.itemsBak
+             }else {
+               this.items = this.items.filter( item=> item.trackingNumber.indexOf( this.kw ) > -1 );    
+             }          
+       },
      
         }
     }

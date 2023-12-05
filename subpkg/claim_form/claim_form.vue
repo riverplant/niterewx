@@ -89,15 +89,21 @@
 
         methods: {
             submit(ref) {
+				console.log('submit')
                 this.$refs[ref].validate().then(res => {
+					console.log('submit2222')
                     this.sendClaimForm()
                 }).catch(err => {
                     console.log('err', err);
                 })
             },
              async sendClaimForm() {
+				 console.log('sendClaimForm')
 				 if(this.imageList.length == 2 ) {
+					 console.log('imageList:', this.imageList)
+					 console.log('sendClaimForm2222222')
 					for (let i = 0; i < this.imageList.length; i++) {
+						console.log('image:', this.imageList[i])
 					    const result = await this.uploadFilePromise(this.imageList[i])
 					}  
 					uni.showToast({
@@ -108,7 +114,7 @@
 					}); 
 				 }else {
 					uni.showToast({
-					  title: "请上传两张图片"
+					  title: "請提交兩張截圖"
 					}) 
 				 }
                 
@@ -116,21 +122,21 @@
             
            async uploadFilePromise( imgUrl ) {
               let a = await uni.uploadFile({
-                                     url: '/wx/users/picture', 
+                                     url: 'http://127.0.0.1:8080/wx/users/picture', 
                                      filePath: imgUrl,
                                      name: 'file',
                                      formData: {
                                          openid: this.userinfo.openid,
                                          trackingNumber: this.claimFormData.orderNumber,
-										   code: this.userinfo.code
+										  code: this.userinfo.code
                                      },
-                                     success: (res) => {
-                                        console.log(res)
-                                       
+                                     success: (res) => {  
+										 uni.navigateBack({
+										     delta: 1
+										 });
                                      },
                                      fail: function (err) {
                                          console.log(err)
-                                             uni.hideLoading()
                                              uni.showToast({
                                                title: "上传失败"
                                              })
@@ -159,10 +165,10 @@
             chooseImages() {
                 uni.chooseImage({
                     count: this.maxCount, //允许选择的数量
-                    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+                    sizeType: [ 'compressed'], //可以指定是原图还是压缩图，默认二者都有
                     sourceType: ['album', 'camera'], //从相册选择
                     success: res => {
-                        this.imageList = this.imageList.concat(res.tempFilePaths);
+                        this.imageList = this.imageList.concat(res.tempFilePaths[0] );
                         //console.log(this.imageList)
                         if (this.imageList.length + this.videoList.length == this.maxCount) {
                             this.VideoOfImagesShow = false; //图片上传数量和count一样时，让点击拍照按钮消失
@@ -228,6 +234,41 @@
                     }
                 });
             },
+			
+			  compress(img){   
+			                  console.log('开始压缩');
+			                  let that=this
+			                  return new Promise((res) => {
+			                        // var localPath = plus.io.convertAbsoluteFileSystem(img);
+			                        plus.io.resolveLocalFileSystemURL(img, (entry) => {      //通过URL参数获取目录对象或文件对象
+			                        entry.file((file) => {       // 可通过entry对象操作图片 
+			                        console.log('压缩前图片信息:' + JSON.stringify(file)); //压缩前图片信息
+			                              if(file.size > 504800) {   //   如果大于500Kb进行压缩
+			                                    plus.zip.compressImage({    // 5+ plus.zip.compressImage 了解一下，有详细的示例
+			                                          src: img,          //src: 压缩原始图片的路径    
+			                                          dst: img.replace('.png', '2222.png').replace('.PNG', '2222.PNG').replace('.jpg','2222.jpg').replace('.JPG','2222.JPG'),
+			                                          width: '40%',      //dst: (String 类型 )压缩转换目标图片的路径，这里先在后面原始名后面加一个2222区分一下
+			                                          height: '40%',     //width,height: (String 类型 )缩放图片的宽度,高度
+			                                          quality: 10,      //quality: (Number 类型 )压缩图片的质量
+			                                          overwrite: true,  //overwrite: (Boolean 类型 )覆盖生成新文件
+			                                          // format:'jpg'   //format: (String 类型 )压缩转换后的图片格式
+			                                    }, (event) => {
+			                                          console.log('压缩后图片信息:' + JSON.stringify(event));// 压缩后图片信息
+			                                          this.imageInfo=event
+			                                          let newImg = event.target;
+			                                          res(newImg);  //返回新的图片地址，在uploadFile之前接收
+			                         }, function(err) {
+			                        // console.log('Resolve file URL failed: ' + err.message);
+			                         });
+			                              }else{//else小于500kb跳过压缩，直接返回现有的src
+			                                    res(img);
+			                              }
+			                        });
+			                        }, (e) => { // 返回错误信息
+			                              // console.log('Resolve file URL failed: ' + e.message);
+			                        });
+			                  })
+			            },
 
         },
         computed: {

@@ -34,7 +34,7 @@
 					this.initAllOrderList()
 					this.initCatTree()
 				}else {
-					this.initOrdersByopenid()
+					this.initOrdersByCode()
 				}
 				
             }
@@ -61,10 +61,10 @@
 			    if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
 			     this.updateCatTree(res.data)
 			},   
-            async initOrdersByopenid() {
+            async initOrdersByCode() {
                 const {
                     data: res
-                } = await uni.$http.get('/wx/orders/getAllOrderListByOpenId?openId=' + this.openid)
+                } = await uni.$http.get('/wx/orders/getAllOrderListByCode?code=' + this.userinfo.code)
                 if (res.status !== 200) return uni.$showMsg()
 				this.items = res.data
                 this.updateOrderList(res.data)
@@ -75,11 +75,14 @@
             initOrderList() {
                 this.ordersNonValide = this.orderList.filter(x => x.orderStatus === 2)
                 this.setOrdersNonValide(this.ordersNonValide)
-                this.ordersNonPayer = this.orderList.filter(x => x.orderStatus === 1)
+				
+                this.ordersNonPayer = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 10)
                 this.setOrdersNonPayer(this.ordersNonPayer)
-                this.ordersNonLivrer = this.orderList.filter(x => x.payStatus === 20)
+				
+                this.ordersNonLivrer = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 20)
                 this.setOrdersNonLivrer(this.ordersNonLivrer)
-                this.ordersRembourse = this.orderList.filter(x => x.payStatus === 40)
+				
+                this.ordersRembourse = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 40)
                 this.setOrdersRembouse(this.ordersRembourse)
 
             },

@@ -99,21 +99,11 @@
 					this.dynamicFormData.code = this.userinfo.code
 	            const { data:result } =   await uni.$http.put('/wx/users/updateWarehouse', this.dynamicFormData );
 	              if( result.status !== 200 ) return uni.$showMsg()  
-				 // this.getWarehouseRequest()
 	                uni.navigateBack({
-	                    delta: 1
+	                    delta: 2
 	                });
 	                
 	        },
-	    /**   async getWarehouseRequest() {
-	       	const {
-	       	    data: res
-	       	} = await uni.$http.get('/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
-	       	if (res.status !== 200) return uni.$showMsg()
-	       	this.warehouseRequestList = res.data
-	       	this.updateWarehouseRequestByOpenId(res.data)
-	       }
-	      **/ 
 	    },   
 	}
 </script>
