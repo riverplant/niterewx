@@ -9,7 +9,7 @@
 		<view>
 			<button size="mini" type="primary" @tap="startBluetoothDeviceDiscovery">搜索周边设备</button>
 			<button size="mini" type="warn" @tap="stopBluetoothDevicesDiscovery">停止搜索</button>
-			<button type="primary" @tap="pickUpOnce">测试打印</button>
+			<button type="primary" @tap="pickUpOnce">啓動打印</button>
 		</view>
 		<view style="font-size: 24rpx; color: #333;margin-left: 10rpx;">连接设别:{{bluetooth.get_deviceId()}}</view>
 		<scroll-view class="device_list" scroll-y show-scrollbar>
