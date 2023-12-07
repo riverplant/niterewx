@@ -53,6 +53,7 @@
 				canvas_width: 240,
 				canvas_height: 240,
 			    bluetooth: new Bluetooth(),
+				orderVo:{}
 			};
 		},
 		//页面卸载是关闭蓝牙链接
@@ -62,14 +63,9 @@
 				},
 		onLoad(e) {
 		    if(e && e.box) {
-		       let box = JSON.parse(e.box)
-			 uni.getLocation({
-			 		type: 'wgs84',
-			 	    success: function(res) {
-			 		  console.log('当前位置的经度：' + res.longitude);
-			 		  console.log('当前位置的纬度：' + res.latitude);
-			 		}
-			 	});
+		       this.orderVo = JSON.parse(e.box)
+			   console.log(' this.orderVo:', this.orderVo)
+            
 			 
 			this.bluetooth.openBluetoothAdapter();
 		    }
@@ -165,33 +161,22 @@
 									.print(printerUtil.fillLine())
 									.setAlign('ct')
 									.setSize(2, 2)
-									.print('#20外卖')
+									.print(this.orderVo.pName)
 									.setSize(1, 1)
-									.print('切尔西Chelsea')
+								    .printQrcode(Qrcode_res)
 									.setSize(2, 2)
-									.print('在线支付(已支付)')
-									.setSize(1, 1)
-									.print('订单号：5415221202244734')
-									.print('下单时间：' + util.formatTime(new Date()))
-									.setAlign('lt')
-									.print(printerUtil.fillAround('一号口袋'))
-									.print(printerUtil.inline('意大利茄汁一面 * 1', '15'))
-									.print(printerUtil.fillAround('其他'))
-									.print('餐盒费：1')
-									.print('[赠送康师傅冰红茶] * 1')
-									.print(printerUtil.fillLine())
-									.setAlign('rt')
-									.print('原价：￥16')
-									.print('总价：￥16')
-									.setAlign('lt')
-									.print(printerUtil.fillLine())
-									.print('备注')
-									.print("无")
-									.print(printerUtil.fillLine())
-									.printQrcode(Qrcode_res)
-									.println()
-				
-								;
+									.print('箱號:' + this.orderVo.boxNumber)
+									.setSize(2, 2)
+									.print('包裹數:'+this.orderVo.orderIds.length)
+								
+								for (let i = 0; i < this.orderVo.code.length; i ++) {
+									printerJobs
+									 .setSize(2, 2)
+									 .setAlign('lt')
+									 .print('提貨碼:'+this.orderVo.code[i])				
+									;
+								}
+									
 								//console.log(printerJobs);
 				
 								let buffer = printerJobs.buffer();
@@ -227,7 +212,7 @@
 				
 									drawQrcode({
 										canvasId: 'shareCanvas',
-										text: String('xiaonibaba.com'),
+										text: String(this.orderVo.id),
 										width: self.canvas_width,
 										height: self.canvas_height,
 										callback(e) {

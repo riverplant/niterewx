@@ -116,7 +116,7 @@
 			},
 			
 			save(ref) {
-				if(this.dynamicBoxForm.pid == '') {
+				if(this.node == '') {
 					uni.showToast({
 					  title: "请从仓库列表中选择仓库",
 					  duration: 2000,
@@ -149,7 +149,11 @@
 					     duration: 2000,
 					     icon: 'none'
 					   }) 
-				}	
+				}
+				uni.navigateBack({
+				    delta: 1
+				}); 	
+				
 				}    
 	           
 	        },

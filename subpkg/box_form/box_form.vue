@@ -60,21 +60,14 @@
 				    }
 				}],
 				close:false,
-				devices: [],
-				deviceId: '',
-				serverList: [],
-				serviceId: '',
-				characteristics: [],
-				characteristicId: '',
-            searchResults:[]
+                 searchResults:[]
 			}
 		},
 
 		onLoad(e) {
             console.log('e:',e)
             if(e && e.box) {
-               let box = JSON.parse(e.box)
-			  
+               let box = JSON.parse(e.box)	  
 			   this.dynamicBoxForm.id = box.id
                this.dynamicBoxForm.boxNumber = box.boxNumber
 			   this.dynamicBoxForm.pid = box.pid
@@ -86,9 +79,9 @@
 			   }else {
 				  this.dynamicBoxForm.orderIds = []  
 			   }
-			   console.log('dynamicBoxForm:',this.dynamicBoxForm)
 			   if(this.dynamicBoxForm.orderIds.length > 0) {
 				   this.searchResults = this.orderList.filter(order=> this.dynamicBoxForm.orderIds.includes(order.id))
+				   console.log('this.searchResults:',this.searchResults)
 			   }
             }
           
@@ -142,6 +135,7 @@
 			
 			valideBoxNumber(order) {
 				if( order.boxNumber != 0 && order.boxNumber != this.dynamicBoxForm.boxNumber) {
+					console.log("1")
 					console.log('order.boxNumber:',order.boxNumber)
 					return uni.showToast({
 					  title: "该包裹已经被装入箱子:"+ order.boxNumber,
@@ -149,16 +143,11 @@
 					  icon: 'none'
 					}) 
 				}
-				 if(order.boxNumber != 0 && order.boxNumber == this.dynamicBoxForm.boxNumber) {
-					return uni.showToast({
-					  title: "该包裹已经被装入箱子,不需要重复添加",
-					  duration: 2000,
-					  icon: 'none'
-					}) 
-				}
 			},
 			updateOrderList() {
-				let order = this.orderList.filter(order=>order.orderNumber == this.key || order.trackingNumber == this.key)[0]
+				let order = this.orderList.filter( order=>order.orderNumber == this.key || order.trackingNumber == this.key)[0]
+				console.log('key',this.key)
+				console.log('order',order)
 				if(order != undefined) {
 					this.validePid(order)
 					this.valideBoxNumber(order)
@@ -234,6 +223,9 @@
 			   if(this.close == true) {
 				  this.closeBox()
 			   }
+			   uni.navigateBack({
+			       delta: 1
+			   }); 
             }, 
 				
             async updateBox() {
@@ -247,7 +239,9 @@
 			   		     this.openBox()
 			   		else if(this.close == true)
 			   		  this.closeBox()		  
-			   
+			   uni.navigateBack({
+			       delta: 1
+			   }); 
             },  
 			   
 			submit(ref) {

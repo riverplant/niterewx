@@ -38,7 +38,8 @@
 			console.log('onshow.......')
 		  const sysInfo =  uni.getSystemInfoSync()
 		  this.wh = sysInfo.windowHeight - 50
-		  this.getBoxList() 
+		  this.getBoxList()
+		  this.initAllOrderList()
 		},
         data() {
             return {
@@ -72,6 +73,8 @@
         },
         methods: {
 			...mapMutations('m_cabinet',['updateBoxList']),
+			...mapMutations('m_order', ['updateOrderList']),
+			
             async getBoxList() {
             	const {
             	    data: boxRes
@@ -79,9 +82,17 @@
             	 if (boxRes.status != 200) return uni.$showMsg('查询箱子列表信息失败!') 
 				 this.searchResults = boxRes.data
 				this.searchResultsBak = boxRes.data
+				console.log('boxRes.data:',boxRes.data)
 				this.updateBoxList(boxRes.data)
             	
             },
+			
+			async initAllOrderList() {
+			  const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
+			  if (res.status != 200) return uni.$showMsg('查詢未裝箱訂單列表失败!')
+			  this.items = res.data
+			   this.updateOrderList(res.data)  
+			},
 			swipeItemClickHandler(item) {
 				uni.showModal({
 				    title: '提示',

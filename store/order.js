@@ -21,6 +21,7 @@ export default {
 			this.commit('m_order/saveOrderListToStorage')
 		},
 		saveOrderListToStorage(state) {
+			console.log('orderList:',state.orderList)
 			 uni.setStorageSync('orderList', JSON.stringify(state.orderList))
 		},
 		updateClaimList(state, claimList) {

@@ -6,6 +6,7 @@ export default {
     
     mutations:{
 		updateBoxList(state, boxList) {
+			console.log('update;',boxList)
 			state.boxList = boxList
 			this.commit('m_cabinet/saveBoxListToStorage')
 		},

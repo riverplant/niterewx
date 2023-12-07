@@ -18,17 +18,11 @@
 
 <style lang="scss">
     .create-cabinet-button-container {
-        position: relative;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 50px;
-        background-color: white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 14px;
-        padding-left: 5px;
+       position: fixed;
+       bottom: 52px;
+       width: 100%;
+       height: 50px;
+       background-color: white;
 
         .btn-claim {
             background-color: #C00000;
