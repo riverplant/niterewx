@@ -116,16 +116,19 @@
 			},
 
 			initOrderList() {
-				this.ordersNonValide = this.orderList.filter(x => x.orderStatus === 2)
-				this.setOrdersNonValide(this.ordersNonValide)
-				this.ordersNonPayer = this.orderList.filter(x => x.orderStatus === 1)
-				console.log('ordersNonPayer:', this.ordersNonPayer)
-				this.setOrdersNonPayer(this.ordersNonPayer)
-				this.ordersNonLivrer = this.orderList.filter(x => x.payStatus === 20)
-				this.setOrdersNonLivrer(this.ordersNonLivrer)
-				this.ordersRembourse = this.orderList.filter(x => x.payStatus === 40)
-				this.setOrdersRembouse(this.ordersRembourse)
-
+			    this.ordersNonValide = this.orderList.filter(x => x.orderStatus === 2)
+			    this.setOrdersNonValide(this.ordersNonValide)
+				
+			    this.ordersNonPayer = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 10)
+				console.log(' this.ordersNonPayer:', this.ordersNonPayer)
+			    this.setOrdersNonPayer(this.ordersNonPayer)
+				
+			    this.ordersNonLivrer = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 20)
+			    this.setOrdersNonLivrer(this.ordersNonLivrer)
+				
+			    this.ordersRembourse = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 40)
+			    this.setOrdersRembouse(this.ordersRembourse)
+			
 			},
 
 			async getWarehouseRequest() {

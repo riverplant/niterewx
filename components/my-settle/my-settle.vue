@@ -15,12 +15,14 @@
         <view class="btn-settle" @click="settlement">结算({{checkedCount}})</view>
 
         <uni-popup ref="popup" :mask-click="false">
+			
             <uni-section title="请选择支付方式" type="line">
 				<view class="uni-px-5 uni-pb-5">
 				    订单总价: <text class="total">${{total}}</text>
 				</view>
-                <view class="uni-px-5 uni-pb-5">
-                    <uni-data-checkbox v-model="radio1" :localdata="payMethods"></uni-data-checkbox>
+				
+                <view class="uni-px-5 uni-pb-5 ">
+					<uni-data-checkbox mode="button" v-model="radio1" :localdata="payMethods"></uni-data-checkbox>
                 </view>
             </uni-section>
             <block v-if="radio1 === 2">

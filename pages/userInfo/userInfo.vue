@@ -77,6 +77,7 @@
                 this.setOrdersNonValide(this.ordersNonValide)
 				
                 this.ordersNonPayer = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 10)
+				console.log(' this.ordersNonPayer:', this.ordersNonPayer)
                 this.setOrdersNonPayer(this.ordersNonPayer)
 				
                 this.ordersNonLivrer = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 20)
