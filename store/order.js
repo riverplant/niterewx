@@ -179,7 +179,7 @@ export default {
         //总价格
         total(state) {
              let total = state.ordersNonPayer.filter(x=>x.state)
-             .reduce((total, item)=> total += item.amount, 0).toFixed(2)
+             .reduce((total, item)=> total += item.price, 0).toFixed(2)
             console.log('total:',total)
            return  total
         },
