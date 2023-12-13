@@ -13,7 +13,8 @@
 
         <!--  结算 -->
         <view class="btn-settle" @click="settlement">结算({{checkedCount}})</view>
-
+		
+<!--  修改 -------->
         <uni-popup ref="popup" :mask-click="false">
 			
             <uni-section title="请选择支付方式" type="line">
@@ -30,6 +31,10 @@
             </block>
             <button @click="close">关闭</button>
         </uni-popup>
+		
+<!--  修改 -------->		
+		
+		
     </view>
 </template>
 
@@ -73,15 +78,21 @@
                 this.updateAllOrdersState(!this.isFullCheck)
             },
 
+
             settlement() {
-                if (!this.checkedCount) return uni.$showMsg('请至少选择一个未支付的订单')
+				
+				//++++++++++ 跳轉到另外一個頁面
+				
+              /**  if (!this.checkedCount) return uni.$showMsg('请至少选择一个未支付的订单')
                 if (this.radio1 !== 1) {
                     this.$refs.popup.open('center')
                 } else {
                     this.payOrder()
-                }
+                } **/
             },
-
+			
+			
+           // 點擊微信支付，調用支付接口
             async payOrder() { 
                 try {
                     const orderInfo = {
@@ -142,17 +153,17 @@
                     wx.requestPayment({
                         ...pay,
                         success: (res) => {
-							console.log('success:res:',res)
                             resolve(res)
                         },
                         fail: (err) => {
-							console.log('fail:err:',err)
                             reject(err)
                         }
                     })
                 })
 				
             },
+			
+			
             close() {
                 this.$refs.popup.close()
             }
