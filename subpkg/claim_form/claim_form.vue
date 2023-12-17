@@ -100,8 +100,6 @@
              async sendClaimForm() {
 				 console.log('sendClaimForm')
 				 if(this.imageList.length == 2 ) {
-					 console.log('imageList:', this.imageList)
-					 console.log('sendClaimForm2222222')
 					for (let i = 0; i < this.imageList.length; i++) {
 						console.log('image:', this.imageList[i])
 					    const result = await this.uploadFilePromise(this.imageList[i])
@@ -122,7 +120,7 @@
             
            async uploadFilePromise( imgUrl ) {
               let a = await uni.uploadFile({
-                                     url: 'http://127.0.0.1:8080/wx/users/picture', 
+                                     url: getApp().globalData.uploadUrl+'/wx/users/picture', 
                                      filePath: imgUrl,
                                      name: 'file',
                                      formData: {

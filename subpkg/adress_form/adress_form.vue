@@ -76,7 +76,7 @@
 		onLoad(e) {
                 this.dynamicFormData.userName = this.userinfo.userName
                 this.dynamicFormData.mobile = this.userinfo.mobile
-                this.testObj.sname = this.userinfo.formatted_address
+                this.testObj.sname = this.userinfo.address.formatted_address
 
             },
 		

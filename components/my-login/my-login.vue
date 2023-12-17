@@ -91,9 +91,9 @@
 		
 			initTabBar(userInfo) {
 				if (userInfo.userRoles == 3) {
-					this.updateTabBarList(getApp().globalData.clientTabBarList)
+					this.updateTabBarList( getApp().globalData.clientTabBarList )
 				} else {
-					this.updateTabBarList(getApp().globalData.adminTabBarList)
+					this.updateTabBarList( getApp().globalData.adminTabBarList )
 				}
 			},
 			

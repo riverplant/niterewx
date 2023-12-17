@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view v-if="userinfo.formatted_address == null">
+		<view v-if="userinfo.address.formatted_address == null">
 			<!--选择收获地址得盒子-->
 			<view class="panel-list2">
 			<view class="panel2">
@@ -40,7 +40,7 @@
 						收货地址
 					</view>
 					<view class="panel-text">
-						<text>{{userinfo.formatted_address}}</text>
+						<text>{{userinfo.address.formatted_address}}</text>
 					</view>
 				</view>
 			</view>

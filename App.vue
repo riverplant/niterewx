@@ -59,7 +59,9 @@
 							{
 								"image_src": "/static/banner-03.jpg"
 							},
-						]
+						],
+						
+						uploadUrl:'http://47.254.14.210'
 						  
 				     
 		        },
@@ -74,7 +76,9 @@
 		},
 		onHide: function() {
 			console.log('App Hide')
-		}
+		},
+		
+		
 	}
 </script>
 
