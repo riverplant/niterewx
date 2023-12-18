@@ -12,7 +12,9 @@
        
 
         <!--  结算 -->
-        <view class="btn-settle" @click="settlement">结算({{checkedCount}})</view>
+        <navigator :url="'/subpkg/payment_selection/payment_selection'">
+		<view class="btn-settle" @click="settlement">结算({{checkedCount}})</view>
+		</navigator>
 		
 <!--  修改 -------->
         <uni-popup ref="popup" :mask-click="false">

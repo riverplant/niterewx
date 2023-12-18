@@ -259,6 +259,25 @@
 				    }
 				    
 				}
+                ,{
+                    "path" : "payment_selection/payment_selection",
+                    "style" :                                                                                    
+					{
+                    "navigationBarTitleText": "选择支付方式",
+                    "enablePullDownRefresh": false
+					}
+                
+                }
+                ,{
+                    "path" : "payment_selection/payment_etransfer",
+                    "style" :                                                                                    
+					{
+                    "navigationBarTitleText": "支付方式：eTransfer",
+                    "enablePullDownRefresh": false
+					}
+                
+                }
+               
             ]
       }  
     ],
