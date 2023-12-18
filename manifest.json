@@ -64,6 +64,7 @@
             "checkSiteMap" : false
         },
         "usingComponents" : true,
+		 "lazyCodeLoading": "requiredComponents",
         "requiredPrivateInfos" : [
             "getLocation",
             "onLocationChange",

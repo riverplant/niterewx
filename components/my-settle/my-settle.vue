@@ -156,6 +156,7 @@
                             resolve(res)
                         },
                         fail: (err) => {
+							
                             reject(err)
                         }
                     })
