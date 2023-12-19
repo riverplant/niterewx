@@ -126,7 +126,7 @@
 						    if (claimRes.status != 200) return uni.$showMsg('修改申请状态失败!') 
 						 
 						   uni.navigateBack({
-						       delta: 1
+						       delta: 2
 						   }); 
 						},
         		}
