@@ -4,12 +4,9 @@
 			<view class="panel">
 				
 					<text class="sub-item-title">需要支付的金额</text>
-					<text class="sub-item-text1">100 CA$</text>
-				
-
-				
+					<text class="sub-item-text1">${{total}}</text>
 					<text class="sub-item-title">选择支付方式</text>
-					<image src="/static/payment-wechat.png" class="payment-image"></image>
+					<image src="/static/payment-wechat.png" class="payment-image" @click="payOrder"></image>
 					<navigator :url="'/subpkg/payment_selection/payment_etransfer'">
 						<image src="/static/payment-etransfer.png" class="payment-image"></image>
 					</navigator>
@@ -22,15 +19,106 @@
 </template>
 
 <script>
+    import {
+        mapGetters,
+        mapState,
+        mapMutations
+    } from 'vuex'
 	export default {
 		data() {
 			return {
-
+             id:''
 			}
 		},
+        
+        computed: {
+            ...mapState('m_user', [ 'userinfo']),
+            ...mapState('m_order', ['ordersNonPayer']),
+            ...mapGetters('m_order', ['checkedCount', 'count', 'total']),
+        },
+        
 		methods: {
+  // 點擊微信支付，調用支付接口
+            async payOrder() { 
+                try {
+                    const orderInfo = {
+                        price: this.total,
+                        code: this.userinfo.code,
+                        openId: this.userinfo.openid,
+                        userId: this.userinfo.id,
+                        payMethod: this.radio1,
+						pid: this.userinfo.pid,
+                        payStatus: 10,
+                        preOrderItems: this.ordersNonPayer.filter(x => x.state).map(x => x)
+                    }
 
-		}
+                    const {
+                        data: res
+                    } = await uni.$http.post('/wx/orders/create', orderInfo)
+                    if (res.status != 200) return uni.$showMsg('创建订单失败!')
+                    const oNumber = res.data
+                    this.id = res.data
+                    const param = {
+                        orderNumber: oNumber
+                    }
+                    //調用統一下單已支付
+                    const {
+                        data: preparePayRes
+                    } = await uni.$http.post('/wx/orders/unifiedorder', param)
+                    if (res.status != 200) return uni.$showMsg('獲取預订单號失败!')
+                    console.log('res.data:', preparePayRes)
+
+                    if (preparePayRes.return_code === 'FAIL')
+                        return uni.$showMsg(preparePayRes.return_msg)
+
+                    const payInfo = preparePayRes.data
+                    console.log('payInfo:',payInfo)
+                    // 發起請求
+                    let payRes = await this.requestPay(payInfo)
+                    //刪除緩存中已經支付的商品
+                    this.setOrdersNonPayer(this.ordersNonPayer.filter(x => !x.state))
+                    uni.showToast({
+                        title: '訂單支付完成!',
+                        icon: 'success'
+                    })
+                 uni.navigateBack({
+                     delta: 2
+                 }); 
+                } catch (e) {
+                    uni.showToast({
+                        title: '訂單支付失敗，請稍後重試!',
+                        icon: 'none'
+                    })
+                }
+
+
+            },
+
+            async requestPay(pay) {
+				console.log('pay:',pay)
+                return new Promise((resolve, reject) => {
+                    wx.requestPayment({
+                        ...pay,
+                        success: (res) => {
+                            resolve(res)
+                        },
+                        fail: (err) => {
+							console.log('取消支付')
+                            this.deletePayOrder(this.id)
+                            reject(err)
+                        }
+                    })
+                })
+				
+            },
+            
+            async deletePayOrder(id) {
+                const {
+                    data: res
+                } = await uni.$http.delete('/wx/orders/payorder/'+id)
+                if (res.status != 200) return uni.$showMsg('创建订单失败!')
+            }
+ 		}
 	}
 </script>
 
