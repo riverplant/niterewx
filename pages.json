@@ -2,10 +2,7 @@
 	"easycom": {
 				"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 			},
-    "vue-google-autocomplete" : [ {
-            "path": "vue-google-autocomplete/VueGoogleAutocomplete",
-            "style": {}
-        }],
+
     
     "pages": [
         {
