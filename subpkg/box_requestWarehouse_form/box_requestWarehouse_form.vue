@@ -80,6 +80,7 @@
 	            const value = e.detail.value
 	            this.node = value[value.length - 1].value
 				this.dynamicBoxForm.pName = value[value.length - 1].text
+                this.dynamicBoxForm.pid = this.node
 	        },
 	        submit(ref) {
 				if(this.dynamicBoxForm.pid == '') {
