@@ -1,7 +1,7 @@
 <template>
     <view class="create-order-button-container" >
-        <navigator class="panel-item" :url="'/subpkg/order_form/order_form'">
-         <view class="btn-claim">创建新订单</view>
+        <navigator class="panel-item" :url="navigatorUrl">
+         <view class="btn-claim">{{title}}</view>
         </navigator>
         </view> 
     </view>
@@ -9,6 +9,16 @@
 
 <script>
     export default {
+        props: {
+            title: {
+                type: String,
+                default: '',
+            },
+        	navigatorUrl: {
+        		type: String,
+        		default: '',
+        	}
+        },
         data() {
             return {
             };

@@ -22,6 +22,7 @@
               </uni-swipe-action>
               <!--自定义结算组件-->
       <my-create-cabinet-button></my-create-cabinet-button>
+      <my-create-button :title="'创建新柜子'" :navigatorUrl="'/subpkg/cabinet_form/cabinet_form'"></my-create-button>
 	  <tabBar :current="3"></tabBar>
          </view>
 </template>

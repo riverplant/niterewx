@@ -84,7 +84,6 @@
                             this.isShow = e.detail.value === '3' ? true : false
                     	},
         			 TanPreviewImage(){  
-						 console.log('imageUrlList:', this.imageUrlList)
         			        var images = this.imageUrlList
         			        console.log(images)  // ["http://192.168.100.251:8970/6_1597822634094.png"]
         			        uni.previewImage({ // 预览图片  图片路径必须是一个数组 => ["http://192.168.100.251:8970/6_1597822634094.png"]
@@ -93,7 +92,6 @@
         			            longPressActions: {  //长按保存图片到相册
         			                itemList: ['保存图片'],
         			                success: (data)=> {
-        			                    console.log(data);
         			                    uni.saveImageToPhotosAlbum({ //保存图片到相册
         			                        filePath: payUrl,
         			                        success: function () {
@@ -115,7 +113,7 @@
 							this.$refs[ref].validate().then(res => {
 						    this.updateClaimStatus()
 							}).catch(err => {
-								console.log('err', err);
+                                uni.$showMsg(err) 
 							})
 						},
 						

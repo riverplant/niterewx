@@ -26,7 +26,7 @@
                   </block>
               </uni-swipe-action>
               <!--自定义结算组件-->
-      <my-create-box-button></my-create-box-button>
+      <my-create-button :title="'新起一箱'" :navigatorUrl="'/subpkg/box_requestWarehouse_form/box_requestWarehouse_form'"></my-create-button>
 	  <tabBar :current="2"></tabBar>
          </view>
 </template>
@@ -35,7 +35,6 @@
 	import {mapState, mapMutations} from 'vuex'
     export default {
 		onShow() {
-			console.log('onshow.......')
 		  const sysInfo =  uni.getSystemInfoSync()
 		  this.wh = sysInfo.windowHeight - 50
 		  this.getBoxList()

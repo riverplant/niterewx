@@ -21,7 +21,7 @@
              </block>
          </uni-swipe-action>
          <!--自定义结算组件-->
- <my-create-order-button></my-create-order-button>
+  <my-create-button :title="'创建新订单'" :navigatorUrl="'/subpkg/order_form/order_form'"></my-create-button>
     </view>
 </template>
 

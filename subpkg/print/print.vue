@@ -37,11 +37,11 @@
 </template>
 
 <script>
-	import PrinterJobs from '@/common/print/printerjobs.js'
-		import printerUtil from '@/common/print/printerutil.js'
-		import util from '@/common/print/util.js'
-		import drawQrcode from '@/common/print/weapp.qrcode.esm.js'
-		import Bluetooth from '@/common/print/bluetooth.js'
+	import PrinterJobs from '@/subpkg/print/js/printerjobs.js'
+		import printerUtil from '@/subpkg/print/js/printerutil.js'
+		import util from '@/subpkg/print/js/util.js'
+		import drawQrcode from '@/subpkg/print/js/weapp.qrcode.esm.js'
+		import Bluetooth from '@/subpkg/print/js/bluetooth.js'
 	export default {
 		components: {},
 		data() {
