@@ -4,7 +4,7 @@
 		<!-- list -->
 		<view class="panel-list">
 			<view class="panel">
-				<image src="/static/weixin_csr_bi.jpg" class="qr-image"></image>
+				<image src="http://47.251.38.204/images/wx/weixin_csr_bi.jpg" class="qr-image"></image>
 				<view class="info-text">
 					<rich-text :nodes="strings" ></rich-text>
 				</view>

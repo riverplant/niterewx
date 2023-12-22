@@ -19,18 +19,18 @@
 <style lang="scss">
     .create-box-button-container {
         position: fixed;
-        bottom: 52px;
+        bottom: 85px;
         width: 100%;
-        height: 50px;
+        height: 100rpx;
         background-color: white;
 
         .btn-claim {
             background-color: #C00000;
-            height: 50px;
+            height: 100rpx;
             color: white;
-            line-height: 50px;
+            line-height: 100rpx;
             padding: 0 10px;
-            min-width: 100px;
+            min-width: 100rpx;
             text-align: center;
         }
     }
