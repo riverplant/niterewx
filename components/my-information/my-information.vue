@@ -1,7 +1,7 @@
 <template>
 	<view class="my-information-container">
 		<!-- 通知区域 -->
-		<image src="http://47.251.38.204/images/wx/information-notice.jpg" class="notice-image"></image>
+		<image src="http://47.254.14.210/images/wx/information-notice.jpg" class="notice-image"></image>
 
 		<!-- list -->
 		<view class="panel-list">

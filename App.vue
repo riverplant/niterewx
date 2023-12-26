@@ -51,13 +51,13 @@
 						],
 						
 						imageList: [{
-								"image_src": "http://47.251.38.204/images/wx/banner-01.jpg"
+								"image_src": " http://47.254.14.210/images/wx/banner-01.jpg "
 							},
 							{
-								"image_src": "http://47.251.38.204/images/wx/banner-02.jpg"
+								"image_src": " http://47.254.14.210/images/wx/banner-02.jpg "
 							},
 							{
-								"image_src": "http://47.251.38.204/images/wx/banner-03.jpg"
+								"image_src": " http://47.254.14.210/images/wx/banner-03.jpg "
 							},
 						],
 						

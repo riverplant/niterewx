@@ -126,7 +126,7 @@
 			    this.ordersNonLivrer = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 20)
 			    this.setOrdersNonLivrer(this.ordersNonLivrer)
 				
-			    this.ordersRembourse = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 40)
+			    this.ordersRembourse = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 30)
 			    this.setOrdersRembouse(this.ordersRembourse)
 			
 			},
