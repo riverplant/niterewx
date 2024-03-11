@@ -51,17 +51,24 @@
 						],
 						
 						imageList: [{
-								"image_src": " http://47.254.14.210/images/wx/banner-01.jpg "
+								"image_src": " https://aoaofast.cn/images/wx/banner-01.jpg "
 							},
 							{
-								"image_src": " http://47.254.14.210/images/wx/banner-02.jpg "
+								"image_src": " https://aoaofast.cn/images/wx/banner-02.jpg "
 							},
 							{
-								"image_src": " http://47.254.14.210/images/wx/banner-03.jpg "
+								"image_src": " https://aoaofast.cn/images/wx/banner-03.jpg "
 							},
 						],
-						
-						uploadUrl:'http://47.254.14.210'
+						range: [
+						        { value: 1, text: "AB" },
+						        { value: 2, text: "BC" },
+						        { value: 3, text: "MB" },
+						        { value: 4, text: "NS" },
+						        { value: 5, text: "ON" },
+						        { value: 6, text: "QC" }
+						      ],
+						uploadUrl:'https://aoaofast.cn'
 						  
 				     
 		        },

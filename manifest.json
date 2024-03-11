@@ -1,6 +1,6 @@
 {
-    "name" : "nitereDemo",
-    "appid" : "",
+    "name" : "逆海淘内部测试",
+    "appid" : "__UNI__GA42411E",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -40,13 +40,13 @@
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
-			"ios" : {
-			                "privacyDescription" : {
-			                    "NSBluetoothPeripheralUsageDescription" : "是否允许获取蓝牙用于连续打印机？",
-			                    "NSBluetoothAlwaysUsageDescription" : "是否允许获取蓝牙用于连续打印机？"
-			                },
-			                "UIBackgroundModes" : [ "bluetooth-central" ]
-			 },
+            "ios" : {
+                "privacyDescription" : {
+                    "NSBluetoothPeripheralUsageDescription" : "是否允许获取蓝牙用于连续打印机？",
+                    "NSBluetoothAlwaysUsageDescription" : "是否允许获取蓝牙用于连续打印机？"
+                },
+                "UIBackgroundModes" : [ "bluetooth-central" ]
+            },
             /* ios打包配置 */
             "sdkConfigs" : {
                 "maps" : {}
@@ -57,14 +57,16 @@
     "quickapp" : {},
     /* 快应用特有相关 */
     "mp-weixin" : {
-        /* 小程序特有相关 */
         "appid" : "wx90f4e9492869cd2e",
         "setting" : {
             "urlCheck" : true,
-            "checkSiteMap" : false
+            "checkSiteMap" : false,
+            "minified" : true,
+            "es6" : true,
+            "postcss" : true
         },
         "usingComponents" : true,
-		 "lazyCodeLoading": "requiredComponents",
+        "lazyCodeLoading" : "requiredComponents",
         "requiredPrivateInfos" : [
             "getLocation",
             "onLocationChange",
