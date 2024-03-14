@@ -40,7 +40,7 @@
 						收货地址
 					</view>
 					<view class="panel-text">
-						<text>{{userinfo.address.address}}, {{userinfo.address.city}}, {{userinfo.address.province}}, {{userinfo.address.pcode}}, Canada</text>
+						<text>{{userinfo.formatted_address}}</text>
 					</view>
 				</view>
 			</view>

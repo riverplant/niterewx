@@ -68,7 +68,8 @@
 						        { value: 5, text: "ON" },
 						        { value: 6, text: "QC" }
 						      ],
-						uploadUrl:'https://aoaofast.cn'
+						//uploadUrl:'https://aoaofast.cn',
+						uploadUrl:'http://10.0.0.168:8080'
 						  
 				     
 		        },

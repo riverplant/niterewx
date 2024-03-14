@@ -57,14 +57,7 @@
                     pcode: '',
                     openId: ''	
 				},            
-                range: [
-                        { value: 1, text: "AB" },
-                        { value: 2, text: "BC" },
-                        { value: 3, text: "MB" },
-                        { value: 4, text: "NS" },
-                        { value: 5, text: "ON" },
-                        { value: 6, text: "QC" }
-                      ],
+                range: getApp().globalData.range,
                default_value:1,
 				dynamicRules: {
                     mobile: {
@@ -122,46 +115,7 @@
 		
 		methods: {
             ...mapMutations('m_user',[ 'updateUserInfo']),
-            //响应选择事件，接收选中的数据
-         /**   selectItemD(data) {
-            	console.log('收到数据了:', data);
-            },
-            selectItemS(data) {
-            	//选择事件
-               let item = data.selectItem
-               this.dynamicFormData.place_id = item.key
-               this.dynamicFormData.formatted_address = item.text
-            },
-            
-            handleInput(res) {
-              clearTimeout(this.timer)
-              this.timer = setTimeout(() => {
-                  this.kw = res,
-                 this.getAutocompleteStringList() 
-              }, 500)
-            },
-            
-           async getAutocompleteStringList() {
-               this.autocompleteStringList = []
-                if(this.kw !== '') {
-                   this.autocompleteStringList = []
-                   const param = {
-                       str: this.kw
-                   }
-                   const {
-                       data: addressRes
-                   } = await uni.$http.get('/wx/users/addressItemList?kw='+this.kw)
-                   if (addressRes.status != 200) return uni.$showMsg('獲取地址列表失败!')
-                   console.log('res.data:', addressRes.data)
-                   this.autocompleteStringList = addressRes.data
-                 }
-            },
- 
-			onClickItem(e) {
-				console.log("address:",e);
-				
-			},
-**/
+
           change(e) {
                    this.dynamicFormData.province = e
                    console.log("e:", e);

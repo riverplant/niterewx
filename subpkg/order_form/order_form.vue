@@ -169,7 +169,9 @@
 			},
 
 			submit(ref) {
-			    this.orderFormData.openId = this.userinfo.openId
+				console.log('this.userinfo:',this.userinfo)
+			    this.orderFormData.openId = this.userinfo.openid
+				console.log('orderFormData:', this.orderFormData)
 				uni.showModal({
 				    title: '提示',
 				    content: '確定填入的用戶提貨碼為:'+this.orderFormData.code+'?',
