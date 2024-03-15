@@ -99,6 +99,18 @@
 		    ...mapState('m_gprinter',['deviceId','serviceId', 'characteristicId']) 
 		},
 		methods: {
+			destroyed: function() {
+				console.log("destroyed----------")
+				if (this.connId != '') {
+					uni.closeBLEConnection({
+						deviceId: this.connId,
+						success(res) {
+							console.log(res)
+						}
+					})
+				}
+			
+			},
 			swipeItemClickHandler(item) {
 			    this.presremoveItemById(item.id)
 			},

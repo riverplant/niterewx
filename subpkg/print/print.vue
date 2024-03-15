@@ -14,6 +14,7 @@
 <script>
 	var tsc = require('@/subpkg/print/js/tsc.js')
 	import util from '@/subpkg/print/js/util.js'
+	//util.formatTime(new Date())
 	export default {
 		data() {
 			return {
@@ -239,15 +240,15 @@
 			    command.setSize(100, 150)
                 command.setGap(2)
                 command.setCls()
-				command.setText(100, 10, "4", 1, 1, this.dynamicBoxForm.pName)
-				command.setQR(110, 50, "L", 10, "A", this.dynamicBoxForm.id)
+				command.setText(100, 10, "4", 1, 1, this.orderVo.pName)
+				command.setQR(110, 50, "L", 10, "A", this.orderVo.id)
 				command.setText(100, 400, "TSS24.BF2", 1, 1, "箱号: ")
-				command.setText(200, 400, "4", 1, 1,  this.dynamicBoxForm.boxNumber)
+				command.setText(200, 400, "4", 1, 1,  this.orderVo.boxNumber)
 				command.setText(100, 450, "TSS24.BF2", 1, 1, "包裹数: " )
-				command.setText(200, 450, "4", 1, 1, "包裹数: " + this.dynamicBoxForm.orderIds.length)
+				command.setText(200, 450, "4", 1, 1, "包裹数: " + this.orderVo.orderIds.length)
 				command.setText(100, 500, "TSS24.BF2", 1, 1, "提货码: ")
-				for (let i = 0; i < this.dynamicBoxForm.codes.length; i ++) {
-					command.setText(100, 500 + 50, "4", 1, 1, this.dynamicBoxForm.codes[i])
+				for (let i = 0; i < this.orderVo.codes.length; i ++) {
+					command.setText(100, 500 + 50, "4", 1, 1, this.orderVo.codes[i])
 				}
 				command.setPagePrint()
 				this.senBlData(deviceId, serviceId, characteristicId,command.getData())
