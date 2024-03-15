@@ -36,7 +36,9 @@
 </template>
 
 <script>
+	var tsc = require('@/subpkg/print/js/tsc.js')
     import { mapState,mapMutations, mapGetters } from 'vuex'
+	import Bluetooth from '@/subpkg/print/js/bluetooth.js'
 	export default {
 		data() {
 			return {
@@ -48,11 +50,11 @@
 					pName:'',
 					boxStatus: 1,
 					boxType: 1,
-					code:'',
+					codes:[],
 					orderIds:[],
-					isShow:false
-					
+					isShow:false	
 				},
+				bluetooth: new Bluetooth(),
 				options:[{
 				    text:'删除',
 				    style: {
@@ -60,10 +62,15 @@
 				    }
 				}],
 				close:false,
-                 searchResults:[]
+                searchResults:[],
+
 			}
 		},
-
+//页面卸载是关闭蓝牙链接
+		onUnload() {
+			this.bluetooth.closeBLEConnection();
+		    this.bluetooth.closeBluetoothAdapter();
+				},
 		onLoad(e) {
             console.log('e:',e)
             if(e && e.box) {
@@ -74,6 +81,7 @@
 			   this.dynamicBoxForm.pName = box.pName
                this.dynamicBoxForm.boxStatus = box.boxStatus
                this.dynamicBoxForm.boxType = box.boxType
+			    this.dynamicBoxForm.codes = box.codes
 			   if(box.orderInfos.length > 0) {
 			   this.dynamicBoxForm.orderIds = box.orderInfos.map(orderInfos=>orderInfos.id)	
 			   }else {
@@ -84,10 +92,11 @@
 				   console.log('this.searchResults:',this.searchResults)
 			   }
             }
-          
+            this.bluetooth.openBluetoothAdapter();
             },
 		computed: {
-		    ...mapState('m_order',['orderList']) 
+			 ...mapState('m_order',['orderList']) ,
+		    ...mapState('m_gprinter',['deviceId','serviceId', 'characteristicId']) 
 		},
 		methods: {
 			swipeItemClickHandler(item) {
@@ -281,11 +290,163 @@
 			},
 			
 			print() {
+				if( this.deviceId ) 
+				{
+					console.log('this.deviceId:',this.deviceId)
+					this.onConn()
+				}
+				else 
+				{
+					this.gotoPrinterPage()
+				}
+				
+			},
+			
+			onConn() {
+				console.log(`连接蓝牙:` + this.deviceId );
+				let isDone = true
+				var that = this
+				uni.createBLEConnection({
+					deviceId: this.deviceId,
+					complete(res) {
+						console.log('msg:',res.errMsg)
+						if (res.errMsg == "createBLEConnection:ok") {
+							uni.hideLoading();
+							setTimeout(function() {
+								that.getBLEServices()
+							}, 2000)
+						} else {
+							console.log("onConn echec")
+							isDone = false
+						}
+					},
+				})
+				
+				if(isDone == false)
+				   this.gotoPrinterPage()
+			},
+			
+			getBLEServices() {
+				let isDone = true
+				var that = this
+				let deviceId = this.deviceId
+				console.log("获取蓝牙设备所有服务(service)。---------------")
+			
+				uni.getBLEDeviceServices({
+					// 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+					deviceId: deviceId,
+					complete(res) {
+			
+						for (var s = 0; s < res.services.length; s++) {
+							if( res.services[s].uuid === that.serviceId ) 
+							{
+								let serviceId = res.services[s].uuid
+								uni.getBLEDeviceCharacteristics({
+									// 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+									deviceId: deviceId,
+									// 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+									serviceId: serviceId,
+									success(res) {
+										var re = JSON.parse(JSON.stringify(res))
+											
+										console.log('deviceId = [' + deviceId + ']  serviceId = [' + serviceId + ']')
+										for (var c = 0; c < re.characteristics.length; c++) {
+											if (re.characteristics[c].properties.write == true && re.characteristics[c].uuid == that.characteristicId) {
+												let uuid = re.characteristics[c].uuid
+												console.log(' deviceId = [' + deviceId + ']  serviceId = [' + serviceId + '] characteristics=[' +
+													uuid)
+                                                that.senBleLabel( deviceId, serviceId, uuid)
+												break
+								               
+											}
+										}
+									}
+								})
+								break
+							}
+
+			
+						}
+                      
+					},
+					fail(res) {
+						console.log(res)
+						isDone = false
+						uni.showToast(`获取设备服务失败` + JSON.stringify(res));
+					},
+				})
+				if( isDone == false )
+				this.gotoPrinterPage()
+			
+			},
+					
+			gotoPrinterPage() {
 				let url = '/subpkg/print/print?box='+JSON.stringify(this.dynamicBoxForm)
 				uni.navigateTo({
 				  url: url
 				});
-			}
+			},
+			
+			senBleLabel( deviceId, serviceId, uuid ) {
+				console.log('dynamicBoxForm:', this.dynamicBoxForm)
+				//标签模式
+				var command = tsc.jpPrinter.createNew()
+				// console.log(command)
+			    command.setSize(100, 150)
+                command.setGap(2)
+                command.setCls()
+				command.setText(100, 10, "4", 1, 1, this.dynamicBoxForm.pName)
+				command.setQR(110, 50, "L", 10, "A", this.dynamicBoxForm.id)
+				command.setText(100, 400, "TSS24.BF2", 1, 1, "箱号: ")
+				command.setText(200, 400, "4", 1, 1,  this.dynamicBoxForm.boxNumber)
+				command.setText(100, 450, "TSS24.BF2", 1, 1, "包裹数: " )
+				command.setText(200, 450, "4", 1, 1, "包裹数: " + this.dynamicBoxForm.orderIds.length)
+				command.setText(100, 500, "TSS24.BF2", 1, 1, "提货码: ")
+				for (let i = 0; i < this.dynamicBoxForm.codes.length; i ++) {
+					command.setText(100, 500 + 50, "4", 1, 1, this.dynamicBoxForm.codes[i])
+				}
+				command.setPagePrint()
+				this.senBlData( deviceId, serviceId, uuid, command.getData() )
+			},
+			
+			senBlData(deviceId, serviceId, characteristicId,uint8Array) {
+				console.log('************deviceId = [' + deviceId + ']  serviceId = [' + serviceId + '] characteristics=[' +characteristicId+ "]")
+				var uint8Buf = Array.from(uint8Array);
+				function split_array(datas,size){
+					var result = {};
+					var j = 0
+					for (var i = 0; i < datas.length; i += size) {
+						result[j] = datas.slice(i, i + size)
+						j++
+					}
+					console.log(result)
+					return result
+				}
+				var sendloop = split_array(uint8Buf, 20);
+				function realWriteData(sendloop, i) {
+					var data = sendloop[i]
+					if(typeof(data) == "undefined"){
+						return
+					}
+					console.log("第【" + i + "】次写数据"+data)
+					var buffer = new ArrayBuffer(data.length)
+					var dataView = new DataView(buffer)
+					for (var j = 0; j < data.length; j++) {
+						dataView.setUint8(j, data[j]);
+					}
+					uni.writeBLECharacteristicValue({
+						deviceId,
+						serviceId,
+						characteristicId,
+						value: buffer,
+						success(res) {
+							realWriteData(sendloop, i + 1);
+						}
+					})
+				}
+			   var i = 0;
+				realWriteData(sendloop, i);
+			},
 		}
 	}
 </script>

@@ -14,8 +14,9 @@ const printerJobs = function() {
  */
 printerJobs.prototype.text = function(content) {
 	if (content) {
-		let uint8Array = gbk.encode(content);
-		let encoded = Array.from(uint8Array);
+		//let uint8Array = gbk.encode(content);
+		//let encoded = Array.from(uint8Array);
+		let encoded = Array.from(content);
 		this._enqueue(encoded);
 	}
 	return this;
@@ -26,6 +27,7 @@ printerJobs.prototype.text = function(content) {
  * @param  {string} content  文字内容
  */
 printerJobs.prototype.print = function(content) {
+	console.log('content:',content)
 	this.text(content);
 	this._enqueue(commands.LF);
 	return this;

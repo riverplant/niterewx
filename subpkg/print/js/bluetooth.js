@@ -16,7 +16,7 @@ class Bluetooth {
 
 	set_deviceId(deviceId) {
 		this.deviceId = deviceId;
-		uni.setStorageSync(deviceId);
+		uni.setStorageSync("deviceId", deviceId);
 	}
 
 	get_serviceId() {
@@ -25,7 +25,7 @@ class Bluetooth {
 
 	set_serviceId(serviceId) {
 		this.serviceId = serviceId;
-		uni.setStorageSync(serviceId);
+		uni.setStorageSync("serviceId", serviceId);
 	}
 
 	get_writeId() {
@@ -34,7 +34,7 @@ class Bluetooth {
 
 	set_writeId(writeId) {
 		this.writeId = writeId;
-		uni.setStorageSync(writeId);
+		uni.setStorageSync("writeId", writeId);
 	}
 
 	get_notifyId() {
@@ -43,7 +43,7 @@ class Bluetooth {
 
 	set_notifyId(notifyId) {
 		this.notifyId = notifyId;
-		uni.setStorageSync(notifyId);
+		uni.setStorageSync("notifyId", notifyId);
 	}
 
 
@@ -143,6 +143,7 @@ class Bluetooth {
 		let self = this;
 
 		return new Promise((resolve, reject) => {
+			console.log('deviceId:',deviceId)
 			setTimeout(() => {
 				uni.getBLEDeviceServices({
 					deviceId,
@@ -188,12 +189,13 @@ class Bluetooth {
 						}
 					}
 
-					//console.log("res:getBLEDeviceCharacteristics " + JSON.stringify(res));
+					console.log("res:getBLEDeviceCharacteristics " + JSON.stringify(res));
 					let result = {
 						'notifyId': self.notifyId,
 						'writeId': self.writeId
 					};
 					self.showToast(`获取服务中所有特征值OK,${JSON.stringify(result)}`);
+					console.log(`获取服务中所有特征值OK,${JSON.stringify(result)}`);
 					resolve(result)
 				},
 				fail: err => {
@@ -243,6 +245,8 @@ class Bluetooth {
 		let characteristicId = this.writeId;
 
 		console.log("this: " + JSON.stringify(this));
+		console.log("buffer: " , buffer);
+		
 
 		return new Promise((resolve, reject) => {
 			uni.writeBLECharacteristicValue({
