@@ -50,6 +50,16 @@
 						}
 						],
 						
+						rootTabBarList: [
+							{
+								path: "pages/userInfo/userInfo",
+								iconPath: "/static/package.png",
+								text: "打印提货凭证",
+								index: 0
+							}
+							
+							],
+						
 						imageList: [{
 								"image_src": " https://aoaofast.cn/images/wx/banner-01.jpg "
 							},

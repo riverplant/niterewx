@@ -11,9 +11,19 @@ export default {
         role: uni.getStorageSync('role') || 0, 
         pickPoint: uni.getStorageSync('pickPoint') || '', 
 		tabBarList: JSON.parse(uni.getStorageSync('tabBarList') || '[]'),
+		departureDateList: JSON.parse(uni.getStorageSync('departureDateList') || '[]'),
     }),
     
     mutations:{
+		
+		updateDepartureDateList(state, departureDateList) {
+		   state.departureDateList =  departureDateList
+		   this.commit('m_user/saveDepartureDateListToStorage')
+		},
+		
+		saveDepartureDateListToStorage(state) {
+		  uni.setStorageSync('departureDateList', JSON.stringify(state.departureDateList))    
+		},
 		
 		updateTabBarList(state, tabBarList) {
 		   state.tabBarList =  tabBarList

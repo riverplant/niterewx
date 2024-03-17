@@ -56,20 +56,21 @@ class Bluetooth {
 	}
 
 	openBluetoothAdapter() {
-		return new Promise((resolve, reject) => {
-			uni.openBluetoothAdapter({
-				success: res => {
-					this.isOpenBle = true;
-					this.showToast("初始化蓝牙模块成功");
-					resolve(res);
-				},
-				fail: err => {
-					this.showToast(`初始化蓝牙模块失败` + JSON.stringify(err));
-					reject(err);
-				},
+		if (!this.isOpenBle) {
+			return new Promise((resolve, reject) => {
+				uni.openBluetoothAdapter({
+					success: res => {
+						this.isOpenBle = true;
+						this.showToast("初始化蓝牙模块成功");
+						resolve(res);
+					},
+					fail: err => {
+						this.showToast(`初始化蓝牙模块失败` + JSON.stringify(err));
+						reject(err);
+					},
+				});
 			});
-		});
-
+		}
 	}
 
 	startBluetoothDevicesDiscovery() {

@@ -14,6 +14,7 @@
 <script>
 	var tsc = require('@/subpkg/print/js/tsc.js')
 	import util from '@/subpkg/print/js/util.js'
+	import { mapState } from 'vuex'
 	//util.formatTime(new Date())
 	export default {
 		data() {
@@ -31,6 +32,9 @@
 			   console.log(' this.orderVo:', this.orderVo)
 		    }
 		    },
+		computed: {
+				 ...mapState('m_user',['userinfo'])
+			},
 		methods: {
 			destroyed: function() {
 				console.log("destroyed----------")

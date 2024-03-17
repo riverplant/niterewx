@@ -30,7 +30,7 @@
 		},
 		methods: {
 			...mapMutations('m_user', ['updateUserInfo', 'updateOpenid', 'updateSwiperList', 'updateToken',
-				'updateAddress', 'updatePickPoint', 'updateCode', 'updateTabBarList','updatePickPointList'
+				'updateAddress', 'updatePickPoint', 'updateCode', 'updateTabBarList','updatePickPointList','updateDepartureDateList'
 			]),
 			...mapMutations('m_order', ['setOrdersNonValide', 'setOrdersNonPayer', 'setOrdersNonLivrer',
 				'setOrdersRembouse',  'updateWarehouseRequest', 'updateCatTree',
@@ -77,7 +77,9 @@
 				this.getWarehouseRequest()
 				this.initCatTree()
 				this.initpickpoinsTree()
+				this.initDepartureDateList()
 
+ 
 			},
 
 			async initCatTree() {
@@ -92,8 +94,10 @@
 			initTabBar(userInfo) {
 				if (userInfo.userRoles == 3) {
 					this.updateTabBarList( getApp().globalData.clientTabBarList )
-				} else {
+				} else if( userInfo.userRoles == 2 ){
 					this.updateTabBarList( getApp().globalData.adminTabBarList )
+				} else {
+					this.updateTabBarList( getApp().globalData.rootTabBarList )
 				}
 			},
 			
@@ -144,6 +148,12 @@
 				    const {data: res} = await uni.$http.get('/wx/users/pickPointList')
 				    if (res.status != 200) return uni.$showMsg('查詢提貨點列表失败!')
 				     this.updatePickPointList(res.data)
+			},
+			
+			async initDepartureDateList(){
+				const {data: res} = await uni.$http.get('/wx/cabinet/departureDateList')
+				if (res.status != 200) return uni.$showMsg('查詢出海日期列表失败!')
+				 this.updateDepartureDateList(res.data)
 			}
 		}
 	}

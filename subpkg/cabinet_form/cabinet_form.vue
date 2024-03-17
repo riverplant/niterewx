@@ -2,7 +2,7 @@
     <view class="cabinet-container">
         <view class="search-box">
              		<view class="example-body">
-             			<uni-datetime-picker type="date" :clear-icon="false" v-model="cabinetCreateParam.departureDate" @maskClick="maskClick" placeholder="選擇發貨日期" />
+             			<uni-datetime-picker type="date" :clear-icon="false" v-model="cabinetCreateParam.departureDate" @maskClick="maskClick" placeholder="选择发货日期" />
              		</view>  
             </view>
             <!--订单标题区域-->
