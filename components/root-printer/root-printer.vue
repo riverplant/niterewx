@@ -37,6 +37,8 @@
 	   mapMutations,
 	   mapState
 	} from 'vuex'
+	var tsc = require('@/subpkg/print/js/tsc.js')
+	import util from '@/subpkg/print/js/util.js'
 	export default {
 		name:"root-printer",
 		data() {
@@ -47,19 +49,10 @@
 			    departureDate: ''	
 			},
 			departDate:'',
-			};
-			printerItem:{
-				     boxId: '';
-					 orderCountTotal: 0;
-					 orderCount: 0;
-			}
-			rootPrinterResult: {
-				departureDate: '';
-			             code: '';
-					    pName: '';
-				     boxCount:  0;
-				   orderCount:  0;
-				   mRootPrinterResultItems: [];
+			result:[],
+			canvasWidth: 180,
+			canvasHeight: 180,
+			imageSrc: '../../static/payment-wechat.png',
 			}
 		},
 		dynamicRules: {
@@ -76,6 +69,7 @@
 			    }]
 			}
 		},
+		
 		computed: {
 		    ...mapState('m_user', ['userinfo', 'pickPointList','departureDateList']), 
 			 ...mapState('m_gprinter',['deviceId','serviceId', 'characteristicId']) 
@@ -140,31 +134,226 @@
 						console.log('dynamicFormData:', this.dynamicFormData)
 						console.log('准备打印........')
 						this.getRootPrinterResult( this.dynamicFormData )
-						
-						if( this.deviceId )
-						{
-							console.log('this.deviceId:',this.deviceId)
-							
-							//this.onConn()
-						}
-						else 
-						{
-							//this.gotoPrinterPage()
-						}
 					}
 				 	
 				 },
 				 
-				 async getRootPrinterResult() {
-					 const {data: res} = await uni.$http.get('/wx/cabinet/getRootPrinterResult', this.dynamicFormData)
-					 if (res.status != 200) return uni.$showMsg('查詢打印提货凭证失败!')
-					 console.log('result:',res.data)
+				 async getRootPrinterResult()
+				 {
+					    let that = this;
+                        const {data: res} = await uni.$http.get('/wx/cabinet/getRootPrinterResult', this.dynamicFormData)
+				 		if (res.status != 200) return uni.$showMsg('查詢打印提货凭证失败!')
+				 		this.result = res.data
+						let width;
+						let height;
+					    uni.getImageInfo({
+							src: that.imageSrc,
+							success(res) {
+								width = res.width
+								height = res.height
+								that.canvasWidth = res.width;
+								that.canvasHeight = res.height;
+							 }
+						  })
+						const ctx = uni.createCanvasContext("edit_area_canvas", this);
+									// if (app.globalData.platform == "android") {
+									//   ctx.translate(width, height)
+									//   ctx.rotate(180 * Math.PI / 180)
+									// }
+						ctx.drawImage(this.imageSrc, 0, 0, width, height);
+						ctx.draw();
+				 					 
+				 		if( this.deviceId )
+				 		{
+				 		 console.log('this.deviceId:',this.deviceId)		 	
+				 		this.onConn()
+				 		}
+				 		else 
+				 		{
+				 		this.gotoPrinterPage()
+				 		}
 				 },
 				 
-				 onchange(e) {
-					     const value = e.detail.value
-					     this.dynamicFormData.pid = value[value.length - 1].value
-				 }
+				 onchange(e) 
+				 {
+				   const value = e.detail.value
+				 	this.dynamicFormData.pid = value[value.length - 1].value
+				 },
+				 
+            onConn() {
+				console.log(`连接蓝牙:` + this.deviceId );
+				let isDone = true
+				var that = this
+				uni.createBLEConnection({
+					deviceId: this.deviceId,
+					complete(res) {
+						console.log('msg:',res.errMsg)
+						if (res.errMsg == "createBLEConnection:ok") {
+							uni.hideLoading();
+							setTimeout(function() {
+								that.getBLEServices()
+							}, 2000)
+						} else {
+							console.log("onConn echec")
+							isDone = false
+						}
+					},
+				})
+				
+				if(isDone == false)
+				   this.gotoPrinterPage()
+			},
+			
+			getBLEServices() {
+				let isDone = true
+				var that = this
+				let deviceId = this.deviceId
+				console.log("获取蓝牙设备所有服务(service)。---------------")
+			
+				uni.getBLEDeviceServices({
+					// 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+					deviceId: deviceId,
+					complete(res) {
+			
+						for (var s = 0; s < res.services.length; s++) {
+							if( res.services[s].uuid === that.serviceId ) 
+							{
+								let serviceId = res.services[s].uuid
+								uni.getBLEDeviceCharacteristics({
+									// 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+									deviceId: deviceId,
+									// 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+									serviceId: serviceId,
+									success(res) {
+										var re = JSON.parse(JSON.stringify(res))
+											
+										console.log('deviceId = [' + deviceId + ']  serviceId = [' + serviceId + ']')
+										for (var c = 0; c < re.characteristics.length; c++) {
+											if (re.characteristics[c].properties.write == true && re.characteristics[c].uuid == that.characteristicId) {
+												let uuid = re.characteristics[c].uuid
+												console.log(' deviceId = [' + deviceId + ']  serviceId = [' + serviceId + '] characteristics=[' +
+													uuid)
+                                                that.senBleLabel( deviceId, serviceId, uuid)
+												break
+								               
+											}
+										}
+									}
+								})
+								break
+							}
+
+			
+						}
+                      
+					},
+					fail(res) {
+						console.log(res)
+						isDone = false
+						uni.showToast(`获取设备服务失败` + JSON.stringify(res));
+					},
+				})
+				if( isDone == false )
+				this.gotoPrinterPage()
+			
+			},
+					
+			gotoPrinterPage() {
+				let url = '/subpkg/print/print?box='+JSON.stringify( this.result )
+				uni.navigateTo({
+				  url: url
+				});
+			},
+			
+			senBleLabel( deviceId, serviceId, uuid ) {
+				    let that = this;
+					let canvasWidth = that.canvasWidth
+				    let canvasHeight = that.canvasHeight
+					for(let j=0; j< that.result.length; j++) {
+						var command = tsc.jpPrinter.createNew()
+						command.setSize(100, 150)
+						command.setGap(2)
+						command.setCls()
+						command.setText(200, 10, "TSS24.BF2", 3, 3, "逆海淘")
+						command.setText(200, 100, "TSS24.BF2", 3, 3, "提货凭证")
+						command.setText(100, 300, "TSS24.BF2", 2, 2, "出海日期: ")
+						command.setText(350, 300, "4", 1, 1,  that.result[j].departureDate)
+						command.setText(100, 400, "TSS24.BF2", 2, 2, "提货码: " )
+						command.setText(320, 400, "4", 1, 1, that.result[j].code)
+						command.setText(100, 500, "TSS24.BF2", 2, 2, "提货点: ")
+						command.setText(320, 500, "TSS24.BF2", 2, 2, this.result[j].pName)
+						command.setText(100, 600, "TSS24.BF2", 2, 2, "共" )
+						command.setText(150, 600, "4", 2, 2, that.result[j].orderCount  )
+						command.setText(180, 600, "TSS24.BF2", 2, 2, "个包裹在" )
+						command.setText(370, 600, "4", 2, 2, that.result[j].boxCount )
+						command.setText(400, 600, "TSS24.BF2", 2, 2, "个箱子里" )
+						
+						for (let i = 0, index = 700; i < that.result[j].mRootPrinterResultItems.length; i ++) {
+							command.setText(100, index + i * 50, "2", 1, 1, that.result[j].mRootPrinterResultItems[i].boxNumero + ":")
+							command.setText(200, index + i * 50, "2", 1, 1, that.result[j].mRootPrinterResultItems[i].orderCount + "/" + that.result[j].mRootPrinterResultItems[i].orderCountTotal)
+							command.setText(250, index + i * 50, "TSS24.BF2", 1, 1, "包裹")
+						}
+						
+						uni.canvasGetImageData({
+						canvasId: 'edit_area_canvas',
+						x: 0,
+						y: 0,
+						width: canvasWidth,
+						height: canvasHeight,
+						success: function(res) 
+						{
+				        console.log('res:'+ res)
+						command.setBitmap(60, 0, 1, res)
+						},
+						complete: function() {
+							command.setPagePrint()
+							that.senBlData(deviceId, serviceId, uuid,command.getData())	
+										  }
+						})
+						
+					}
+			},
+			
+			senBlData(deviceId, serviceId, characteristicId,uint8Array) {
+				console.log('************deviceId = [' + deviceId + ']  serviceId = [' + serviceId + '] characteristics=[' +characteristicId+ "]")
+				var uint8Buf = Array.from(uint8Array);
+				function split_array(datas,size){
+					var result = {};
+					var j = 0
+					for (var i = 0; i < datas.length; i += size) {
+						result[j] = datas.slice(i, i + size)
+						j++
+					}
+					return result
+				}
+				var sendloop = split_array(uint8Buf, 20);
+				function realWriteData(sendloop, i) {
+					var data = sendloop[i]
+					if(typeof(data) == "undefined"){
+						return
+					}
+					console.log("第【" + i + "】次写数据"+data)
+					var buffer = new ArrayBuffer(data.length)
+					var dataView = new DataView(buffer)
+					for (var j = 0; j < data.length; j++) {
+						dataView.setUint8(j, data[j]);
+					}
+					uni.writeBLECharacteristicValue({
+						deviceId,
+						serviceId,
+						characteristicId,
+						value: buffer,
+						success(res) {
+							realWriteData(sendloop, i + 1);
+						}
+					})
+				}
+			   var i = 0;
+				realWriteData(sendloop, i);
+			}
+	
+				 
+
 		    }
 	}
 </script>

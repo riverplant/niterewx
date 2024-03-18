@@ -23,13 +23,27 @@
 				currDev: null,
 				connId: '',
 				piaojuText:'',
-				orderVo:{}
+				orderVo:{},
+				uInfo:{},
+				result:[]
 			}
 		},
 		onLoad(e) {
+			console.log('userInfo:',this.userinfo)
+			this.uInfo = this.userinfo
+			console.log('e:',e)
 		    if(e && e.box) {
-		       this.orderVo = JSON.parse(e.box)
-			   console.log(' this.orderVo:', this.orderVo)
+				if(this.userinfo.userRoles == 5) 
+				{
+					this.result = JSON.parse(e.box)
+					console.log(' this.result:', this.result)	
+					
+				}else 
+				{
+				this.orderVo = JSON.parse(e.box)
+				console.log(' this.orderVo:', this.orderVo)	
+				}
+		      
 		    }
 		    },
 		computed: {
@@ -201,7 +215,6 @@
 						result[j] = datas.slice(i, i + size)
 						j++
 					}
-					console.log(result)
 					return result
 				}
 				var sendloop = split_array(uint8Buf, 20);
@@ -239,23 +252,62 @@
 				uni.setStorageSync('serviceId', serviceId)
 				uni.setStorageSync('characteristicId', characteristicId)
 				
+				console.log('this.uInfo:',this.uInfo)
+				console.log('this.orderVo:',this.orderVo)
+				if( this.uInfo.userRoles == 2 ) 
+				{
 				var command = tsc.jpPrinter.createNew()
 				// console.log(command)
-			    command.setSize(100, 150)
-                command.setGap(2)
-                command.setCls()
+				command.setSize(100, 150)
+				command.setGap(2)
+				command.setCls()
 				command.setText(100, 10, "4", 1, 1, this.orderVo.pName)
 				command.setQR(110, 50, "L", 10, "A", this.orderVo.id)
 				command.setText(100, 400, "TSS24.BF2", 1, 1, "箱号: ")
 				command.setText(200, 400, "4", 1, 1,  this.orderVo.boxNumber)
 				command.setText(100, 450, "TSS24.BF2", 1, 1, "包裹数: " )
-				command.setText(200, 450, "4", 1, 1, "包裹数: " + this.orderVo.orderIds.length)
+				command.setText(200, 450, "4", 1, 1,  this.orderVo.orderIds.length)
 				command.setText(100, 500, "TSS24.BF2", 1, 1, "提货码: ")
 				for (let i = 0; i < this.orderVo.codes.length; i ++) {
 					command.setText(100, 500 + 50, "4", 1, 1, this.orderVo.codes[i])
 				}
 				command.setPagePrint()
-				this.senBlData(deviceId, serviceId, characteristicId,command.getData())
+				this.senBlData(deviceId, serviceId, characteristicId,command.getData())	
+				} 
+				else if( this.uInfo.userRoles == 5 ) 
+				{
+					for(let j=0; j<this.result.length; j++) {
+						var command = tsc.jpPrinter.createNew()
+						// console.log(command)
+						command.setSize(100, 150)
+						command.setGap(2)
+						command.setCls()
+					command.setText(200, 10, "TSS24.BF2", 3, 3, "逆海淘")
+					command.setText(200, 100, "TSS24.BF2", 3, 3, "提货凭证")
+					command.setText(100, 300, "TSS24.BF2", 2, 2, "出海日期: ")
+					command.setText(350, 300, "4", 1, 1,  that.result[j].departureDate)
+					command.setText(100, 400, "TSS24.BF2", 2, 2, "提货码: " )
+					command.setText(320, 400, "4", 1, 1, that.result[j].code)
+					command.setText(100, 500, "TSS24.BF2", 2, 2, "提货点: ")
+					command.setText(320, 500, "TSS24.BF2", 2, 2, this.result[j].pName)
+					command.setText(100, 600, "TSS24.BF2", 2, 2, "共" )
+					command.setText(150, 600, "4", 2, 2, that.result[j].orderCount  )
+					command.setText(180, 600, "TSS24.BF2", 2, 2, "个包裹在" )
+					command.setText(370, 600, "4", 2, 2, that.result[j].boxCount )
+					command.setText(400, 600, "TSS24.BF2", 2, 2, "个箱子里" )
+					
+					for (let i = 0, index = 700; i < that.result[j].mRootPrinterResultItems.length; i ++) {
+						command.setText(100, index + i * 50, "2", 1, 1, that.result[j].mRootPrinterResultItems[i].boxNumero + ":")
+						command.setText(200, index + i * 50, "2", 1, 1, that.result[j].mRootPrinterResultItems[i].orderCount + "/" + that.result[j].mRootPrinterResultItems[i].orderCountTotal)
+						command.setText(250, index + i * 50, "TSS24.BF2", 1, 1, "包裹")
+					}
+						command.setPagePrint()
+						this.senBlData(deviceId, serviceId, characteristicId,command.getData())	
+					}
+					
+					
+				}
+				
 			}
 		}
 	}

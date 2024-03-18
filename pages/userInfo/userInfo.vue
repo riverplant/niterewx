@@ -13,6 +13,7 @@
         mapState,
         mapMutations
     } from 'vuex'
+	import Bluetooth from '@/subpkg/print/js/bluetooth.js'
     export default {
         data() {
             return {
@@ -22,7 +23,8 @@
                 ordersNonLivrer: [],
                 ordersRembourse: [],
 				warehouseRequestList: [],
-				userRole: 0
+				userRole: 0,
+				bluetooth: new Bluetooth(),
             }
         },
         
@@ -40,6 +42,17 @@
 				
             }
         },
+		
+		onUnload() {
+			this.bluetooth.closeBLEConnection();
+		    this.bluetooth.closeBluetoothAdapter();
+				},
+		onLoad(e) {
+		    if(this.userinfo.userRoles == 5) 
+			{
+				this.bluetooth.openBluetoothAdapter();
+			} 
+		    },
         computed: {
             ...mapState('m_user', ['token', 'openid','userinfo']),
 			...mapState('m_order', ['orderList'])
