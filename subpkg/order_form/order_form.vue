@@ -207,6 +207,7 @@
                }); 
             },
             async updateOrder() {
+				console.log('orderFormData:', this.orderFormData)
               const {   
                   data: orderRes
               } = await uni.$http.put('/wx/orders/updateOrder', this.orderFormData)  

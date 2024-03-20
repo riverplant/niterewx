@@ -85,10 +85,11 @@
 				this.searchResults = this.boxList.filter(item=>item.cabinetId === null)
 			}else {
 			let formData = JSON.parse(e.cabinet)
+			console.log('formData:', formData)
 			this.cabinetCreateParam.cabinetNumber = formData.cabinetNumber
 			this.cabinetCreateParam.id = formData.id
 			this.cabinetCreateParam.departureDate = formData.departureDate
-			let ids = formData.boxs.map(item=>item.id)
+			let ids = formData.boxs != null  ? formData.boxs.map(item=>item.id) : []
 			
 			for (var val of this.boxList) {
 				if(ids.includes(val.id))
