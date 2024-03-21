@@ -1,7 +1,7 @@
 <template>
 	<view class="my-information-container">
 		<!-- 通知区域 -->
-		<image src="https://aoaofast.cn/images/wx/information-notice.jpg" class="notice-image"></image>
+		<image src="https://aoaofast.cn/images/wx/banner-01.jpg" class="notice-image"></image>
 
 		<!-- list -->
 		<view class="panel-list">
@@ -79,20 +79,6 @@
 
 	</view>
 </template>
-
-<script>
-	
-	export default {
-		data() {
-			return {
-				value: 9999
-
-			};
-		},
-
-	
-	}
-</script>
 
 <style lang="scss">
 	.badge-style{

@@ -2,7 +2,8 @@
 	<view class="login-container">
 		<uni-icons type="contact-filled" size="100" color="#AFAFAF"></uni-icons>
 
-		<button type="primary" class="btn-login" open-type="getUserInfo" @getuserinfo="getUserInfo">登录</button>
+		<!-- <button type="primary" class="btn-login" open-type="getUserInfo" @getuserinfo="getUserInfo">登录</button> -->
+		<button type="primary" class="btn-login" @click="login()">登录</button>
 		<text class="tips-text">申请获取以下权限</text>
 		<text class="tips-text">获得你的公开信息(昵称、头像、地区等)</text>
 	</view>
@@ -42,6 +43,36 @@
 				if (e.detail.errMsg == 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权!')
 				this.updateUserInfo(e.detail.userInfo)
 				this.getToken(e.detail.userInfo)
+			},
+			
+			login() 
+			{
+				var that = this
+				uni.showModal({
+					mask:true,
+					title:'温馨提示',
+					content:'授权微信登录之后才能正常使用小程序功能',
+					success(res) {
+						if(res.confirm) {
+							uni.getUserProfile({
+								desc:'获取您的昵称、头像',
+								success: userRes => {
+									if(userRes.errMsg == 'getUserProfile:ok' && userRes.userInfo != undefined) {
+										console.log('userInfo:', userRes.userInfo)
+										that.updateUserInfo(userRes.userInfo)
+										that.getToken(userRes.userInfo)
+									}else {
+										uni.showToast({
+											icon:"none",
+											title:"获取失败，请重试"
+										})
+									}
+								}
+								
+							})
+						}
+					}
+				})
 			},
 			async getToken(info) {
 				const [err, res] = await uni.login().catch(err => err)

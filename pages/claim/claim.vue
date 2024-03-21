@@ -1,7 +1,8 @@
 <template>
     <view class="claim-container">
-       <my-claim :items="items" :items-bak="itemsBak" v-if="userinfo.userRoles == 3" ></my-claim>
-	   <my-claimeManage :items="items" :items-bak="itemsBak"  v-else></my-claimeManage>
+	   <my-claimeManage :items="items" :items-bak="itemsBak" v-if="userinfo.userRoles == 2" ></my-claimeManage>
+       <my-claim :items="items" :items-bak="itemsBak"  v-else></my-claim>
+	  
 	    <tabBar :current="1"></tabBar>
 	   </view>
 </template>
@@ -17,10 +18,10 @@
                
         },
 		onShow() {
-			if(this.userinfo.userRoles === 3) {
+			if(this.userinfo.userRoles === 2) {
+				this.getClaimeList()		
+			}else if(this.token){
 				this.getClaimListByOpenid()
-			}else {
-				this.getClaimeList()
 			}
 			
 		},
@@ -47,7 +48,7 @@
 			}
 		 },
         computed: {
-            ...mapState('m_user', ['userinfo']),
+            ...mapState('m_user', ['userinfo','token']),
 			...mapState('m_order', ['claimList'])
         },
 

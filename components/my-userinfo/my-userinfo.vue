@@ -84,6 +84,10 @@
                    <uni-icons type="arrowright" size="15"></uni-icons>
                </view>   
 			   </navigator>
+			   <view class="panel-list-item" @click="logout">
+			       <text>退出登录</text>
+			       <uni-icons type="arrowright" size="15"></uni-icons>
+			   </view>  
            </view>
                 
         </view>
@@ -99,6 +103,27 @@
                 value:99           
             };
         },
+		
+		methods: {
+			...mapMutations('m_user', [ 'updateUserInfo', 'updateOpenid', 'updateCode', 'updateToken', 'updateAddress']),
+			
+			async logout(){
+			const[err,succ] = await uni.showModal({
+				title:'提示',
+				content:'确认退出登录吗？',
+				
+			}).catch(err => err)	
+			
+			if(succ && succ.confirm) {
+				this.updateUserInfo({})
+				this.updateOpenid('')
+				this.updateCode('')
+				this.updateToken('')
+				this.updateAddress({})
+			}
+			}
+			
+		},
         computed: {
             ...mapState('m_user', ['userinfo', 'swiperList','code', 'pickPoint']),
             ...mapGetters('m_order', ['checkedCount', 'count', 'noLivreCount','ordersNonValideTotal', 'ordersRembourseCount', 'orderCount'])

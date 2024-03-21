@@ -7,9 +7,9 @@
 					<text class="sub-item-text1">${{total}}</text>
 					<text class="sub-item-title">选择支付方式</text>
 					<image src="/static/payment-wechat.png" class="payment-image" @click="payOrder"></image>
-					<navigator :url="'/subpkg/payment_selection/payment_etransfer'">
+					<!-- <navigator :url="'/subpkg/payment_selection/payment_etransfer'">
 						<image src="/static/payment-etransfer.png" class="payment-image"></image>
-					</navigator>
+					</navigator> -->
 					<view class="empty_block"></view>
 				
 			</view>

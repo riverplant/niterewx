@@ -34,7 +34,6 @@
 		},
 		methods:{
 			tabbarChange(e) {
-				console.log('path:',this.tabBarList[e].path)
 			            uni.switchTab({
 			                url: '/'+ this.tabBarList[e].path
 			            })

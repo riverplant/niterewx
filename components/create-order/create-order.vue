@@ -75,7 +75,6 @@
         },
 		
 		beforeMount() {
-			console.log('beforeMount.............')
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
 			this.getAllorderList()

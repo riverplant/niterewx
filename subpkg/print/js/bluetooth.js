@@ -6,7 +6,7 @@ class Bluetooth {
 		this.serviceId = "";
 		this.writeId = "";
 		this.notifyId = "";
-		this.openBluetoothAdapter();
+		//this.openBluetoothAdapter();
 	}
 
 

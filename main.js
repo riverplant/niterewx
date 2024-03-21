@@ -18,7 +18,6 @@ uni.$showMsg = function( title='数据加载失败', duration = 1500 ) {
 }
 
 //$http.baseUrl = 'https://aoaofast.cn'
-//$http.baseUrl = 'http://127.0.0.1'
 $http.baseUrl = 'http://10.0.0.168:8080'
 
 $http.beforeRequest = function(options) {

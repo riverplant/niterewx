@@ -4,7 +4,7 @@
         <my-userinfo v-else-if="userinfo.userRoles == 3"></my-userinfo>
 		<root-printer v-else-if="userinfo.userRoles == 5"></root-printer>
 		<create-order  :items="items" :itemsBak="items" v-else></create-order>
-      <tabBar :current="0"></tabBar>
+      <tabBar :current="2"></tabBar>
     </view>
 </template>
 

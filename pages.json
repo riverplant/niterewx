@@ -5,6 +5,15 @@
 
     
     "pages": [
+		{
+		    "path" : "pages/info/info",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "逆海淘首页",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		} , 
         {
             "path": "pages/userInfo/userInfo",
             "style": {}
@@ -46,15 +55,7 @@
             }
             
         }
-        ,{
-            "path" : "pages/info/info",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "用户须知",
-                "enablePullDownRefresh": false
-            }
-            
-        }  
+ 
     ],
     "subPackages": [
       {
@@ -291,9 +292,9 @@
     "tabBar": {
         "selectedColor": "#c00000",
 		"list": [
-			{ "pagePath": "pages/userInfo/userInfo"},
-			{ "pagePath": "pages/claim/claim"},
 			{ "pagePath": "pages/info/info"},
+			{ "pagePath": "pages/claim/claim"},
+			{ "pagePath": "pages/userInfo/userInfo"},
 			{ "pagePath": "pages/box/box"},
 			{ "pagePath": "pages/cabinet/cabinet"}
 			]

@@ -3,9 +3,9 @@
 		globalData: {  
 		            clientTabBarList: [
 						{
-							path: "pages/userInfo/userInfo",
-							iconPath: "/static/icon-client-tabbar-01b.png",
-							text: "我的账户",
+							path: "pages/info/info",
+							iconPath: "/static/icon-client-tabbar-03b.png",
+							text: "逆海淘首页",
 							index: 0
 						},
 						{
@@ -15,9 +15,9 @@
 							index: 1
 						},
 						{
-							path: "pages/info/info",
-							iconPath: "/static/icon-client-tabbar-03b.png",
-							text: "用户须知",
+							path: "pages/userInfo/userInfo",
+							iconPath: "/static/icon-client-tabbar-01b.png",
+							text: "我的账户",
 							index: 2
 						}
 						],
@@ -78,8 +78,8 @@
 						        { value: 5, text: "ON" },
 						        { value: 6, text: "QC" }
 						      ],
-						//uploadUrl:'https://aoaofast.cn',
-						uploadUrl:'http://10.0.0.168:8080'
+						uploadUrl:'https://aoaofast.cn',
+						//uploadUrl:'http://10.0.0.168:8080'
 						  
 				     
 		        },

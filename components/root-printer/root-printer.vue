@@ -131,8 +131,6 @@
 				 		  icon: 'none'
 				 		}) 
 				 	}else {
-						console.log('dynamicFormData:', this.dynamicFormData)
-						console.log('准备打印........')
 						this.getRootPrinterResult( this.dynamicFormData )
 					}
 				 	
