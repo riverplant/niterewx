@@ -274,6 +274,22 @@
                     "enablePullDownRefresh": false
 					}
                 
+                },
+                {
+                	"path" : "xieyi/xieyi",
+                	"style" : 
+                	{
+                		"navigationBarTitleText" : "",
+                		"enablePullDownRefresh" : false
+                	}
+                },
+                {
+                	"path" : "yinsi/yinsi",
+                	"style" : 
+                	{
+                		"navigationBarTitleText" : "",
+                		"enablePullDownRefresh" : false
+                	}
                 }
                
             ]

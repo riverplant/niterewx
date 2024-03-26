@@ -66,10 +66,10 @@
             "postcss" : true
         },
         "usingComponents" : true,
-	/**	"optimization" : {
+	  "optimization" : {
 		    "subPackages" : true
 		},
-		**/
+		
         "lazyCodeLoading" : "requiredComponents",
         "requiredPrivateInfos" : [
             "getLocation",

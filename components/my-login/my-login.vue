@@ -54,6 +54,9 @@
 					content:'授权微信登录之后才能正常使用小程序功能',
 					success(res) {
 						if(res.confirm) {
+							uni.showLoading({
+							    title:'开始登录...'
+							})
 							uni.getUserProfile({
 								desc:'获取您的昵称、头像',
 								success: userRes => {

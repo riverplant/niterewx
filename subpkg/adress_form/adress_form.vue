@@ -36,6 +36,30 @@
 			<text class="btn-text">提交</text>
 		</button>
 	</view>
+	
+		<view>
+			<uni-popup
+				ref="alertDialog"
+				:mask-click="false"
+				type="center">
+				<view class="agreement-view" :style="{ width: 273 + 'px', height: 150 + 'px' }">
+					<!-- 弹框提示头 -->
+					<view class="u-text-center">用户使用须知</view>
+					<scroll-view scroll-y class="agreement-content" :style="{ height:150 + 'px' }">
+						<view class="crntent">
+							使用前，请您仔细阅读<text style="color: cornflowerblue;" @click="xieyi">《用户服务协议》</text>及<text style="color: cornflowerblue;" @click="yinsi">《隐私政策》</text>
+						</view>
+					</scroll-view>
+					<view class="agreement-btns" :style="{ height: 42 + 'px' }" >
+						<view class="no-btn text" @tap="refuse">
+							暂不使用
+						</view>
+						<view class="yse-btn text" @tap="admit">同意</view>
+					</view>
+				</view>
+			</uni-popup>
+		</view>
+	
 	</uni-section>
 </template>
 
@@ -102,6 +126,7 @@
 		},
 
 		onLoad(e) {
+			    this.judge();
                 this.dynamicFormData.userName = this.userinfo.userName
                 this.dynamicFormData.mobile = this.userinfo.mobile
                 if(this.userinfo.address) {
@@ -115,6 +140,48 @@
 		
 		methods: {
             ...mapMutations('m_user',[ 'updateUserInfo']),
+			
+			judge() {
+				uni.getStorage({
+								key:'agreement_key',
+								success: () => {
+									// 获取到了不显示弹窗
+								 this.$refs.alertDialog.close();
+								},
+								fail: () => {
+									this.$refs.alertDialog.open();
+								}
+							})
+			},
+			
+			xieyi(){
+				uni.navigateTo({
+					url: '/subpkg/xieyi/xieyi'
+					});
+					},
+			yinsi(){
+					uni.navigateTo({
+						url: '/subpkg/yinsi/yinsi'
+						});
+						},	
+
+			admit() {
+					try{
+						uni.setStorageSync('agreement_key', 'yes');
+						uni.setStorageSync('agreement_Date', new Date().toLocaleString())
+						}
+						catch(e)
+						{
+									//TODO handle the exception
+						}
+						this.$refs.alertDialog.close();
+					},
+							
+	         refuse() {
+						uni.navigateBack({
+							 delta: 2
+							});	
+					  },
 
           change(e) {
                    this.dynamicFormData.province = e
@@ -150,6 +217,70 @@
 
 <style lang="scss">
 
+  // 弹窗
+  .line{
+  	/* line-height: 18px; */
+  	font-family:Arial,Helvetica,sans-serif;
+  	font-size:1em;
+  	vertical-align:middle;
+  	font-weight:normal
+  }
+  .agreement-view{
+  	margin-top: 20px;
+  	box-shadow: 0 5rpx 20rpx 0rpx rgba(0, 0, 150, .2);
+  	border-radius: 20rpx;
+  	padding: 20rpx 0rpx 0rpx 0rpx;
+  	display: flex;
+  	flex-direction: column;
+  	width: 300px;
+  	height: 200rpx;
+  	align-items: center;
+  	/* justify-content: center; */
+  	background-color: #fff;
+  }
+  .u-text-center{
+  	font-size: 15px;
+  	padding-bottom: 20rpx;
+  	font-family:Arial,Helvetica,sans-serif;
+  	font-weight: 600;
+  	width: 100%;
+  	height: 30px;
+  	text-align: center;
+  }
+  .agreement-content{
+  	overflow-y: scroll;
+  	padding: 0rpx 20rpx 10rpx 20rpx;
+  }
+  .agreement-btns{
+  	width: 100%;
+  	/* height: 85rpx; */
+  	display: flex;
+  	flex-direction: row;
+  }
+  .yse-btn{
+  	color: #fff;
+  	background-color: red;
+  	flex: 1;
+  	text-align: center;
+  	width: 100%;
+  	height: 100%;
+  	border-radius: 0 0 20rpx 0;
+  	flex-direction: column;
+  	align-items: center;
+  	justify-content: center;
+  }
+  .no-btn{
+  	/* background-color: aquamarine; */
+  	flex: 1;
+  	text-align: center;
+  	width: 100%;
+  	height: 100%;
+  	border-radius: 0 0 0 20rpx;
+  }
+  .text{
+  	line-height: 46px;
+  }
+  
 	.address-form-containe {
 		padding: 15px;
 		background-color: #fff;
