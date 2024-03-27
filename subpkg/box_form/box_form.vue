@@ -72,7 +72,6 @@
 		    this.bluetooth.closeBluetoothAdapter();
 				},
 		onLoad(e) {
-            console.log('e:',e)
             if(e && e.box) {
                let box = JSON.parse(e.box)	  
 			   this.dynamicBoxForm.id = box.id
@@ -100,7 +99,6 @@
 		},
 		methods: {
 			destroyed: function() {
-				console.log("destroyed----------")
 				if (this.connId != '') {
 					uni.closeBLEConnection({
 						deviceId: this.connId,
@@ -156,8 +154,6 @@
 			
 			valideBoxNumber(order) {
 				if( order.boxNumber != 0 && order.boxNumber != this.dynamicBoxForm.boxNumber) {
-					console.log("1")
-					console.log('order.boxNumber:',order.boxNumber)
 					return uni.showToast({
 					  title: "该包裹已经被装入箱子:"+ order.boxNumber,
 					  duration: 2000,
@@ -167,8 +163,6 @@
 			},
 			updateOrderList() {
 				let order = this.orderList.filter( order=>order.orderNumber == this.key || order.trackingNumber == this.key)[0]
-				console.log('key',this.key)
-				console.log('order',order)
 				if(order != undefined) {
 					this.validePid(order)
 					this.valideBoxNumber(order)
@@ -342,7 +336,6 @@
 				let isDone = true
 				var that = this
 				let deviceId = this.deviceId
-				console.log("获取蓝牙设备所有服务(service)。---------------")
 			
 				uni.getBLEDeviceServices({
 					// 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接

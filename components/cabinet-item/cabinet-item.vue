@@ -6,10 +6,10 @@
         </view>
         <view class="cabinet-item-right">
             <view class="cabinet-item-desc">
-                 <view class="cabinet-item-desc-text1">櫃子号码: {{cabinet.cabinetNumber}} </view>
+                 <view class="cabinet-item-desc-text1">柜子号码: {{cabinet.cabinetNumber}} </view>
                 <view class="cabinet-item-desc-text2"> 合計重量：{{cabinet.weightTotal}} KG</view>
                 <view class="cabinet-item-desc-text3"> 合計体积：{{cabinet.volumTotal}} m3</view>
-				 <view class="cabinet-item-desc-text3"> 縂包裹數：{{cabinet.orderCount}} </view>
+				 <view class="cabinet-item-desc-text3"> 总包裹数：{{cabinet.orderCount}} </view>
 				 <view class="cabinet-item-desc-text3"> 出海日期：{{cabinet.departureDate}}</view>
             </view>
             <view class="cabinet-item-info-box">

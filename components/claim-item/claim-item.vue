@@ -5,29 +5,29 @@
         </view>
         <view class="claim-item-right">
             <view class="order-item-desc">
-                 <view class="order-item-desc-text1">快遞單號: {{claim.trackingNumber}} </view>
+                 <view class="order-item-desc-text1">快递单号: {{claim.trackingNumber}} </view>
 				 
 				  <view class="order-item-desc-text1">最近更新时间: {{claim.updateTime}} </view>
             </view>
             <view class="order-item-info-box">
                 <view  class="order-item-price">
                     <view class="order-item-sub-left">
-						當前申請狀態
+						当前申请状态
 					</view>
 					<block v-if="claim.status == 1">
 					<view class="order-item-sub-right-price" >
-						 處理中...
+						 处理中...
 					</view>	
 					</block>
 					
 					<block v-else-if="claim.status == 2">
 					<view class="order-item-sub-right-price" >
-						 認領成功
+						 认领成功
 					</view>
 					</block>
 					<block  v-else>
 						<view class="order-item-sub-right-price" >
-							 認領失敗: {{claim.msg}}
+							 认领失敗: {{claim.msg}}
 						</view>
 						</block>
 					

@@ -1,13 +1,13 @@
 <template>
     <view class="my-claim-button-container" >
-		<view v-if="token">
-        <navigator :url="'/subpkg/claim_form/claim_form'">
-         <view class="btn-claim" @click="requestClaim">发起申请</view>
-        </navigator>
+		<view v-if="!code">
+        <view class="btn-claim" @click="declaration">发起申请</view>
 		</view>
 		
 		<view v-else>
-		 <view class="btn-claim" @click="declaration">发起申请</view>
+		 <navigator :url="'/subpkg/claim_form/claim_form'">
+		  <view class="btn-claim" @click="requestClaim">发起申请</view>
+		 </navigator>
 		</view>
     </view>
 </template>
@@ -50,7 +50,7 @@
 			
 			declaration() {
 				uni.showToast({
-				  title: "该功能需要用户先登录，请点击【我的账户】进行用户登录",
+				  title: "该功能需要您先申请提货码!!!",
 				  duration: 2000,
 				  icon: 'none'
 				}) 

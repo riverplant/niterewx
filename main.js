@@ -5,7 +5,8 @@ import App from './App'
 import {$http} from '@escook/request-miniprogram'
 import store from '@/store/store.js'
 import uView from "uview-ui"
-
+import share from '@/common/share.js'
+Vue.mixin(share)
 Vue.use(uView)
 uni.$http = $http
 

@@ -14,7 +14,7 @@
              <view class="panel-body">
 				 <view class="panel-item" >
 					<text class="sub-item-title">我的提货码</text> 
-					<text class="sub-item-text1" v-if="userinfo.code === null">請選擇倉庫獲得提貨碼 </text>
+					<text class="sub-item-text1" v-if="userinfo.code === null">请选择仓库获得提货码 </text>
 				 	<text class="sub-item-text1" v-else>{{userinfo.code}} </text>
 				 </view>
 				 <view class="panel-item" >

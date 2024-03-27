@@ -6,41 +6,41 @@
 				<uni-forms ref="orderFormData" :rules="dynamicRules" :modelValue="orderFormData" label-position="top">
                     	<uni-easyinput disabled v-model="orderFormData.orderId"  v-if="isHidden === true" />
 						<uni-easyinput disabled v-model="orderFormData.openId"  v-if="isHidden === true" />
-                    <uni-forms-item label="訂單號" required name="orderNumber">
+                    <uni-forms-item label="订单号" required name="orderNumber">
                     	<uni-easyinput disabled v-model="orderFormData.orderNumber"  />
                     </uni-forms-item>
-                    <uni-forms-item label="快遞單號" required name="trackingNumber">
-                    	<uni-easyinput v-model="orderFormData.trackingNumber" placeholder="掃描或者输入快遞單號" prefixIcon="search" @iconClick="scan"/>
+                    <uni-forms-item label="快递单号" required name="trackingNumber">
+                    	<uni-easyinput v-model="orderFormData.trackingNumber" placeholder="掃描或者输入快递单号" prefixIcon="search" @iconClick="scan"/>
                     </uni-forms-item>
                   
-					<uni-forms-item label="顧客代碼" required name="code">
-						<uni-easyinput v-model="orderFormData.code" placeholder="请输入顧客代碼" />
+					<uni-forms-item label="顾客代码" required name="code">
+						<uni-easyinput v-model="orderFormData.code" placeholder="请输入顾客代码" />
 					</uni-forms-item>
-                    <uni-forms-item label="實測外包裝長 (cm)" required name="pLong">
-                    	<uni-easyinput v-model="orderFormData.pLong" placeholder="最多兩位小數" />
+                    <uni-forms-item label="实测外包装长 (cm)" required name="pLong">
+                    	<uni-easyinput v-model="orderFormData.pLong" placeholder="最多两位小数" />
                     </uni-forms-item>
-                    <uni-forms-item label="實測外包裝寬 (cm)" required name="pWidth">
-                    	<uni-easyinput v-model="orderFormData.pWidth" placeholder="最多兩位小數" />
+                    <uni-forms-item label="实测外包装宽 (cm)" required name="pWidth">
+                    	<uni-easyinput v-model="orderFormData.pWidth" placeholder="最多两位小数" />
                     </uni-forms-item>
-                    <uni-forms-item label="實測外包裝高 (cm)" required name="pHeight">
-                    	<uni-easyinput v-model="orderFormData.pHeight" placeholder="最多兩位小數" />
+                    <uni-forms-item label="实测外包装高 (cm)" required name="pHeight">
+                    	<uni-easyinput v-model="orderFormData.pHeight" placeholder="最多两位小数" />
                     </uni-forms-item>
-                    <uni-forms-item label="實測包裹重量 (kg)" required name="pWeight">
-                    	<uni-easyinput v-model="orderFormData.pWeight" placeholder="最多兩位小數" />
+                    <uni-forms-item label="实测包裹重量 (kg)" required name="pWeight">
+                    	<uni-easyinput v-model="orderFormData.pWeight" placeholder="最多两位小数" />
                     </uni-forms-item>
-                    <uni-forms-item label="選擇物品分類" required name="catId">
-                    	<uni-data-picker placeholder="请选择選擇物品分類" popup-title="请选择選擇物品分類" :localdata="catList"
+                    <uni-forms-item label="选择物品分类" required name="catId">
+                    	<uni-data-picker placeholder="请选择物品分类" popup-title="请选择物品分类" :localdata="catList"
                     	    @change="onchange" >
                     	</uni-data-picker>
                     </uni-forms-item>
-                    <uni-forms-item label="是否驗貨通過" required name="pass">
+                    <uni-forms-item label="是否通过验货" required name="pass">
                         <radio-group @change="radioChange">
-                    	<label class="radio"><radio value="1" :checked="radioValue==1" />通過</label>
-                    					<label class="radio"><radio value="2" :checked="radioValue==2" />未通過</label>
+                    	<label class="radio"><radio value="1" :checked="radioValue==1" />通过</label>
+                    					<label class="radio"><radio value="2" :checked="radioValue==2" />未通过</label>
                         </radio-group>
                     </uni-forms-item>
                     
-                    <uni-forms-item label="驗貨未通過原因 "  name="msg" v-if="isShow" >
+                    <uni-forms-item label="验货未通过原因 "  name="msg" v-if="isShow" >
                     	<uni-easyinput v-model="orderFormData.msg"  />
                     </uni-forms-item>
 				</uni-forms>

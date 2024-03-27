@@ -1,13 +1,13 @@
 <template>
     <view class="container">
-        <uni-section title="包裹認領" type="line">
+        <uni-section title="包裹认领" type="line">
             <view class="claim-form-containe">
                 <!-- 动态表单校验 -->
                 <uni-forms ref="claimForm" :rules="claimRules" :modelValue="claimFormData" label-position="top">
                     <uni-forms-item label="物流單號" required name="orderNumber">
                         <uni-easyinput v-model="claimFormData.orderNumber" placeholder="请输入快遞單號" />
                     </uni-forms-item>
-                    <uni-forms-item label="請上傳訂單截圖以及物流信息截圖" required name="wxnumber" class="claim-label">
+                    <uni-forms-item label="请上传订单截图和物流信息截图" required name="wxnumber" class="claim-label">
                         <!-- 上传视频或者图片 -->
                         <view class="up-page">
                             <!--图片-->
@@ -112,7 +112,7 @@
 					}); 
 				 }else {
 					uni.showToast({
-					  title: "請提交兩張截圖"
+					  title: "请提交两张截图"
 					}) 
 				 }
                 

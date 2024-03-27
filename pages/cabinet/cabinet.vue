@@ -88,7 +88,7 @@
 			swipeItemClickHandler(item) {
 				uni.showModal({
 				    title: '提示',
-				    content: '确定要删除该櫃子吗',
+				    content: '确定要删除该柜子吗',
 				    success: function (res) {
 				        if (res.confirm) {
 				           this.removeById(item.id)

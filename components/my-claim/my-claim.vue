@@ -113,7 +113,6 @@
    
        getSearchResults() {
           this.isloading = true
-		  console.log('this.kw',this.kw)
              if(this.kw === '') {
        			  this.items = this.itemsBak
              }else {

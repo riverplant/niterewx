@@ -5,7 +5,7 @@
 		<!-- <button type="primary" class="btn-login" open-type="getUserInfo" @getuserinfo="getUserInfo">登录</button> -->
 		<button type="primary" class="btn-login" @click="login()">登录</button>
 		<text class="tips-text">申请获取以下权限</text>
-		<text class="tips-text">获得你的公开信息(昵称、头像、地区等)</text>
+		<text class="tips-text">获得您的公开信息(昵称、头像、地区等)</text>
 	</view>
 </template>
 
@@ -120,7 +120,7 @@
 				const {
 					data: res
 				} = await uni.$http.get('/wx/orders/catlist')
-				if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
+				if (res.status != 200) return uni.$showMsg('查询商品类别列表失败!!!')
 				this.updateCatTree(res.data)
 			},
 
@@ -158,7 +158,6 @@
 			    this.setOrdersNonValide(this.ordersNonValide)
 				
 			    this.ordersNonPayer = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 10)
-				console.log(' this.ordersNonPayer:', this.ordersNonPayer)
 			    this.setOrdersNonPayer(this.ordersNonPayer)
 				
 			    this.ordersNonLivrer = this.orderList.filter(x => x.orderStatus === 1 && x.payStatus === 20)
@@ -180,13 +179,13 @@
 			
 			async initpickpoinsTree() {
 				    const {data: res} = await uni.$http.get('/wx/users/pickPointList')
-				    if (res.status != 200) return uni.$showMsg('查詢提貨點列表失败!')
+				    if (res.status != 200) return uni.$showMsg('查询提货点列表失败!')
 				     this.updatePickPointList(res.data)
 			},
 			
 			async initDepartureDateList(){
 				const {data: res} = await uni.$http.get('/wx/cabinet/departureDateList')
-				if (res.status != 200) return uni.$showMsg('查詢出海日期列表失败!')
+				if (res.status != 200) return uni.$showMsg('查询出海日期列表失败!')
 				 this.updateDepartureDateList(res.data)
 			}
 		}

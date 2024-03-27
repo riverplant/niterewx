@@ -8,7 +8,7 @@
                <!--左侧得图标-->
                 <uni-icons type="shop" size="18"></uni-icons>
                <!--右侧得文本-->
-               <text class="claim-title-text">認領申请管理</text>
+               <text class="claim-title-text">认领申请管理</text>
            </view>
          <uni-swipe-action>
             <block v-for="(item,i) in items" :key='i'>
@@ -59,7 +59,6 @@
         },
 
 		beforeMount() {
-			console.log('beforeMount...................')
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
 			

@@ -10,7 +10,7 @@
                <!--左侧得图标-->
                 <uni-icons type="shop" size="18"></uni-icons>
                <!--右侧得文本-->
-               <text class="order-title-text">櫃號：{{cabinetCreateParam.cabinetNumber}}</text>
+               <text class="order-title-text">柜号：{{cabinetCreateParam.cabinetNumber}}</text>
            </view>
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
@@ -85,7 +85,6 @@
 				this.searchResults = this.boxList.filter(item=>item.cabinetId === null)
 			}else {
 			let formData = JSON.parse(e.cabinet)
-			console.log('formData:', formData)
 			this.cabinetCreateParam.cabinetNumber = formData.cabinetNumber
 			this.cabinetCreateParam.id = formData.id
 			this.cabinetCreateParam.departureDate = formData.departureDate

@@ -96,7 +96,7 @@
 				const {
 					data: res
 				} = await uni.$http.get('/wx/orders/getAllorderList')
-				if (res.status != 200) return uni.$showMsg('查詢訂單列表失败!')
+				if (res.status != 200) return uni.$showMsg('查询订单列表失败!')
 				this.updateOrderList(res.data)
 				this.items = res.data
 				this.itemsBak = res.data

@@ -7,8 +7,8 @@
 						<uni-forms-item label="箱子编码" required name="boxNumber">
 							<uni-easyinput disabled v-model="dynamicBoxForm.boxNumber"  />
 						</uni-forms-item>
-		            <uni-forms-item label="收穫倉庫" required>
-		            	<uni-data-picker placeholder="请选择收穫倉庫" popup-title="请选择所在地区" :localdata="pickPointList" v-model="location"
+		            <uni-forms-item label="收货仓库" required>
+		            	<uni-data-picker placeholder="请选择收获仓库" popup-title="请选择所在地区" :localdata="pickPointList" v-model="location"
 		            	    @change="onchange" >
 		            	</uni-data-picker>
 		            </uni-forms-item>

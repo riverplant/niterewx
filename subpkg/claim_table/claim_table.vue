@@ -2,8 +2,8 @@
 		<view class="claim-table-container">
             <uni-forms ref="claimFormData" :rules="dynamicRules" :modelValue="claimFormData" label-position="top">
               
-                <uni-forms-item label="快遞單號" required name="trackingNumber">
-                	<uni-easyinput disabled v-model="claimFormData.trackingNumber" placeholder="请输入快遞單號" />
+                <uni-forms-item label="快递单号" required name="trackingNumber">
+                	<uni-easyinput disabled v-model="claimFormData.trackingNumber" placeholder="请输入快递单号" />
                 </uni-forms-item>
                 <uni-forms-item label="快递单截图" >
                 	<view class="main-wrap">
@@ -65,15 +65,14 @@
                 if(uinfo !== null || uinfo !== {}) {
                     this.claimFormData.trackingNumber = uinfo.trackingNumber
                     this.radioValue = uinfo.status+''
-					 console.log('radioValue:', this.radioValue)
+
         			this.isShow = uinfo.status == 3
         			if(this.isShow)
         			   this.claimFormData.msg = uinfo.msg
 					this.imageUrlList = uinfo.imageUrlList
                 } 
 				this.showButton = e.showButton
-				console.log('e.showButton:',e.showButton)
-				console.log('this.showButton:',this.showButton)
+	
             }
           
             },

@@ -4,11 +4,11 @@
 			<view class="warehouse-form-containe">
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
-						<uni-forms-item label="收货碼" required name="code">
+						<uni-forms-item label="收货码" required name="code">
 							<uni-easyinput disabled v-model="dynamicFormData.code"  />
 						</uni-forms-item>
-		            <uni-forms-item label="收货倉庫" required>
-		            	<uni-data-picker placeholder="请选择收货倉庫" popup-title="请选择所在地区" :localdata="pickPointList"
+		            <uni-forms-item label="收货仓库" required>
+		            	<uni-data-picker placeholder="请选择收货仓库" popup-title="请选择所在地区" :localdata="pickPointList"
 		            	    @change="onchange" >
 		            	</uni-data-picker>
 		            </uni-forms-item>
