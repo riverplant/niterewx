@@ -27,7 +27,7 @@
 			};
 		},
 		computed: {
-			...mapState('m_user', ['token', 'openid','userinfo'])
+			...mapState('m_user', ['token', 'openid','userinfo','tabBarList'])
 		},
 		methods: {
 			...mapMutations('m_user', ['updateUserInfo', 'updateOpenid', 'updateSwiperList', 'updateToken',
@@ -130,6 +130,9 @@
 					this.updateTabBarList( getApp().globalData.clientTabBarList )
 				} else if( userInfo.userRoles == 2 ){
 					this.updateTabBarList( getApp().globalData.adminTabBarList )
+					uni.switchTab({
+					    url: '/'+ this.tabBarList[0].path
+					})
 				} else {
 					this.updateTabBarList( getApp().globalData.rootTabBarList )
 				}
@@ -146,7 +149,6 @@
 					data: res
 				} = await uni.$http.get('/wx/orders/getAllOrderListByCode?code=' + this.userinfo.code)
 				if (res.status !== 200) return uni.$showMsg()
-				console.log('initOrders:', res.data)
 				this.orderList = res.data
 				this.updateOrderList(res.data)
 				this.initOrderList()

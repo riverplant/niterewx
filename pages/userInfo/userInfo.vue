@@ -1,9 +1,8 @@
 <template>
     <view class="my-container">
         <my-login v-if="!token"></my-login>
-        <my-userinfo v-else-if="userinfo.userRoles == 3"></my-userinfo>
-		<root-printer v-else-if="userinfo.userRoles == 5"></root-printer>
-		<create-order  :items="items" :itemsBak="items" v-else></create-order>
+        <my-userinfo v-if="userinfo.userRoles == 3"></my-userinfo>
+		<root-printer v-if="userinfo.userRoles == 5"></root-printer>
       <tabBar :current="2"></tabBar>
     </view>
 </template>
@@ -32,14 +31,7 @@
             if (this.token) {
 				this.getWarehouseRequest()
 				this.getuserInfo()
-				if(this.userinfo.userRoles == 2) 
-				{
-					this.initAllOrderList()
-					this.initCatTree()
-				}else {
-					this.initOrdersByCode()
-				}
-				
+			    this.initOrdersByCode()	
             }
         },
 		

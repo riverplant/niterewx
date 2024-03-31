@@ -5,10 +5,8 @@
 				<!-- 动态表单校验 -->
 				<uni-forms ref="orderFormData" :rules="dynamicRules" :modelValue="orderFormData" label-position="top">
                     	<uni-easyinput disabled v-model="orderFormData.orderId"  v-if="isHidden === true" />
-						<uni-easyinput disabled v-model="orderFormData.openId"  v-if="isHidden === true" />
-                    <uni-forms-item label="订单号" required name="orderNumber">
-                    	<uni-easyinput disabled v-model="orderFormData.orderNumber"  />
-                    </uni-forms-item>
+                    	<uni-easyinput disabled v-model="orderFormData.orderNumber"   v-if="isHidden === true" />
+
                     <uni-forms-item label="快递单号" required name="trackingNumber">
                     	<uni-easyinput v-model="orderFormData.trackingNumber" placeholder="掃描或者输入快递单号" prefixIcon="search" @iconClick="scan"/>
                     </uni-forms-item>
@@ -75,8 +73,8 @@
                     catId: '',
                     pass:'',
                     msg:'',
-                    orderStatus: 1,
-					openId:''
+                    orderStatus: 1
+					
                     
 					
 				},
@@ -147,7 +145,7 @@
                        uni.showToast({
                          title: "讀取二維碼成功"
                        })
-                       this.orderFormData.userName = res.result
+                       this.orderFormData.trackingNumber = res.result
                                           }
                                     })
                               },
@@ -169,9 +167,6 @@
 			},
 
 			submit(ref) {
-				console.log('this.userinfo:',this.userinfo)
-			    this.orderFormData.openId = this.userinfo.openid
-				console.log('orderFormData:', this.orderFormData)
 				uni.showModal({
 				    title: '提示',
 				    content: '確定填入的用戶提貨碼為:'+this.orderFormData.code+'?',
@@ -196,7 +191,6 @@
 			},
             
             async createOrder() {
-				console.log('orderFormData:', this.orderFormData)
                const {
                    data: orderRes
                } = await uni.$http.post('/wx/orders/createOrder', this.orderFormData)  
@@ -234,6 +228,7 @@
 
 	.create-order-form-containe {
 		padding: 15px;
+		padding-top: 0px;
 		background-color: #fff;
 	}
 

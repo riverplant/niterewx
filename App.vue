@@ -24,7 +24,7 @@
 						
 					adminTabBarList: [
 						{
-							path: "pages/userInfo/userInfo",
+							path: "pages/info/info",
 							iconPath: "/static/package.png",
 							text: "包裹管理",
 							index: 0
