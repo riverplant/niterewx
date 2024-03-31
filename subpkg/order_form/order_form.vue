@@ -119,6 +119,7 @@
                     this.orderFormData.pWeight = uinfo.pWeight
                    
                     this.radioValue = uinfo.orderStatus+''
+					this.orderFormData.orderStatus = uinfo.orderStatus
 					this.isShow = uinfo.orderStatus == 2
 					if(this.isShow)
 					   this.orderFormData.msg = uinfo.msg
