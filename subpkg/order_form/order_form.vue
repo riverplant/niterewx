@@ -127,7 +127,7 @@
                
                 } 
             }else {
-              this.orderFormData.orderNumber =  Math.floor(Math.random() * 100000000)
+				this.createOrderNumber()
             }
           
             },
@@ -138,6 +138,15 @@
             selectItemD(data) {
             	console.log('收到数据了:', data);
             },
+			
+			async createOrderNumber() {
+				   const {
+				       data: orderRes
+				   } = await uni.$http.get('/wx/orders/createOrderNumber')  
+				    if (orderRes.status != 200) return uni.$showMsg('创建包裹号码失败!') 
+					console.log('ordernumber:' + orderRes.data)
+             this.orderFormData.orderNumber = orderRes.data
+			},
             
               scan() {
                     uni.scanCode({

@@ -31,7 +31,7 @@
             if (this.token) {
 				this.getWarehouseRequest()
 				this.getuserInfo()
-			    this.initOrdersByCode()	
+			    this.initOrdersByOpenId()	
             }
         },
 		
@@ -67,10 +67,10 @@
 			    if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
 			     this.updateCatTree(res.data)
 			},   
-            async initOrdersByCode() {
+            async initOrdersByOpenId() {
                 const {
                     data: res
-                } = await uni.$http.get('/wx/orders/getAllOrderListByCode?code=' + this.userinfo.code)
+                } = await uni.$http.get('/wx/orders/getAllOrderListByOpenId?openid=' + this.userinfo.openid)
                 if (res.status !== 200) return uni.$showMsg()
 				this.items = res.data
                 this.updateOrderList(res.data)
