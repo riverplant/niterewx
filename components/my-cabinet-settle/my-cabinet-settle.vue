@@ -6,7 +6,7 @@
         </label>
         <!-- 合计 -->
         <view class="count-box">
-            箱子总数: <text class="count">{{count}}</text>
+            箱子总数: <text class="count">{{count}}</text>  | 选中箱子: <text class="count">{{checkedCount}}</text>
         </view>
 
         <!--  结算 -->

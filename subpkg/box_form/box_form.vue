@@ -52,7 +52,8 @@
 					boxType: 1,
 					codes:[],
 					orderIds:[],
-					isShow:false	
+					isShow:false,
+					key:''
 				},
 				bluetooth: new Bluetooth(),
 				options:[{
@@ -81,7 +82,7 @@
                this.dynamicBoxForm.boxStatus = box.boxStatus
                this.dynamicBoxForm.boxType = box.boxType
 			    this.dynamicBoxForm.codes = box.codes
-			   if(box.orderInfos.length > 0) {
+			   if( box.orderInfos && box.orderInfos.length > 0) {
 			   this.dynamicBoxForm.orderIds = box.orderInfos.map(orderInfos=>orderInfos.id)	
 			   }else {
 				  this.dynamicBoxForm.orderIds = []  
@@ -90,7 +91,9 @@
 				   this.searchResults = this.orderList.filter(order=> this.dynamicBoxForm.orderIds.includes(order.id))
 				   console.log('this.searchResults:',this.searchResults)
 			   }
-            }
+            }else {
+				this.dynamicBoxForm.pid = box.pid
+			}
             this.bluetooth.openBluetoothAdapter();
             },
 		computed: {
@@ -211,7 +214,8 @@
              scan() {
                     uni.scanCode({
                       success: (res) => {
-				     this.dynamicBoxForm.key = res,result
+				     this.dynamicBoxForm.key = res.result
+					 this.key = res.result
                          this.updateOrderList()}
                           })
                       },
@@ -232,14 +236,14 @@
 				this.dynamicBoxForm.orderIds = this.searchResults.map(item=>item.id)
              const {   
                   data: boxRes
-              } = await uni.$http.put('/wx/box/create', this.dynamicBoxForm)  
+              } = await uni.$http.post('/wx/box/create', this.dynamicBoxForm)  
                if (boxRes.status != 200) return uni.$showMsg('更新箱子信息失败!') 
                uni.$showMsg('更新箱子信息完成!') 
 			   if(this.close == true) {
 				  this.closeBox()
 			   }
 			   uni.navigateBack({
-			       delta: 1
+			       delta: 2
 			   }); 
             }, 
 				
@@ -255,7 +259,7 @@
 			   		else if(this.close == true)
 			   		  this.closeBox()		  
 			   uni.navigateBack({
-			       delta: 1
+			       delta: 2
 			   }); 
             },  
 			   

@@ -1,7 +1,8 @@
 <template>
     <view class="create-order-container">
         <view class="search-box">
-              <uni-search-bar placeholder="输入订单号查找订单" bgColor=" #FFFFFF" @input="search" cancel-button="none" :radius="100" />  
+              <uni-search-bar placeholder="输入包裹号/提货码查找" bgColor=" #FFFFFF" @input="search" cancel-button="none" :radius="100" />
+			  
             </view>
             <!--订单标题区域-->
            <view class="create-order-title">

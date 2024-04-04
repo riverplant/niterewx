@@ -80,10 +80,13 @@
         onLoad(e) {
 			const sysInfo =  uni.getSystemInfoSync()
 			this.wh = sysInfo.windowHeight - 50
-            if( JSON.stringify(e) === "{}" ) {
+            if( JSON.stringify(e) === "{}" ) 
+			{
 				this.cabinetCreateParam.cabinetNumber =  Math.floor(Math.random() * 1000000)	
 				this.searchResults = this.boxList.filter(item=>item.cabinetId === null)
-			}else {
+			}
+			else 
+			{
 			let formData = JSON.parse(e.cabinet)
 			this.cabinetCreateParam.cabinetNumber = formData.cabinetNumber
 			this.cabinetCreateParam.id = formData.id
@@ -112,6 +115,7 @@
    
        
      radioChangeHandler(e) {
+		 console.log('e:',e)
          this.updateBoxState(e)
      }
      

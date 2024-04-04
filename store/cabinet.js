@@ -23,6 +23,7 @@ export default {
 		    const findResult = state.boxList.find(x => x.id === box.id) 
 		    if(findResult) {
 		        findResult.state = box.state
+				console.log('boxList:', state.boxList)
 		        this.commit('m_cabinet/saveBoxListToStorage')
 		    }
 		},

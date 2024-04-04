@@ -1,12 +1,16 @@
 <template>
 	<view>
 		<uni-section  type="line">
+			<view class="create-order-title">
+			    <!--左侧得图标-->
+			     <uni-icons type="shop" size="18"></uni-icons>
+			    <!--右侧得文本-->
+			    <text class="create-order-title-text">箱子编码:{{dynamicBoxForm.boxNumber}}</text>
+						            
+			</view>
 			<view class="warehouse-form-containe">
 				<!-- 动态表单校验 -->
 				<uni-forms ref="dynamicBoxForm" :modelValue="dynamicBoxForm" label-position="top">
-						<uni-forms-item label="箱子编码" required name="boxNumber">
-							<uni-easyinput disabled v-model="dynamicBoxForm.boxNumber"  />
-						</uni-forms-item>
 		            <uni-forms-item label="收货仓库" required>
 		            	<uni-data-picker placeholder="请选择收获仓库" popup-title="请选择所在地区" :localdata="pickPointList" v-model="location"
 		            	    @change="onchange" >
@@ -78,17 +82,19 @@
 	        ...mapMutations('m_order',['updateBoxList']),
 	        onchange(e) {
 	            const value = e.detail.value
+				console.log('value:',value)
 	            this.node = value[value.length - 1].value
 				this.dynamicBoxForm.pName = value[value.length - 1].text
 	        },
 	        submit(ref) {
-				if(this.dynamicBoxForm.pid == '') {
+				if(this.node == '') {
 					uni.showToast({
 					  title: "请从仓库列表中选择仓库",
 					  duration: 2000,
 					  icon: 'none'
 					}) 
 				} else  {
+					this.dynamicBoxForm.pid = this.node
 					let url = '/subpkg/box_form/box_form?box='+JSON.stringify(this.dynamicBoxForm)
 					uni.navigateTo({
 					  url: url
@@ -173,6 +179,18 @@
 
 <style lang="scss">
 
+.create-order-title {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding-left: 5px;
+        border-bottom: 1px solid #EFEFEF;
+        .create-order-title-text{
+            font-size: 14px;
+            margin-left: 10px;
+        }
+    }
+	
 	.warehouse-form-containe {
 		padding: 15px;
 		background-color: #fff;

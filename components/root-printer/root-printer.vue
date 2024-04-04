@@ -162,8 +162,7 @@
 						ctx.draw();
 				 					 
 				 		if( this.deviceId )
-				 		{
-				 		 console.log('this.deviceId:',this.deviceId)		 	
+				 		{	 	
 				 		this.onConn()
 				 		}
 				 		else 
@@ -185,7 +184,6 @@
 				uni.createBLEConnection({
 					deviceId: this.deviceId,
 					complete(res) {
-						console.log('msg:',res.errMsg)
 						if (res.errMsg == "createBLEConnection:ok") {
 							uni.hideLoading();
 							setTimeout(function() {
@@ -206,7 +204,6 @@
 				let isDone = true
 				var that = this
 				let deviceId = this.deviceId
-				console.log("获取蓝牙设备所有服务(service)。---------------")
 			
 				uni.getBLEDeviceServices({
 					// 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接

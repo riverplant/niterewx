@@ -8,17 +8,18 @@
                     <!--左侧得图标-->
                      <uni-icons type="shop" size="18"></uni-icons>
                     <!--右侧得文本-->
-                    <text class="create-box-title-text">所有箱子列表</text>
+					  <text class="create-box-title-text">选择收货仓库:</text>
+                         <uni-data-select class="create-box-select"
+                           v-model="pid"
+                           :localdata="ppList"
+                           @change="change"
+                         ></uni-data-select>
+		
       			            
                 </view>
               <uni-swipe-action>
-                   <block v-for="(item,i) in this.searchResults" :key='i'>
-              <navigator class="panel-item" :url="'/subpkg/box_requestWarehouse_form/box_requestWarehouse_form?box='+JSON.stringify(item)" v-if="item.pid === ''"> 
-             <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-                   <box-item :box="item"  ></box-item>
-              </uni-swipe-action-item>
-              </navigator>
-			  <navigator class="panel-item" :url="'/subpkg/box_form/box_form?box='+JSON.stringify(item)" v-else>
+                   <block v-for="(item,i) in searchResults" :key='i'>
+			  <navigator class="panel-item" :url="'/subpkg/box_form/box_form?box='+JSON.stringify(item)" >
 			  <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
 			        <box-item :box="item"  ></box-item>
 			   </uni-swipe-action-item>
@@ -26,7 +27,7 @@
                   </block>
               </uni-swipe-action>
               <!--自定义结算组件-->
-      <my-create-button :title="'新起一箱'" :navigatorUrl="'/subpkg/box_requestWarehouse_form/box_requestWarehouse_form'"></my-create-button>
+      <my-create-box-button :title="'新起一箱'" :pid="pid"></my-create-box-button> 
 	  <tabBar :current="2"></tabBar>
          </view>
 </template>
@@ -39,6 +40,7 @@
 		  this.wh = sysInfo.windowHeight - 50
 		  this.getBoxList()
 		  this.initAllOrderList()
+		  this.initPickPointItemList( )
 		},
         data() {
             return {
@@ -49,11 +51,14 @@
                         backgroundColor: '#C00000'
                     }
                 }],
+				ppList:[],
                 wh:0,
                 timer: null,
                 kw: '',
                 searchResults: [],
                 searchResultsBak:[],
+				searchAllResultsBak:[],
+				pid:'',
         
                 queryObj:{
                     code:'',
@@ -70,18 +75,62 @@
         
             };
         },
+		computed: {
+		    ...mapState('m_user', ['pickPointList'])
+		},
         methods: {
 			...mapMutations('m_cabinet',['updateBoxList']),
 			...mapMutations('m_order', ['updateOrderList']),
 			
+			change(e) {
+				this.isloading = true
+				this.pid = e
+				if(this.pid === '') 
+				{
+					console.log('pid is null')
+				  this.searchResults = this.searchAllResultsBak  
+				  this.searchResultsBak =  this.searchAllResultsBak
+				}
+				else 
+				{
+				   console.log('pid is:', this.pid)
+				   this.searchResults = this.searchAllResultsBak.filter( item=> (item.pid).indexOf( this.pid ) > -1 )  
+				   this.searchResultsBak =  this.searchResults
+				}
+				
+			},
+			initPickPointItemList() {
+				this.ppList = []
+				for (let i = 0; i < this.pickPointList.length; i++) {
+						if(this.pickPointList[i].children === null) 
+						{
+						 this.ppList.push(this.pickPointList[i]) 	
+						} else {
+							for (let j = 0; j < this.pickPointList[i].children.length; j++) {
+							  this.ppList.push(this.pickPointList[i].children[j]) 	
+							}
+								
+						} 
+					}
+			console.log('ppList:', this.ppList)
+			},
+					
             async getBoxList() {
             	const {
             	    data: boxRes
             	} = await uni.$http.get('/wx/box/list')  
             	 if (boxRes.status != 200) return uni.$showMsg('查询箱子列表信息失败!') 
-				 this.searchResults = boxRes.data
-				this.searchResultsBak = boxRes.data
-				console.log('boxRes.data:',boxRes.data)
+				 this.searchAllResultsBak = boxRes.data
+				 if(this.pid != '') 
+				 {
+					this.searchResults = this.searchAllResultsBak.filter( item=> (item.pid).indexOf( this.pid ) > -1 )
+					this.searchResultsBak =  this.searchResults 
+				 }
+				 else 
+				 {
+					this.searchResults = boxRes.data
+					this.searchResultsBak = boxRes.data 
+				 }
 				this.updateBoxList(boxRes.data)
             	
             },
@@ -92,7 +141,9 @@
 			  this.items = res.data
 			   this.updateOrderList(res.data)  
 			},
+			
 			swipeItemClickHandler(item) {
+				console.log('swipeItemClickHandler')
 				uni.showModal({
 				    title: '提示',
 				    content: '确定要删除该箱子吗',
@@ -105,7 +156,7 @@
 				    }.bind(this)
 				});
 			        },
-					
+
 					async removeBoxById(id) {
 						 const {
 						     data: orderRes
@@ -150,11 +201,17 @@
         display: flex;
         align-items: center;
         padding-left: 5px;
-        border-bottom: 1px solid #EFEFEF;
+        border-bottom: 5px solid #EFEFEF;
         .create-box-title-text{
             font-size: 14px;
             margin-left: 10px;
         }
+		.create-box-select {
+			display: flex;
+			width: 230px;
+			align-items: center;
+			padding-left: 15px;
+		}
     }
     .search-box {
         position: sticky;

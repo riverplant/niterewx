@@ -12,7 +12,7 @@
       			            
                 </view>
               <uni-swipe-action>
-                   <block v-for="(item,i) in this.searchResults" :key='i'>
+                   <block v-for="(item,i) in searchResults" :key='i'>
               <navigator class="panel-item" :url="'/subpkg/cabinet_form/cabinet_form?cabinet='+JSON.stringify(item)"> 
              <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
                    <cabinet-item :cabinet="item"  ></cabinet-item>

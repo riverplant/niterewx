@@ -1,7 +1,7 @@
 <template>
     <view class="create-order-button-container" >
         <navigator class="panel-item" :url="navigatorUrl">
-         <view class="btn-claim">{{title}}</view>
+         <view class="btn-claim" @click="settlement" >{{title}}</view>
         </navigator>
         </view> 
     </view>
@@ -22,15 +22,29 @@
         data() {
             return {
             };
-        }
+        },
+		
+		methods: {
+		    settlement() {
+		        if (!this.checkedCount) return uni.$showMsg('请至少选择一个要發送的包裹')
+				if (this.cabinetCreateParam.departureDate === '') return uni.$showMsg('请选择發貨時間')
+				
+			  this.cabinetCreateParam.boxIds = this.checkedBoxIDS
+		      if(this.cabinetCreateParam.id === ''){
+				  this.createCabinet()
+			  }else {
+				  this.updateCabinet()
+			  }
+		    },
+			
+			}
     }
 </script>
 
 <style lang="scss">    
 
     .create-order-button-container {
-        position: fixed;
-        bottom: 85px;
+		position: relative;
         width: 100%;
         height: 100rpx;
         background-color: white;

@@ -6,10 +6,10 @@
         </view>
         <view class="order-item-right">
             <view class="order-item-desc">
-                 <view class="order-item-desc-text1">包裹号码: {{order.orderNumber}} </view>
-                <view class="order-item-desc-text2"> 尺寸：{{order.pLong}} × {{order.pWidth}} × {{order.pHeight}} CM</view>
-                <view class="order-item-desc-text3"> 体积重：{{order.pWeightByVolume}} KG | 实际重:{{order.pWeight}} KG</view>
-				 <view class="order-item-desc-text3"> 提货码：{{order.code}}</view>
+                 <view class="order-item-desc-text1">{{order.code}}   |   {{order.orderNumber}}   |            {{order.pName}} </view>
+				  <view class="order-item-desc-text11">单号: {{order.trackingNumber}} </view>
+                <view class="order-item-desc-text2"> 尺寸：{{order.pLong}} × {{order.pWidth}} × {{order.pHeight}} CM   |   重量:{{order.pWeight}} KG</view>
+				
             </view>
             <view class="order-item-info-box">
                 <view v-if="showPrice" class="order-item-price">
@@ -82,21 +82,22 @@
 .order-item-left {
 	margin-top: 10rpx;
 	margin-bottom: 10rpx;
-	margin-left: 30rpx;
+	margin-left: 55rpx;
 	margin-right: 30rpx;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	}
 .order-pic {
-	width: 150rpx;
-	height: 150rpx;
+	width: 120rpx;
+	height: 120rpx;
 	display: block;
 	}
 .order-item-right {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	width: 100%;
 	}
 	
 .order-item-sub-left{
@@ -136,6 +137,10 @@
 	font-size: 30rpx;
 	color: #000000;
 	}
+.order-item-desc-text11 {
+		font-size: 28rpx;
+		color: #000000;
+		}
 .order-item-desc-text2 {
 	font-size: 20rpx;
 	color: #505050;
