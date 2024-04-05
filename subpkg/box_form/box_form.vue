@@ -74,11 +74,20 @@
 				},
 		onLoad(e) {
             if(e && e.box) {
-               let box = JSON.parse(e.box)	  
+               let box = JSON.parse(e.box)	
+				 console.log('box:',box)
 			   this.dynamicBoxForm.id = box.id
-               this.dynamicBoxForm.boxNumber = box.boxNumber
+			   if(box.boxNumber === 0) 
+			   {
+				   this.createBoxNumber()
+			   }
+			   else 
+			   {
+				  this.dynamicBoxForm.boxNumber = box.boxNumber  
+			   }
 			   this.dynamicBoxForm.pid = box.pid
-			   this.dynamicBoxForm.pName = box.pName
+				this.dynamicBoxForm.pName = box.pName   
+			   
                this.dynamicBoxForm.boxStatus = box.boxStatus
                this.dynamicBoxForm.boxType = box.boxType
 			    this.dynamicBoxForm.codes = box.codes
@@ -91,9 +100,7 @@
 				   this.searchResults = this.orderList.filter(order=> this.dynamicBoxForm.orderIds.includes(order.id))
 				   console.log('this.searchResults:',this.searchResults)
 			   }
-            }else {
-				this.dynamicBoxForm.pid = box.pid
-			}
+            }
             this.bluetooth.openBluetoothAdapter();
             },
 		computed: {
@@ -101,6 +108,15 @@
 		    ...mapState('m_gprinter',['deviceId','serviceId', 'characteristicId']) 
 		},
 		methods: {
+			
+			async createBoxNumber() {
+				   const {
+				       data: orderRes
+				   } = await uni.$http.get('/wx/box/createBoxNumber')  
+				    if (orderRes.status != 200) return uni.$showMsg('创建箱子号码失败!') 
+					
+			     this.dynamicBoxForm.boxNumber = orderRes.data
+			},
 			destroyed: function() {
 				if (this.connId != '') {
 					uni.closeBLEConnection({
@@ -193,7 +209,7 @@
 				if( this.searchResults.length > 0 
 				&& this.searchResults.filter(item=> item.code).length == 0) 
 				{
-					uni.showModal({
+					/**uni.showModal({
 					    title: '提示',
 					    content: '該包裹的提貨碼不同，你確定要加入嗎？箱子的類型會變成合裝箱',
 					    success: function (res) {
@@ -205,8 +221,16 @@
 					            console.log('用户点击取消');
 					        }
 					    }.bind(this)
-					});
-				}else {
+					});**/
+					
+					return uni.showToast({
+							title: "該包裹的提貨碼不同,不能混装",
+							duration: 2000,
+							icon: 'none'
+							  }) 
+				} 		
+				else 
+				{
 					this.searchResults.push(order)
 					this.dynamicBoxForm.orderIds.push(order.id)
 				}

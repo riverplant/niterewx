@@ -27,20 +27,20 @@
                   </block>
               </uni-swipe-action>
               <!--自定义结算组件-->
-      <my-create-box-button :title="'新起一箱'" :pid="pid"></my-create-box-button> 
+      <my-create-box-button :title="'新起一箱'" :pid="pid" :pname="pname"></my-create-box-button> 
 	  <tabBar :current="2"></tabBar>
          </view>
 </template>
 
 <script>
-	import {mapState, mapMutations} from 'vuex'
+	import {mapState, mapMutations, mapGetters} from 'vuex'
     export default {
 		onShow() {
 		  const sysInfo =  uni.getSystemInfoSync()
 		  this.wh = sysInfo.windowHeight - 50
 		  this.getBoxList()
 		  this.initAllOrderList()
-		  this.initPickPointItemList( )
+		  this.pList = this.ppList
 		},
         data() {
             return {
@@ -51,7 +51,7 @@
                         backgroundColor: '#C00000'
                     }
                 }],
-				ppList:[],
+				pList:[],
                 wh:0,
                 timer: null,
                 kw: '',
@@ -59,6 +59,7 @@
                 searchResultsBak:[],
 				searchAllResultsBak:[],
 				pid:'',
+				pname:'',
         
                 queryObj:{
                     code:'',
@@ -76,7 +77,8 @@
             };
         },
 		computed: {
-		    ...mapState('m_user', ['pickPointList'])
+		    ...mapState('m_user', ['pickPointList']),
+			...mapGetters('m_user', ['ppList']),
 		},
         methods: {
 			...mapMutations('m_cabinet',['updateBoxList']),
@@ -87,34 +89,28 @@
 				this.pid = e
 				if(this.pid === '') 
 				{
-					console.log('pid is null')
+				  this.pname = ''
 				  this.searchResults = this.searchAllResultsBak  
 				  this.searchResultsBak =  this.searchAllResultsBak
 				}
 				else 
 				{
-				   console.log('pid is:', this.pid)
+				   this.getPname()
 				   this.searchResults = this.searchAllResultsBak.filter( item=> (item.pid).indexOf( this.pid ) > -1 )  
 				   this.searchResultsBak =  this.searchResults
 				}
 				
 			},
-			initPickPointItemList() {
-				this.ppList = []
-				for (let i = 0; i < this.pickPointList.length; i++) {
-						if(this.pickPointList[i].children === null) 
+			
+			getPname() {
+				for (let i = 0; i < this.ppList.length; i++) {
+						if(this.ppList[i].value === this.pid) 
 						{
-						 this.ppList.push(this.pickPointList[i]) 	
-						} else {
-							for (let j = 0; j < this.pickPointList[i].children.length; j++) {
-							  this.ppList.push(this.pickPointList[i].children[j]) 	
-							}
-								
-						} 
+						 this.pname =  	this.ppList[i].text
+						}
 					}
-			console.log('ppList:', this.ppList)
 			},
-					
+		
             async getBoxList() {
             	const {
             	    data: boxRes

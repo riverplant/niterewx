@@ -150,15 +150,6 @@
                 
                 }
                 ,{
-                    "path" : "box_requestWarehouse_form/box_requestWarehouse_form",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-                ,{
                     "path" : "cabinet_form/cabinet_form",
                     "style" :                                                                                    
                 {

@@ -15,6 +15,10 @@
 			pid: {
 				type: String,
 				default: '',
+			},
+			pname: {
+				type: String,
+				default: '',
 			}
         },
         data() {
@@ -44,24 +48,15 @@
 				 } 
 				 else  
 				 {
-				  this.createBoxNumber()
 				  this.dynamicBoxForm.pid = this.pid
+				   this.dynamicBoxForm.pName = this.pname
+				   console.log('this.dynamicBoxForm:',this.dynamicBoxForm)
 				  let url = '/subpkg/box_form/box_form?box='+JSON.stringify(this.dynamicBoxForm)
 				  uni.navigateTo({
 					url: url
 					});
 				}
-		    },
-			
-			async createBoxNumber() {
-				   const {
-				       data: orderRes
-				   } = await uni.$http.get('/wx/box/createBoxNumber')  
-				    if (orderRes.status != 200) return uni.$showMsg('创建箱子号码失败!') 
-					
-			     this.dynamicBoxForm.boxNumber = orderRes.data
-			},
-			
+		    }
 			}
     }
 </script>

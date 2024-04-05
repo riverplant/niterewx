@@ -107,6 +107,23 @@ export default {
         addstr(state) {
             if(!state.address.formatted_address) return ''
             return state.address.formatted_address
-        }
+        },
+		
+		ppList(state) {
+		   let ppList = []
+		   for (let i = 0; i < state.pickPointList.length; i++) {
+		   		if(state.pickPointList[i].children === null) 
+		   		{
+		   		 ppList.push(state.pickPointList[i]) 	
+		   		} else {
+		   			for (let j = 0; j < state.pickPointList[i].children.length; j++) {
+		   			  ppList.push(state.pickPointList[i].children[j]) 	
+		   			}
+		   				
+		   		} 
+		   	}
+			
+			return ppList
+		}
     },
 }
