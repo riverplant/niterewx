@@ -14,11 +14,17 @@
            </view>
          <uni-swipe-action>
               <block v-for="(item,i) in items" :key='i'>
-         <navigator class="panel-item" :url="'/subpkg/order_form/order_form?oinfo='+JSON.stringify(item)"> 
+         <navigator class="panel-item-refuse" :url="'/subpkg/order_form/order_form?oinfo='+JSON.stringify(item)" v-if="item.orderStatus ===2"> 
          <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
               <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
          </uni-swipe-action-item>
          </navigator>
+		 
+		 <navigator class="panel-item" :url="'/subpkg/order_form/order_form?oinfo='+JSON.stringify(item)" v-else>
+		 <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
+		      <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
+		 </uni-swipe-action-item>
+		 </navigator>
              </block>
          </uni-swipe-action>
          <!--自定义结算组件-->
@@ -196,5 +202,9 @@
             margin-right: 3px;
         }
     }
+}
+
+.panel-item-refuse {
+	background-color:rgba(201, 76, 76, 0.3) ;
 }
 </style>

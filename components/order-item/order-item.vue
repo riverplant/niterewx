@@ -6,9 +6,10 @@
         </view>
         <view class="order-item-right">
             <view class="order-item-desc">
-                 <view class="order-item-desc-text1">{{order.code}}   |   {{order.orderNumber}}   |            {{order.pName}} </view>
+                 <view class="order-item-desc-text1"><text class="l1">{{order.code}}</text>     <text class="l1">{{order.orderNumber}}</text>             <text class="l1">{{order.pName}}</text> </view>
 				  <view class="order-item-desc-text11">单号: {{order.trackingNumber}} </view>
                 <view class="order-item-desc-text2"> 尺寸：{{order.pLong}} × {{order.pWidth}} × {{order.pHeight}} CM   |   重量:{{order.pWeight}} KG</view>
+				 <view class="order-item-desc-text2" v-if="order.orderStatus === 2"> 审核状态：未通过   |  原因: {{order.msg}} </view>
 				
             </view>
             <view class="order-item-info-box">
@@ -136,6 +137,8 @@
 	font-weight: 800;
 	font-size: 30rpx;
 	color: #000000;
+	display: flex;
+	justify-content: space-between;
 	}
 .order-item-desc-text11 {
 		font-size: 28rpx;
