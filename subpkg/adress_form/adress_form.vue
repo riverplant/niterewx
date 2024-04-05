@@ -8,9 +8,17 @@
                     <uni-forms-item label="用戶名" required name="userName">
                     	<uni-easyinput v-model="dynamicFormData.userName" placeholder="用戶名" />
                     </uni-forms-item> 
+					<uni-forms-item label="微信号码" required name="wxnumber">
+						<uni-easyinput v-model="dynamicFormData.wxnumber" placeholder="微信号码" />
+					</uni-forms-item> 
                     <uni-forms-item label="电话号码" required name="mobile">
                     	<uni-easyinput v-model="dynamicFormData.mobile" placeholder="电话号码" />
                     </uni-forms-item>
+					<uni-forms-item label="收货仓库" required>
+						<uni-data-picker placeholder="请选择收货仓库" popup-title="请选择所在地区" :localdata="pplist"
+						    @change="onchange" >
+						</uni-data-picker>
+					</uni-forms-item>
                     <uni-forms-item label="家庭地址" required name="address">
                         <uni-easyinput v-model="dynamicFormData.address" required placeholder="家庭地址" />
                     </uni-forms-item>
@@ -73,59 +81,80 @@
                 kw: '',
 				dynamicFormData: {
                     mobile:  '',
-                    place_id:  '',
                     address:  '',
                     city: '',
                     province:0,
                     userName:  '',
                     pcode: '',
-                    openId: ''	
-				},            
+                    openId: '',
+					wxnumber: '',
+					code:  '',
+					pid: '',
+				},  
+				node:'',
+				
+				pplist:[],
                 range: getApp().globalData.range,
                default_value:1,
-				dynamicRules: {
-                    mobile: {
-                    	rules: [
-                            {
-                            	required: true,
-                            	errorMessage: '電話號碼不能为空'
-                            },
-                            {
-                            required: true,
-                    		format: 'number',
-                    		errorMessage: '電話號碼只能输入数字'
-                    	}]
-                    },
 	
-                    address: {
-                        rules: [{
-                        	required: true,
-                        	errorMessage: '地址不能为空'
-                        }]
-                    },
-                    city: {
-                       rules: [{
-                       	required: true,
-                       	errorMessage: '不能为空'
-                       }] 
-                    },
-                    province: {
-                       rules: [{
-                       	required: true,
-                       	errorMessage: '不能为空'
-                       }] 
-                    },
-                    pcode: {
-                       rules: [{
-                       	required: true,
-                       	errorMessage: '不能为空'
-                       }] 
-                    }
-				}
 			}
 		},
-
+		
+		dynamicRules: {
+		    mobile: {
+		    	rules: [
+		            {
+		            	required: true,
+		            	errorMessage: '電話號碼不能为空'
+		            },
+		            {
+		            required: true,
+		    		format: 'number',
+		    		errorMessage: '電話號碼只能输入数字'
+		    	}]
+		    },
+			
+		    address: {
+		        rules: [{
+		        	required: true,
+		        	errorMessage: '地址不能为空'
+		        }]
+		    },
+			
+			wxnumber: {
+			    rules: [{
+			    	required: true,
+			    	errorMessage: '微信号码不能为空'
+			    }]
+			},
+			
+		    city: {
+		       rules: [{
+		       	required: true,
+		       	errorMessage: '不能为空'
+		       }] 
+		    },
+		    province: {
+		       rules: [{
+		       	required: true,
+		       	errorMessage: '不能为空'
+		       }] 
+		    },
+		    pcode: {
+		       rules: [{
+		       	required: true,
+		       	errorMessage: '不能为空'
+		       }] 
+		    }
+		},
+      computed: {
+			    ...mapState('m_user', [ 'userinfo', 'pickPointList',  'openid']), 
+			},
 		onLoad(e) {
+			let ppll = JSON.parse(uni.getStorageSync('pickPointList'))
+			console.log('ppll:',ppll)
+			this.pplist = ppll
+			console.log('pplist:',this.pplist)
 			    this.judge();
                 this.dynamicFormData.userName = this.userinfo.userName
                 this.dynamicFormData.mobile = this.userinfo.mobile
@@ -134,12 +163,19 @@
                   this.dynamicFormData.city = this.userinfo.address.city
                   this.dynamicFormData.province = this.userinfo.address.province
                    this.dynamicFormData.pcode = this.userinfo.address.pcode
-                   this.default_value = this.userinfo.address.province
+                   this.default_value = this.userinfo.address.province   
                 }
+				 this.dynamicFormData.wxnumber = this.userinfo.wxnumber
+				 this.dynamicFormData.code = this.userinfo.code
             },
-		
+			
 		methods: {
             ...mapMutations('m_user',[ 'updateUserInfo']),
+			
+			onchange(e) {
+			    const value = e.detail.value
+			    this.node = value[value.length - 1].value
+			},
 			
 			judge() {
 				uni.getStorage({
@@ -185,28 +221,66 @@
 
           change(e) {
                    this.dynamicFormData.province = e
-                   console.log("e:", e);
                   },
 			submit(ref) {
-				this.$refs[ref].validate().then(res => {
-                  console.log('dynamicFormData:', this.dynamicFormData)
-                  this.dynamicFormData.openId = this.openid 
-                  this.updateUserInfos()
-				}).catch(err => {
-					console.log('err', err);
-				})
+				if(this.node == '') {
+					uni.showToast({
+					  title: "请从仓库列表中选择仓库",
+					  duration: 2000,
+					  icon: 'none'
+					}) 
+				} else  {
+					this.$refs[ref].validate().then(res => {
+					  this.dynamicFormData.openId = this.openid 
+					  this.dynamicFormData.pid = this.node
+					  this.updateUserInfos()
+					}).catch(err => {
+						console.log('err', err);
+					})
+				}
+
 			},
-            async updateUserInfos() {
-              const {
-                  data: userInfoRes
-              } = await uni.$http.put('/wx/users/updateUserInfo', this.dynamicFormData)  
-               if (userInfoRes.status != 200) return uni.$showMsg('更新用戶信息失败!')
-               this.updateUserInfo(userInfoRes.data)
-               
-             uni.navigateBack({
-                 delta: 1
-             });
-            }
+             updateUserInfos() {
+				if(this.userinfo.code === null) {
+					this.creatAddressAndPickPoint()
+				}else {
+					uni.showModal({
+					    title: '提示',
+					    content: '修改地址或者仓库需要等待管理员的审核通过才能生效，如果您修改了仓库，会获得新的提货码',
+					    success: function (res) {
+					        if (res.confirm) {
+					           this.updateAddressAndPickPoint()
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }.bind(this)
+					});
+					
+				}
+            },
+			
+			async creatAddressAndPickPoint() {
+				const {
+				     data: userInfoRes
+				 } = await uni.$http.put('/wx/users/updateUserInfo', this.dynamicFormData)  
+				  if (userInfoRes.status != 200) return uni.$showMsg('更新用戶信息失败!')
+				  this.updateUserInfo(userInfoRes.data)
+				  
+				uni.navigateBack({
+				    delta: 2
+				});
+			},
+			
+			async updateAddressAndPickPoint() {
+				this.dynamicFormData.openid = this.userinfo.openid
+				    this.dynamicFormData.pid =  this.node
+					this.dynamicFormData.code = this.userinfo.code
+				const { data:result } =   await uni.$http.put('/wx/users/updateWarehouse', this.dynamicFormData );
+				  if( result.status !== 200 ) return uni.$showMsg()  
+				    uni.navigateBack({
+				        delta: 2
+				    });
+			}
             
 		},
         computed: {

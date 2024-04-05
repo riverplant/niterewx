@@ -103,12 +103,12 @@
 					this.updateCode(result.data.code)
 					this.updatePickPoint(result.data.ppName)
 					this.initSwiperDate()
+					this.getWarehouseRequest()
 				}
 
 
 				//获取后台返回的token,保存到storage中
 				uni.$showMsg('登录成功!')
-				this.getWarehouseRequest()
 				this.initCatTree()
 				this.initpickpoinsTree()
 				this.initDepartureDateList()

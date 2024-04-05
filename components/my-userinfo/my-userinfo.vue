@@ -66,18 +66,12 @@
            <view class="panel">
                 <navigator  :url="'/subpkg/address/address'">
                     <view class="panel-list-item">
-                         <text>个人信息</text>
+                         <text v-if="userinfo.code == null" >创建个人信息和仓库</text>
+						  <text v-else >变更个人信息和仓库</text>
                               <uni-icons type="arrowright" size="15"></uni-icons> 
                     </view> 
                 </navigator>
 				
-               <navigator  :url="'/subpkg/warehouse/warehouse'">
-               <view class="panel-list-item">
-                   <text v-if="userinfo.code == null" >创建个人信息和仓库</text>
-				    <text v-else >变更仓库</text>
-                   <uni-icons type="arrowright" size="15"></uni-icons>
-               </view>
-                </navigator>
 				<navigator class="panel-item" url="/subpkg/info/support-qr/support-qr">
                <view class="panel-list-item">
                    <text>联系客服</text>
