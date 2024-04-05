@@ -98,7 +98,6 @@
 			   }
 			   if(this.dynamicBoxForm.orderIds.length > 0) {
 				   this.searchResults = this.orderList.filter(order=> this.dynamicBoxForm.orderIds.includes(order.id))
-				   console.log('this.searchResults:',this.searchResults)
 			   }
             }
             this.bluetooth.openBluetoothAdapter();
