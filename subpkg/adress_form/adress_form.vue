@@ -15,7 +15,7 @@
                     	<uni-easyinput v-model="dynamicFormData.mobile" placeholder="电话号码" />
                     </uni-forms-item>
 					<uni-forms-item label="收货仓库" required>
-						<uni-data-picker placeholder="请选择收货仓库" popup-title="请选择所在地区" :localdata="pplist"
+						<uni-data-picker placeholder="请选择收货仓库" popup-title="请选择所在地区" :localdata="pplist" v-model="userinfo.pid"
 						    @change="onchange" >
 						</uni-data-picker>
 					</uni-forms-item>
