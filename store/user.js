@@ -2,6 +2,7 @@ export default {
     namespaced: true,
     state: ()=>({
         userinfo: JSON.parse(uni.getStorageSync('userinfo') || '{}'),
+		accessToken: uni.getStorageSync('accessToken') || '',
         pickPointList: JSON.parse(uni.getStorageSync('pickPointList') || '[]'),
         openid: uni.getStorageSync('openid') || '',
         swiperList: JSON.parse(uni.getStorageSync('swiperList') || '[]'),
@@ -15,6 +16,15 @@ export default {
     }),
     
     mutations:{
+		updateAccessToken(state, accessToken) 
+		{
+			state.accessToken =  accessToken
+			this.commit('m_user/saveAccessTokenToStorage')
+		},
+		
+		saveAccessTokenToStorage(state) {
+			uni.setStorageSync('accessToken', state.accessToken)
+		},
 		
 		updateDepartureDateList(state, departureDateList) {
 		   state.departureDateList =  departureDateList

@@ -61,8 +61,6 @@
 								desc:'获取您的昵称、头像',
 								success: userRes => {
 									if(userRes.errMsg == 'getUserProfile:ok' && userRes.userInfo != undefined) {
-										console.log('userInfo:', userRes.userInfo)
-										that.updateUserInfo(userRes.userInfo)
 										that.getToken(userRes.userInfo)
 									}else {
 										uni.showToast({
@@ -95,6 +93,7 @@
 				this.updateToken(result.data.token)
 				this.updateOpenid(result.data.openid)
 				this.updateUserInfo(result.data)
+				
 				this.initTabBar(result.data)
 				
 				
@@ -115,7 +114,7 @@
 
  
 			},
-
+			
 			async initCatTree() {
 				const {
 					data: res

@@ -78,6 +78,10 @@
 						        { value: 5, text: "ON" },
 						        { value: 6, text: "QC" }
 						      ],
+						tmpls: [
+						       {id:'Ie2Gb9-Funp0R4V35tw7hazn5h44hhJ9TIWdAhCaGPo', name:'消息1'},
+						       {id:'9xG6XRDsVKQimjRltPjf700VK0g1TFYIS7z9ifKynBs',  name:'消息2'}
+						      ],
 						uploadUrl:'https://aoaofast.cn',
 						//uploadUrl:'http://10.0.0.168:8080'
 						  
