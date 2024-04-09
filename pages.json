@@ -87,15 +87,6 @@
                 
                 }
                 ,{
-                    "path" : "warehouse/warehouse",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "我的仓库",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-                ,{
                     "path" : "adress_form/adress_form",
                     "style" :                                                                                    
                 {
@@ -115,15 +106,6 @@
                 }
                 ,{
                     "path" : "order_form/order_form",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-                ,{
-                    "path" : "warehouse_form/warehouse_form",
                     "style" :                                                                                    
                 {
                     "navigationBarTitleText": "",

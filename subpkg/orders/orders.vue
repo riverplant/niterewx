@@ -13,7 +13,7 @@
          <uni-swipe-action>
               <block v-for="(item,i) in searchResults" :key='i'>
              <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-                  <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
+                  <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler" :isAdmin="isAdmin"></order-item>
              </uni-swipe-action-item>
              </block>
          </uni-swipe-action>
@@ -44,6 +44,7 @@
                 isShowPriceAndRadio:false,
                 isShowMsg:false,
                 isShow:false,
+				isAdmin:false,
 
                 queryObj:{
                     code:'',
@@ -98,7 +99,6 @@
         methods: {    
             ...mapMutations('m_order',['updateOrderState', 'removeItemById']),
             swipeItemClickHandler(item) {
-                console.log(item)
                 this.removeItemById(item.id)
             },
             search(res) {

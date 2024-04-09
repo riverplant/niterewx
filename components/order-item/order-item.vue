@@ -6,7 +6,9 @@
         </view>
         <view class="order-item-right">
             <view class="order-item-desc">
-                 <view class="order-item-desc-text1"><text class="l1">{{order.code}}</text>     <text class="l1">{{order.orderNumber}}</text>             <text class="l1">{{order.pName}}</text> </view>
+				
+                 <view class="order-item-desc-text1" v-if="isAdmin"><text class="l1">{{order.code}}</text>     <text class="l1">{{order.orderNumber}}</text>             <text class="l1">{{order.pName}}</text> </view>
+				  <view class="order-item-desc-text1" v-else>包裹号: {{order.orderNumber}}</view>
 				  <view class="order-item-desc-text11">单号: {{order.trackingNumber}} </view>
                 <view class="order-item-desc-text2"> 尺寸：{{order.pLong}} × {{order.pWidth}} × {{order.pHeight}} CM   |   重量:{{order.pWeight}} KG</view>
 				 <view class="order-item-desc-text2" v-if="order.orderStatus === 2"> 审核状态：未通过   |  原因: {{order.msg}} </view>
@@ -35,6 +37,7 @@
 </template>
 
 <script>
+	 import {mapState, mapMutations} from 'vuex'
     export default {
         props: {
             order: {
@@ -53,6 +56,10 @@
                 type: Boolean,
                 default: false,
             },
+			isAdmin: {
+			    type: Boolean,
+			    default: false,
+			},
         },
         data() {
             return {
@@ -60,6 +67,10 @@
 			   defaultMsgPic:'/static/note_icon.png',
             };
         },
+		computed: {
+		    ...mapState('m_user', ['userinfo'])
+		     
+		},
         methods: {
             radioChangeHandler() {
                 this.$emit('radio-change', {
@@ -98,7 +109,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	width: 100%;
+	width: 70%;
 	}
 	
 .order-item-sub-left{

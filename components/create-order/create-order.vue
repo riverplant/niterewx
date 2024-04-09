@@ -22,7 +22,7 @@
 		 
 		 <navigator class="panel-item" :url="'/subpkg/order_form/order_form?oinfo='+JSON.stringify(item)" v-else>
 		 <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(item)">
-		      <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler"></order-item>
+		      <order-item :order="item" :show-price="isShowPriceAndRadio" :show-radio="isShowPriceAndRadio" :show-msg="isShowMsg" @radio-change="radioChangeHandler" :isAdmin="isAdmin"></order-item>
 		 </uni-swipe-action-item>
 		 </navigator>
              </block>
@@ -64,6 +64,7 @@
                 isShowPriceAndRadio:false,
                 isShowMsg:false,
                 isShow:false,
+				isAdmin:true,
 
                 queryObj:{
                     code:'',

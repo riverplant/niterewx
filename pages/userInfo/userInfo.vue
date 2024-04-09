@@ -29,7 +29,9 @@
         
         onShow() {
             if (this.token) {
-				this.getWarehouseRequest()
+				if(this.userinfo.userRoles === 3) {
+				  this.getWarehouseRequest()	
+				}
 				this.getuserInfo()
 			    this.initOrdersByOpenId()	
             }

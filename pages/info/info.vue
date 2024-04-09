@@ -24,7 +24,6 @@
 		    if ( !this.token ) {
 				this.updateTabBarList( getApp().globalData.clientTabBarList )
 		    }else {
-				this.getWarehouseRequest()
 				if(this.userinfo.userRoles == 2) 
 				{
 					this.initAllOrderList()
@@ -40,7 +39,7 @@
 		
 		methods: {
 			...mapMutations('m_user', [ 'updateTabBarList']),
-			...mapMutations('m_order', ['updateOrderList','updateCatTree','updateWarehouseRequest'
+			...mapMutations('m_order', ['updateOrderList','updateCatTree'
 			]),
 			async initAllOrderList() {
 			  const {data: res} = await uni.$http.get('/wx/orders/getAllorderList')
@@ -53,16 +52,7 @@
 			    const {data: res} = await uni.$http.get('/wx/orders/catlist')
 			    if (res.status != 200) return uni.$showMsg('查詢商品類別列表失败!')
 			     this.updateCatTree(res.data)
-			},   
-			async getWarehouseRequest() {
-				const {
-				    data: res
-				} = await uni.$http.get('/wx/users/getWarehouseRequestByOpenId?openId=' + this.openid)
-				if (res.status !== 200) return uni.$showMsg()
-				this.warehouseRequestList = res.data
-				
-				this.updateWarehouseRequest(res.data)
-			},
+			}
 			}
 	}
 </script>

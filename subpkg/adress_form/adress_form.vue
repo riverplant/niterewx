@@ -4,7 +4,7 @@
 	
 			<view class="address-form-containe">
 				<!-- 动态表单校验 -->
-				<uni-forms ref="dynamicForm" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
+				<uni-forms ref="form" :rules="dynamicRules" :modelValue="dynamicFormData" label-position="top">
                     <uni-forms-item label="用戶名" required name="userName">
                     	<uni-easyinput v-model="dynamicFormData.userName" placeholder="用戶名" />
                     </uni-forms-item> 
@@ -96,65 +96,66 @@
 				pplist:[],
                 range: getApp().globalData.range,
                default_value:1,
+			   
+			   dynamicRules: {
+			       mobile: {
+			       	rules: [
+			               {
+			               	required: true,
+			               	errorMessage: '電話號碼不能为空'
+			               },
+			               {
+			            
+			       		pattern: '^(\\+?1)?[2-9]\\d{2}[2-9](?!11)\\d{6}$',
+			       		errorMessage: '请输入加拿大电话号码'
+			       	},
+					]
+			       },
+			   	
+			       address: {
+			           rules: [{
+			           	required: true,
+			           	errorMessage: '地址不能为空'
+			           }]
+			       },
+			   	
+			   	wxnumber: {
+			   	    rules: [{
+			   	    	required: true,
+			   	    	errorMessage: '微信号码不能为空'
+			   	    }]
+			   	},
+			   	
+			       city: {
+			          rules: [{
+			          	required: true,
+			          	errorMessage: '不能为空'
+			          }] 
+			       },
+			       province: {
+			          rules: [{
+			          	required: true,
+			          	errorMessage: '不能为空'
+			          }] 
+			       },
+			       pcode: {
+			          rules: [{
+			          	required: true,
+			          	errorMessage: '不能为空'
+			          }] 
+			       }
+			   }
 	
 			}
+		
 		},
 		
-		dynamicRules: {
-		    mobile: {
-		    	rules: [
-		            {
-		            	required: true,
-		            	errorMessage: '電話號碼不能为空'
-		            },
-		            {
-		            required: true,
-		    		format: 'number',
-		    		errorMessage: '電話號碼只能输入数字'
-		    	}]
-		    },
-			
-		    address: {
-		        rules: [{
-		        	required: true,
-		        	errorMessage: '地址不能为空'
-		        }]
-		    },
-			
-			wxnumber: {
-			    rules: [{
-			    	required: true,
-			    	errorMessage: '微信号码不能为空'
-			    }]
-			},
-			
-		    city: {
-		       rules: [{
-		       	required: true,
-		       	errorMessage: '不能为空'
-		       }] 
-		    },
-		    province: {
-		       rules: [{
-		       	required: true,
-		       	errorMessage: '不能为空'
-		       }] 
-		    },
-		    pcode: {
-		       rules: [{
-		       	required: true,
-		       	errorMessage: '不能为空'
-		       }] 
-		    }
-		},
       computed: {
 			    ...mapState('m_user', [ 'userinfo', 'pickPointList',  'openid']), 
 			},
 		onLoad(e) {
 			let ppll = JSON.parse(uni.getStorageSync('pickPointList'))
-			console.log('ppll:',ppll)
 			this.pplist = ppll
-			console.log('pplist:',this.pplist)
 			    this.judge();
                 this.dynamicFormData.userName = this.userinfo.userName
                 this.dynamicFormData.mobile = this.userinfo.mobile
@@ -231,13 +232,14 @@
 					  icon: 'none'
 					}) 
 				} else  {
-					this.$refs[ref].validate().then(res => {
+					this.$refs.form.validate().then(res => {
 					  this.dynamicFormData.openId = this.openid 
 					  this.dynamicFormData.pid = this.node
 					  this.updateUserInfos()
 					}).catch(err => {
 						console.log('err', err);
 					})
+					
 				}
 
 			},
