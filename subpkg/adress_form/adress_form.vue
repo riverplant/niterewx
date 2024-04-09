@@ -167,6 +167,7 @@
                 }
 				 this.dynamicFormData.wxnumber = this.userinfo.wxnumber
 				 this.dynamicFormData.code = this.userinfo.code
+				 this.node = this.userinfo.pid
             },
 			
 		methods: {
